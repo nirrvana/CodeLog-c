@@ -1,0 +1,27 @@
+::-webkit-scrollbar {
+  display: none !important;
+}
+.cl_Home_Contents {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 7%;
+}
+.cl_Home_Content {
+  overflow-x: scroll;
+  position: relative;
+  width: 90%;
+  height: 200px;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/* * NewPost * */
+.cl_ListElement {
+  width: 200px;
+  height: 175px;
+  padding: 5%;
+}
