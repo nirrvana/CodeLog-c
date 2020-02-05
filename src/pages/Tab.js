@@ -1,8 +1,9 @@
 // * react, redux
 import React, { Component } from 'react';
 import { Router, Link } from 'react-router-dom';
-// * antd
+// * CSS
 import { Layout, Menu } from 'antd';
+import './Tab.css';
 const { Header } = Layout;
 
 export default class Tab extends Component {

@@ -1,31 +1,27 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+// * Component
+import SignUpPage from './pages/SignUpPage';
+import HomePage from './pages/HomePage';
 import SignIn from './pages/SignIn';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+// * CSS
+import 'antd/dist/antd.css';
 
-class App extends Component {
+export default class App extends Component {
   render() {
-    const { token } = this.props;
-    console.log(1004, token)
-    if (!token) {
-      return (
-        <BrowserRouter>
+    return (
+      <div>
+        <Router>
           <Switch>
-            <Route exact path="/" component={SignIn} />
-            <Redirect to="/" />
+          <Route path="/" exact component={() => <HomePage></HomePage>}></Route>
+            <Route path="/SignIn" component={() => <SignIn></SignIn>}></Route>
+            <Route
+              path="/SignUp"
+              component={() => <SignUpPage></SignUpPage>}
+            ></Route>
           </Switch>
-        </BrowserRouter>
-      );
-    } else {
-      return (
-        <div>hello</div>
-      )
-    }
+        </Router>
+      </div>
+    );
   }
 }
-
-const mapStateToProps = state => ({ 
-  token: state.session.token,
-});
-
-export default connect(mapStateToProps)(App);
