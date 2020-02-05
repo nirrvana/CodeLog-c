@@ -1,11 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class SignIn extends Component {
   render() {
-    return (
-      <div>
-        
-      </div>
-    )
+    return <div>Sign In</div>;
   }
 }

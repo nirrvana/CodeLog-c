@@ -1,0 +1,12 @@
+.cl_SignUpComponent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cl_SignUpForm {
+  width: 32%;
+  padding-top: 2%;
+  padding-right: 2%;
+  margin-top: 7%;
+  border: 2px dashed cornflowerblue;
+}
