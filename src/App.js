@@ -5,7 +5,7 @@ import SignUpPage from './pages/SignUpPage';
 import SignIn from './pages/SignIn';
 import Tab from './pages/Tab';
 // ? CSS
-import './components/signup/SignUp.css';
+import 'antd/dist/antd.css';
 
 export default class App extends Component {
   render() {
