@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import SignIn from './pages/SignIn';
 // * CSS
 import './components/signup/SignUp.css';
+import './pages/HomePage.css';
 import './pages/Tab.css';
 
 export default class App extends Component {
