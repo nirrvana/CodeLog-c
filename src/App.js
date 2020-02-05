@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';
 import SignIn from './pages/SignIn';
+import MyPage from './pages/developer/MyPage';
 // * CSS
 import 'antd/dist/antd.css';
 
@@ -16,13 +17,14 @@ export default class App extends Component {
             <Route
               exact
               path="/"
-              component={() => <HomePage></HomePage>}
+              component={HomePage}
             ></Route>
-            <Route path="/SignIn" component={() => <SignIn></SignIn>}></Route>
+            <Route path="/SignIn" component={SignIn}></Route>
             <Route
               path="/SignUp"
-              component={() => <SignUpPage></SignUpPage>}
+              component={SignUpPage}
             ></Route>
+            <Route path="/MyPage" component={MyPage}></Route>
           </Switch>
         </Router>
       </div>
