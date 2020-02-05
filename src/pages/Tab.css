@@ -1,5 +1,5 @@
 .cl_Tab_Header {
-  background: none;
+  background: none !important;
   position: fixed;
   padding: unset;
   text-align: end;
