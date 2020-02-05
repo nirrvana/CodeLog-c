@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
 import { HashRouter as Router, Redirect } from 'react-router-dom';
-import 'antd/dist/antd.css';
+
 import {
   Form,
   Input,
