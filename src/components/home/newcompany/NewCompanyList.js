@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import NewPostListElement from './NewPostListElement';
+import NewCompanyListElement from './NewCompanyListElement';
 
-export default class NewPostList extends Component {
+export default class NewCompanyList extends Component {
   constructor(props) {
     super(props);
   }
@@ -10,7 +10,7 @@ export default class NewPostList extends Component {
     return (
       <div className="cl_Home_Content">
         {fakedata.map((el) => (
-          <NewPostListElement data={el}></NewPostListElement>
+          <NewCompanyListElement data={el}></NewCompanyListElement>
         ))}
       </div>
     );

@@ -1,27 +1,58 @@
 ::-webkit-scrollbar {
   display: none !important;
 }
+/* * Post * */
+.cl_AD_Image_Frame {
+  position: absolute;
+  width: 100%;
+  height: 65%;
+  top: 9%;
+}
+.cl_AD_Image {
+  width: 100%;
+  height: 100%;
+}
+.cl_Home_Themes {
+  font-size: larger;
+  position: absolute;
+  left: 5%;
+  top: 88%;
+  display: flex;
+  flex-direction: column;
+  height: 116%;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.cl_Home_Theme2,
+.cl_Home_Theme3 {
+  margin-top: 188%;
+}
+
 .cl_Home_Contents {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 7%;
+  margin-top: 45%;
 }
 .cl_Home_Content {
   overflow-x: scroll;
   position: relative;
   width: 90%;
   height: 200px;
-  border-bottom: 1px solid lightgray;
+  border-top: 1px solid lightgray;
   margin-bottom: 5%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-/* * NewPost * */
 .cl_ListElement {
+  margin-top: 5%;
   width: 200px;
   height: 175px;
   padding: 5%;
+}
+.cl_Company_Image {
+  width: 100%;
 }
