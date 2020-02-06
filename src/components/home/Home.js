@@ -5,7 +5,7 @@ import NewPostList from './newpost/NewPostList';
 import RecentPostList from './recentpost/RecentPostList';
 import RecommandedPostList from './recommandedpost/RecommandedPostList';
 // * data
-import fakedata from './fakedata';
+import fakedata from '../../fakedata';
 
 export default class Home extends Component {
   render() {
