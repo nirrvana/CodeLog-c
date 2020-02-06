@@ -11,7 +11,9 @@
   margin-left: auto;
   margin-right: auto;
 }
-
+.cl_post_Margin {
+  margin-top: 10%;
+}
 .cl_PlanePost_Title {
   height: 15%;
   font-size: -webkit-xxx-large;
@@ -23,8 +25,10 @@
   font-size: large;
   margin-top: 2%;
 }
+
 .cl_PlanePost_Like {
 }
+
 .cl_PlanePost_set {
   margin-bottom: 2%;
   align-items: center;

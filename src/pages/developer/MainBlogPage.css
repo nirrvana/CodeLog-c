@@ -27,8 +27,12 @@
   margin-bottom: 10%;
 }
 .cl_PostListElement_Title {
+  color: rgb(74, 74, 74);
   font-size: x-large;
   font-style: italic;
-  font-weight: 800;
+  font-weight: 600;
   padding-bottom: 1%;
+}
+.cl_PostListElement_Contents {
+  color: rgb(74, 74, 74);
 }
