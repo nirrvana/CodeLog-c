@@ -8,3 +8,9 @@ export function postSignInData(username, password) {
     password
   });
 }
+
+export function getMyPageData(token) {
+  return axios.get('', {
+    token
+  })
+}
