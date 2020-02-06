@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 
-export default class NewPostListElement extends Component {
+export default class NewCompanyListElement extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const { data } = this.props;
-
     return (
       <div>
         <ul>
           <div className="cl_ListElement">
-            <span>{data.body}</span>
+            <img
+              className="cl_Company_Image"
+              src="https://ifh.cc/g/hLaWR.png"
+            />
           </div>
         </ul>
       </div>

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import NewPostListElement from './NewPostListElement';
-
-export default class NewPostList extends Component {
+import PlanePostListElement from './PlanePostListElement';
+export default class PlanePostList extends Component {
   constructor(props) {
     super(props);
   }
   render() {
     const { fakedata } = this.props;
     return (
-      <div className="cl_Home_Content">
+      <div className="cl_PostList">
         {fakedata.map((el) => (
-          <NewPostListElement data={el}></NewPostListElement>
+          <PlanePostListElement data={el}></PlanePostListElement>
         ))}
       </div>
     );
