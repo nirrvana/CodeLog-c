@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import { SIGN_IN } from './action';
+import { SIGN_IN, GET_MY_PAGE } from './action';
 
-const initialSessionState = {
-  token: null
+const sessionInitialState = {
+  token: null,
 };
 
-function session(state = initialSessionState, action) {
+function session(state = sessionInitialState, action) {
   switch (action.type) {
     case SIGN_IN:
       return {
@@ -19,8 +19,29 @@ function session(state = initialSessionState, action) {
   }
 }
 
+const mypageInitialState = {
+  post_count: null,
+  tag_count: null,
+};
+
+function mypage(state = mypageInitialState, action) {
+  switch (action.type) {
+    case GET_MY_PAGE:
+      return {
+        ...state,
+        post_count: action.post_count,
+        tag_count: action.tag_count,
+      };
+    default:
+      return {
+        state,
+      };
+  }
+}
+
 const reducer = combineReducers({
   session,
+  mypage
 });
 
 export default reducer;
