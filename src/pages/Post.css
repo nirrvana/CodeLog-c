@@ -1,0 +1,57 @@
+.cl_PlanePost {
+  padding-left: 5%;
+  flex-direction: column;
+  display: flex;
+  width: 70%;
+  height: auto;
+  position: absolute;
+  top: 20%;
+  left: 0px;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cl_PlanePost_Title {
+  height: 15%;
+  font-size: -webkit-xxx-large;
+}
+.cl_PlanePost_Contents {
+  font-size: large;
+}
+.cl_PlanePost_Tag {
+  font-size: large;
+  margin-top: 2%;
+}
+.cl_PlanePost_Like {
+}
+.cl_PlanePost_set {
+  margin-bottom: 2%;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+.cl_PlanePost_Comments {
+}
+.cl_PlanePost_Comments_Add {
+  resize: none;
+  margin-top: 1%;
+}
+.cl_PlanePost_Comments_Add_Btn {
+  width: 10%;
+  margin-left: 90%;
+}
+
+/* * TIL POST */
+.cl_TILPost_Contents {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+.cl_TILPost_4F {
+  padding-bottom: 13%;
+  font-weight: bold;
+}
+.cl_TILPost_4F_content {
+  font-weight: normal;
+}

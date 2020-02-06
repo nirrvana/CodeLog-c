@@ -4,8 +4,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';
 import SignIn from './pages/SignIn';
+import PlanePost from './components/post/PlanePost';
+import TILPost from './components/post/TILPost';
+import TechPost from './components/post/TechPost';
+import DevPost from './components/post/DevPost';
+
 // * CSS
 import 'antd/dist/antd.css';
+import './pages/Post.css';
 
 export default class App extends Component {
   render() {
@@ -22,6 +28,22 @@ export default class App extends Component {
             <Route
               path="/SignUp"
               component={() => <SignUpPage></SignUpPage>}
+            ></Route>
+            <Route
+              path="/PlanePost"
+              component={() => <PlanePost></PlanePost>}
+            ></Route>
+            <Route
+              path="/TILPost"
+              component={() => <TILPost></TILPost>}
+            ></Route>
+            <Route
+              path="/TechPost"
+              component={() => <TechPost></TechPost>}
+            ></Route>
+            <Route
+              path="/DevPost"
+              component={() => <DevPost></DevPost>}
             ></Route>
           </Switch>
         </Router>

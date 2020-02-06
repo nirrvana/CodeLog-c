@@ -1,7 +1,7 @@
 .cl_Tab_Header {
   background: none !important;
   position: fixed;
-  padding: unset;
+  padding: unset !important;
   text-align: end;
   width: 100%;
   z-index: 1;
