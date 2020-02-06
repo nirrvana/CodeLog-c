@@ -1,0 +1,37 @@
+.cl_MyPage {
+  display: flex;
+  flex-direction: column;
+}
+
+.cl_Post_Tag {
+  margin-top: 100px;
+}
+
+.cl_UserInfo {
+  /* width: 200px;
+  height: 200px;
+  border: 1px solid #777;
+  margin-left: 100px */
+}
+
+.cl_Resume, .cl_Portfolio, .cl_CoverLetter {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #777
+}
+
+.cl_Company_Title {
+  margin: 0 100px 20px 100px;
+}
+
+.cl_Company_List {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cl_Company_Element {
+  width: 250px;
+  height: 250px;
+  margin: 0 100px 0 100px
+}
+
