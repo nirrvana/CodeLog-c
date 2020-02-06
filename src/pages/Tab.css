@@ -1,7 +1,7 @@
 .cl_Tab_Header {
   background: none !important;
   position: fixed;
-  padding: unset;
+  padding: unset !important;
   text-align: end;
   width: 100%;
   z-index: 1;
@@ -9,4 +9,15 @@
 .cl_Home_Logo {
   left: -52%;
   font-size: x-large;
+}
+/* * Blog Tab */
+.cl_Blog_Logo {
+  /* left: -70%; */
+  font-size: x-large;
+}
+.cl_Blog_Search {
+  left: -2%;
+}
+.cl_Blog_Search_input {
+  border: none;
 }
