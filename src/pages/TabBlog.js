@@ -9,6 +9,7 @@ import { currentPost } from '../redux/action';
 import { Layout, Menu, Dropdown, Icon, Input } from 'antd';
 import './Tab.css';
 const { Header } = Layout;
+const { Search } = Input;
 
 class TabBlog extends Component {
   render() {
@@ -41,17 +42,17 @@ class TabBlog extends Component {
               <Link to="/"> CODE | LOG</Link>
             </Menu.Item>
             <Menu.Item className="cl_Blog_Search">
-              <Icon type="search" />
-              <Input
-                className="cl_Blog_Search_input"
-                placeholder="Search post"
-                allowClear
-                onChange={this.onChange}
+              <Search
+                placeholder="input search text"
+                onSearch={(value) => console.log(value)}
+                style={{ width: 200 }}
               />
             </Menu.Item>
             <Menu.Item>
               <Dropdown overlay={menu}>
+
                 <Link to="/Blog"> Blog</Link>
+
               </Dropdown>
             </Menu.Item>
 

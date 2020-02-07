@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
 import TabBlog from '../../pages/TabBlog';
 import { currentPost } from '../../redux/action';
+
 // * CSS
-import { Comment, Tooltip, Tag, List, Input, Button, Icon } from 'antd';
+
+import {
+  Comment,
+  Tooltip,
+  Tag,
+  List,
+  Input,
+  Button,
+  Icon,
+  Popover,
+} from 'antd';
 import moment from 'moment';
 const { TextArea } = Input;
 
@@ -59,6 +71,7 @@ const data = [
     ),
   },
 ];
+
 const example = [
   `What is Dev post ?`,
   ` We supply a series of design principles, practical patterns and
@@ -72,8 +85,12 @@ practical patterns and high quality design resources (Sketch and
 Axure), to help people create their product prototypes
 beautifully and efficiently.`,
 ];
-
+var count = 0;
 class DevPost extends Component {
+     state = {
+    value: '',
+    isLike: false,
+  };
   async componentDidMount() {
     if (this.props.PostState.currentPost.theme) {
       await this.props.handleTheme(
@@ -87,8 +104,24 @@ class DevPost extends Component {
       );
     }
   }
+  
+  handleIsLikeState() {
+    if (this.state.isLike) {
+      count--;
+    } else {
+      count++;
+    }
+    this.setState({
+      isLike: !this.state.isLike,
+    });
+  }
   render() {
     console.log(this.props);
+     const { value, isLike } = this.state;
+    let color;
+    if (isLike) {
+      color = 'red';
+    }
     return (
       <div>
         <TabBlog></TabBlog>
@@ -122,7 +155,14 @@ class DevPost extends Component {
           <div className="cl_PlanePost_Tag cl_PlanePost_set">
             <Tag color="red">React</Tag>
             <Tag color="volcano">Redux</Tag>
-            <Icon type="heart" className="cl_PlanePost_Like" />
+            <Popover content={count + ' Likes'}>
+              <Icon
+                type="heart"
+                className="cl_PlanePost_Like"
+                onClick={() => this.handleIsLikeState()}
+                style={(color = { color })}
+              />
+            </Popover>
           </div>
           <List
             className="cl_PlanePost_Comments "
@@ -151,6 +191,7 @@ class DevPost extends Component {
           <Button type="primary" className="cl_PlanePost_Comments_Add_Btn">
             Feedback
           </Button>
+          <div className="cl_post_Margin"></div>
         </div>
       </div>
     );

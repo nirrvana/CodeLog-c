@@ -1,9 +1,19 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { Component } from 'react';
-import Tab from '../../pages/Tab'; // 추후에 TabBlog로 수정
+import Tab from '../../pages/TabBlog';
 
 // * CSS
-import { Comment, Tooltip, Tag, List, Input, Button, Icon } from 'antd';
+import {
+  Comment,
+  Tooltip,
+  Tag,
+  List,
+  Input,
+  Button,
+  Icon,
+  Popover,
+  Divider,
+} from 'antd';
 import moment from 'moment';
 const { TextArea } = Input;
 
@@ -59,9 +69,36 @@ const data = [
     ),
   },
 ];
-
+var count = 0;
 export default class PlanePost extends Component {
+
+  state = {
+    value: '',
+    isLike: false,
+  };
+
+  onChange = ({ target: { value } }) => {
+    this.setState({ value });
+  };
+  handleIsLikeState() {
+    if (this.state.isLike) {
+      count--;
+    } else {
+      count++;
+    }
+    this.setState({
+      isLike: !this.state.isLike,
+    });
+  }
   render() {
+    console.log(this.state.isLike);
+    const { value, isLike } = this.state;
+    let color;
+    if (isLike) {
+      color = 'red';
+    }
+
+
     return (
       <div>
         <Tab></Tab>
@@ -137,7 +174,14 @@ export default class PlanePost extends Component {
           <div className="cl_PlanePost_Tag cl_PlanePost_set">
             <Tag color="red">React</Tag>
             <Tag color="volcano">Redux</Tag>
-            <Icon type="heart" className="cl_PlanePost_Like" />
+            <Popover content={count + ' Likes'}>
+              <Icon
+                type="heart"
+                className="cl_PlanePost_Like"
+                onClick={() => this.handleIsLikeState()}
+                style={(color = { color })}
+              />
+            </Popover>
           </div>
           <List
             className="cl_PlanePost_Comments "
@@ -166,6 +210,7 @@ export default class PlanePost extends Component {
           <Button type="primary" className="cl_PlanePost_Comments_Add_Btn">
             Feedback
           </Button>
+          <div className="cl_post_Margin"></div>
         </div>
       </div>
     );
