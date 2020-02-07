@@ -1,15 +1,17 @@
+/* eslint-disable no-unused-vars */
 // * react, redux
 import React, { Component } from 'react';
 import { Router, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { currentPost } from '../redux/action';
+
 // * CSS
 import { Layout, Menu, Dropdown, Icon, Input } from 'antd';
 import './Tab.css';
 const { Header } = Layout;
+const { Search } = Input;
 
-export default class TabBlog extends Component {
-  onChange = (e) => {
-    console.log(e.target.value);
-  };
+class TabBlog extends Component {
   render() {
     const menu = (
       <Menu>
@@ -19,6 +21,17 @@ export default class TabBlog extends Component {
         <Menu.Item>
           <Link to="/Write">New story</Link>
         </Menu.Item>
+        <Menu.Item>
+          <Link
+            to={
+              '/' +
+              JSON.parse(localStorage.getItem('currentPost')).theme +
+              'Edit'
+            }
+          >
+            Edit story
+          </Link>
+        </Menu.Item>
       </Menu>
     );
     return (
@@ -26,22 +39,20 @@ export default class TabBlog extends Component {
         <Header className="cl_Tab_Header">
           <Menu mode="horizontal" style={{ lineHeight: '64px' }}>
             <Menu.Item className="cl_Home_Logo cl_Blog_Logo">
-              CODE | LOG
+              <Link to="/"> CODE | LOG</Link>
             </Menu.Item>
             <Menu.Item className="cl_Blog_Search">
-              <Icon type="search" />
-              <Input
-                className="cl_Blog_Search_input"
-                placeholder="Search post"
-                allowClear
-                onChange={this.onChange}
+              <Search
+                placeholder="input search text"
+                onSearch={(value) => console.log(value)}
+                style={{ width: 200 }}
               />
             </Menu.Item>
             <Menu.Item>
               <Dropdown overlay={menu}>
-                <a className="ant-dropdown-link" href="#">
-                  Blog
-                </a>
+
+                <Link to="/Blog"> Blog</Link>
+
               </Dropdown>
             </Menu.Item>
 
@@ -54,3 +65,11 @@ export default class TabBlog extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TabBlog);

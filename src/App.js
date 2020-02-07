@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 // * Component
-import MainBlogPage from './pages/developer/MainBlogPage';
-import SignUpPage from './pages/SignUpPage';
-import HomePage from './pages/HomePage';
-import SignIn from './pages/SignIn';
-import MyPage from './pages/developer/MyPage';
-import Resume from './components/mypage/Resume';
-import Portfolio from './components/mypage/Portfolio';
-import CoverLetter from './components/mypage/CoverLetter';
-import PlanePost from './components/post/PlanePost';
-import TILPost from './components/post/TILPost';
-import TechPost from './components/post/TechPost';
-import DevPost from './components/post/DevPost';
 import Write from './components/template/WritePlainTemplate'
 import Callback from './components/signin/Callback'
+import DevPostEdit from './components/postedit/DevPostEdit';
+import PlanePostEdit from './components/postedit/PlanePostEdit';
+import TILPostEdit from './components/postedit/TILPostEdit';
+import TechPostEdit from './components/postedit/TechPostEdit';
+
+import pages from './pages';
+import components from './components';
+
 // * CSS
 import 'antd/dist/antd.css';
 import './pages/Post.css';
@@ -26,21 +27,25 @@ export default class App extends Component {
       <div>
         <Router>
           <Switch>
-            <Route exact path="/" component={HomePage}></Route>
-            <Route path="/SignIn" component={SignIn}></Route>
-            <Route path="/SignUp" component={SignUpPage}></Route>
-            <Route path="/MyPage" component={MyPage}></Route>
-            <Route path="/Resume" component={Resume}></Route>
-            <Route path="/CoverLetter" component={CoverLetter}></Route>
-            <Route path="/Portfolio" component={Portfolio}></Route>
-            <Route path="/PlanePost" component={PlanePost}></Route>
-            <Route path="/TILPost" component={TILPost}></Route>
-            <Route path="/TechPost" component={TechPost}></Route>
-            <Route path="/DevPost" component={DevPost}></Route>
-            <Route path="/Blog" component={MainBlogPage}></Route>
             <Route path="/Write" component={Write}></Route>
             <Route path="/:Callback" component={Callback}></Route>
-            <Redirect to='/'></Redirect>
+            <Route exact path="/" component={pages.HomePage} />
+            <Route path="/SignIn" component={pages.SignIn} />
+            <Route path="/SignUp" component={pages.SignUpPage} />
+            <Route path="/MyPage" component={pages.developer.MyPage} />
+            <Route path="/Blog" component={pages.developer.MainBlogPage} />
+            <Route path="/Resume" component={components.mypage.Resume} />
+            <Route path="/CoverLetter" component={components.mypage.CoverLetter} />
+            <Route path="/Portfolio" component={components.mypage.Portfolio} />
+            <Route path="/PlanePost" component={components.post.PlanePost} />
+            <Route path="/TILPost" component={components.post.TILPost} />
+            <Route path="/TechPost" component={components.post.TechPost} />
+            <Route path="/DevPost" component={components.post.DevPost} />
+            <Route path="/PlanePostEdit" component={PlanePostEdit}></Route>
+            <Route path="/TILPostEdit" component={TILPostEdit}></Route>
+            <Route path="/TechPostEdit" component={TechPostEdit}></Route>
+            <Route path="/DevPostEdit" component={DevPostEdit}></Route>
+            <Redirect to="/"></Redirect>
           </Switch>
         </Router>
       </div>

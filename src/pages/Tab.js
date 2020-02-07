@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // * react, redux
 import React, { Component } from 'react';
 import { Router, Link } from 'react-router-dom';
@@ -12,7 +13,9 @@ export default class Tab extends Component {
       <Layout className="layout">
         <Header className="cl_Tab_Header">
           <Menu mode="horizontal" style={{ lineHeight: '64px' }}>
-            <Menu.Item className="cl_Home_Logo">CODE | LOG</Menu.Item>
+            <Menu.Item className="cl_Home_Logo">
+              <Link to="/"> CODE | LOG</Link>
+            </Menu.Item>
             <Menu.Item>
               <Link to="/SignUp">Sign Up</Link>
             </Menu.Item>

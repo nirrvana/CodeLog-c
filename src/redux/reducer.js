@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SIGN_IN, GET_MY_PAGE } from './action';
+import { SIGN_IN, GET_MY_PAGE, POST_SELECT } from './action';
 
 const sessionInitialState = {
   token: null,
@@ -38,10 +38,34 @@ function mypage(state = mypageInitialState, action) {
       };
   }
 }
+const PostInitialState = {
+  currentPost: {
+    theme: null,
+    title: null,
+    contents: null,
+  },
+};
+
+function PostState(state = PostInitialState, action) {
+  switch (action.type) {
+    case POST_SELECT:
+      return Object.assign({}, state, {
+        currentPost: {
+          theme: action.theme,
+          title: action.title,
+          contents: action.contents,
+        },
+      });
+
+    default:
+      return state;
+  }
+}
 
 const reducer = combineReducers({
   session,
   mypage,
+  PostState,
 });
 
 export default reducer;
