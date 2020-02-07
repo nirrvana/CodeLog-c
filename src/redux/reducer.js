@@ -41,7 +41,7 @@ function mypage(state = mypageInitialState, action) {
 
 const reducer = combineReducers({
   session,
-  mypage
+  mypage,
 });
 
 export default reducer;
