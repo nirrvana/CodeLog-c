@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 // * Component
-import Write from './components/template/WritePlainTemplate'
-import Callback from './components/signin/Callback'
+import Write from './components/template/WritePlainTemplate';
+import Callback from './components/signin/Callback';
 import DevPostEdit from './components/postedit/DevPostEdit';
 import PlanePostEdit from './components/postedit/PlanePostEdit';
 import TILPostEdit from './components/postedit/TILPostEdit';
@@ -27,10 +22,9 @@ export default class App extends Component {
       <div>
         <Router>
           <Switch>
-            <Route path="/Write" component={Write}></Route>
-            <Route path="/:Callback" component={Callback}></Route>
             <Route exact path="/" component={pages.HomePage} />
-            <Route path="/SignIn" component={pages.SignIn} />
+            <Route path="/Write" component={Write}></Route>
+            <Route path="/SignIn" component={pages.SignIn}></Route>
             <Route path="/SignUp" component={pages.SignUpPage} />
             <Route path="/MyPage" component={pages.developer.MyPage} />
             <Route path="/Blog" component={pages.developer.MainBlogPage} />
@@ -45,6 +39,7 @@ export default class App extends Component {
             <Route path="/TILPostEdit" component={TILPostEdit}></Route>
             <Route path="/TechPostEdit" component={TechPostEdit}></Route>
             <Route path="/DevPostEdit" component={DevPostEdit}></Route>
+            <Route path="/:Callback" component={Callback}></Route>
             <Redirect to="/"></Redirect>
           </Switch>
         </Router>
