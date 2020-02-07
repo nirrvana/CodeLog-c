@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { Component } from 'react';
 import Tab from '../../pages/TabBlog';
 
@@ -70,6 +71,7 @@ const data = [
 ];
 var count = 0;
 export default class PlanePost extends Component {
+
   state = {
     value: '',
     isLike: false,
@@ -95,6 +97,7 @@ export default class PlanePost extends Component {
     if (isLike) {
       color = 'red';
     }
+
 
     return (
       <div>

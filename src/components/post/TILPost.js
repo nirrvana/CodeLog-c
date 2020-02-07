@@ -70,6 +70,7 @@ const data = [
 var count = 0;
 
 export default class TILPost extends Component {
+
   state = {
     value: '',
     isLike: false,
@@ -95,6 +96,7 @@ export default class TILPost extends Component {
     if (isLike) {
       color = 'red';
     }
+
 
     return (
       <div>

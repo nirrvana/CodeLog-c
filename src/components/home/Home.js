@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from 'react';
 // * Components
 import Tab from '../../pages/Tab';
@@ -18,9 +19,9 @@ export default class Home extends Component {
         </div>
         <div className="cl_Home_Contents_Frame">
           <div className="cl_Home_Themes">
-            <spna className="cl_Home_Theme1">New Post</spna>
-            <spna className="cl_Home_Theme2">Recommend Post</spna>
-            <spna className="cl_Home_Theme3">New Company</spna>
+            <span className="cl_Home_Theme1">New Post</span>
+            <span className="cl_Home_Theme2">Recommend Post</span>
+            <span className="cl_Home_Theme3">New Company</span>
           </div>
           <div className="cl_Home_Contents">
             <RecentPostList fakedata={fakedata}></RecentPostList>
