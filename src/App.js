@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 // * Component
 import MainBlogPage from './pages/developer/MainBlogPage';
 import SignUpPage from './pages/SignUpPage';
@@ -13,6 +18,10 @@ import PlanePost from './components/post/PlanePost';
 import TILPost from './components/post/TILPost';
 import TechPost from './components/post/TechPost';
 import DevPost from './components/post/DevPost';
+import DevPostEdit from './components/postedit/DevPostEdit';
+import PlanePostEdit from './components/postedit/PlanePostEdit';
+import TILPostEdit from './components/postedit/TILPostEdit';
+import TechPostEdit from './components/postedit/TechPostEdit';
 // * CSS
 import 'antd/dist/antd.css';
 import './pages/Post.css';
@@ -36,7 +45,11 @@ export default class App extends Component {
             <Route path="/TechPost" component={TechPost}></Route>
             <Route path="/DevPost" component={DevPost}></Route>
             <Route path="/Blog" component={MainBlogPage}></Route>
-            <Redirect to='/'></Redirect>
+            <Route path="/PlanePostEdit" component={PlanePostEdit}></Route>
+            <Route path="/TILPostEdit" component={TILPostEdit}></Route>
+            <Route path="/TechPostEdit" component={TechPostEdit}></Route>
+            <Route path="/DevPostEdit" component={DevPostEdit}></Route>
+            <Redirect to="/"></Redirect>
           </Switch>
         </Router>
       </div>

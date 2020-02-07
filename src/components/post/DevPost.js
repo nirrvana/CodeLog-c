@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Tab from '../../pages/Tab'; // 추후에 TabBlog로 수정
+import { connect } from 'react-redux';
+import TabBlog from '../../pages/TabBlog';
+import { ClikedPost } from '../../redux/action';
 // * CSS
 import { Comment, Tooltip, Tag, List, Input, Button, Icon } from 'antd';
 import moment from 'moment';
@@ -58,7 +60,7 @@ const data = [
   },
 ];
 
-export default class DevPost extends Component {
+class DevPost extends Component {
   state = {
     value: '',
   };
@@ -68,9 +70,14 @@ export default class DevPost extends Component {
   };
   render() {
     const { value } = this.state;
+    const { isEdit } = this.props;
+    console.log(isEdit);
+    if (isEdit.isEdit) {
+    }
     return (
       <div>
-        <Tab></Tab>
+        <TabBlog></TabBlog>
+
         <div className="cl_PlanePost">
           <div className="cl_PlanePost_Title cl_PlanePost_set ">
             What is Dev post ?
@@ -162,3 +169,17 @@ export default class DevPost extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    isEdit: state.isEdit,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ClikedPost: (title, contents) => dispatch(ClikedPost(title, contents)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DevPost);
+/**
+ * 해당 포스트의 데이터를 스테이트로 업데이트하여 에딧에서 사용할 수 있도록
+ */
