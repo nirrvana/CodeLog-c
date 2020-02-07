@@ -4,20 +4,28 @@
 }
 
 .cl_Post_Tag {
+  display: flex;
+  margin-left: 200px;
   margin-top: 100px;
+  /* border: 1px solid green */
 }
 
 .cl_UserInfo {
-  /* width: 200px;
-  height: 200px;
-  border: 1px solid #777;
-  margin-left: 100px */
+  display: flex;
+  margin-left: 100px;
+  justify-content: space-around;
+  width: 1000px;
+  color: #777
 }
 
-.cl_Resume, .cl_Portfolio, .cl_CoverLetter {
-  width: 200px;
-  height: 200px;
-  border: 1px solid #777
+.cl_ApplySheet {
+  text-align: center;
+  font-size: -webkit-xxx-large;
+  width: 250px;
+  height: 250px;
+  border-radius: 10%;
+  border: 1px solid #777;
+
 }
 
 .cl_Company_Title {
