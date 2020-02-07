@@ -8,9 +8,7 @@ import Tab from '../../components/mypage/Tab';
 import PostTagCount from '../../components/mypage/PostTagCount';
 import UserInfo from '../../components/mypage/UserInfo';
 import RecommendedCompanyList from '../../components/mypage/RecommendedCompanyList';
-
 import fakedata from '../../fakedata';
-
 import './MyPage.css';
 
 class MyPage extends Component {
