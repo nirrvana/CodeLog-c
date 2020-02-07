@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TabBlog from '../../pages/TabBlog';
-import { ClikedPost } from '../../redux/action';
+import { currentPost } from '../../redux/action';
 // * CSS
 import { Comment, Tooltip, Tag, List, Input, Button, Icon } from 'antd';
 import moment from 'moment';
@@ -59,77 +59,64 @@ const data = [
     ),
   },
 ];
+const example = [
+  `What is Dev post ?`,
+  ` We supply a series of design principles, practical patterns and
+high quality design resources (Sketch and Axure), to help people
+create their product prototypes beautifully and efficiently.
+div> We supply a series of design principles, practical patterns
+and high quality design resources (Sketch and Axure), to help
+people create their product prototypes beautifully and
+efficiently. div> We supply a series of design principles,
+practical patterns and high quality design resources (Sketch and
+Axure), to help people create their product prototypes
+beautifully and efficiently.`,
+];
 
 class DevPost extends Component {
-  state = {
-    value: '',
-  };
-
-  onChange = ({ target: { value } }) => {
-    this.setState({ value });
-  };
-  render() {
-    const { value } = this.state;
-    const { isEdit } = this.props;
-    console.log(isEdit);
-    if (isEdit.isEdit) {
+  async componentDidMount() {
+    if (this.props.PostState.currentPost.theme) {
+      await this.props.handleTheme(
+        this.props.PostState.currentPost.theme,
+        example[0],
+        example[1],
+      );
+      localStorage.setItem(
+        'currentPost',
+        JSON.stringify(this.props.PostState.currentPost),
+      );
     }
+  }
+  render() {
+    console.log(this.props);
     return (
       <div>
         <TabBlog></TabBlog>
 
         <div className="cl_PlanePost">
           <div className="cl_PlanePost_Title cl_PlanePost_set ">
-            What is Dev post ?
+            {example[0]}
           </div>
           <div className="cl_TILPost_Contents cl_PlanePost_Contents ">
             <div className="cl_TILPost_4F">
               Project concept
-              <div className="cl_TILPost_4F_content">
-                We supply a series of design principles, practical patterns and
-                high quality design resources (Sketch and Axure), to help people
-                create their product prototypes beautifully and efficiently.
-                div> We supply a series of design principles, practical patterns
-                and high quality design resources (Sketch and Axure), to help
-                people create their product prototypes beautifully and
-                efficiently. div> We supply a series of design principles,
-                practical patterns and high quality design resources (Sketch and
-                Axure), to help people create their product prototypes
-                beautifully and efficiently.
-              </div>
+              <div className="cl_TILPost_4F_content">{example[1]}</div>
             </div>
             <div className="cl_TILPost_4F">
               Coding Strategy
-              <div className="cl_TILPost_4F_content">
-                We supply a series of design principles, practical patterns and
-                high quality design resources (Sketch and Axure), to help people
-                create their product prototypes beautifully and efficiently.
-              </div>
+              <div className="cl_TILPost_4F_content">{example[1]}</div>
             </div>
             <div className="cl_TILPost_4F">
               Error handling
-              <div className="cl_TILPost_4F_content">
-                We supply a series of design principles, practical patterns and
-                high quality design resources (Sketch and Axure), to help people
-                create their product prototypes beautifully and efficiently. We
-                supply a series of design principles, practical patterns and
-                high quality design resources (Sketch and Axure), to help people
-                create their product prototypes beautifully and efficiently.
-              </div>
+              <div className="cl_TILPost_4F_content">{example[1]}</div>
             </div>
             <div className="cl_TILPost_4F">
               Referenece
-              <div className="cl_TILPost_4F_content">
-                We supply a series of design principles, practical patterns and
-                high quality design resources (Sketch and Axure), to help people
-                create their product prototypes beautifully and efficiently.
-              </div>
+              <div className="cl_TILPost_4F_content">{example[1]}</div>
             </div>
             <div className="cl_TILPost_4F">
               Lesson
-              <div className="cl_TILPost_4F_content">
-                We supply a series of design principles, practical patterns and
-              </div>
+              <div className="cl_TILPost_4F_content">{example[1]}</div>
             </div>
           </div>
           <div className="cl_PlanePost_Tag cl_PlanePost_set">
@@ -171,15 +158,15 @@ class DevPost extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    isEdit: state.isEdit,
+    PostState: state.PostState,
   };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    ClikedPost: (title, contents) => dispatch(ClikedPost(title, contents)),
+    handleTheme: (theme, title, contents) => {
+      dispatch(currentPost(theme, title, contents));
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DevPost);
-/**
- * 해당 포스트의 데이터를 스테이트로 업데이트하여 에딧에서 사용할 수 있도록
- */

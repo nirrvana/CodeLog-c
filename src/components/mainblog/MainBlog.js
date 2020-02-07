@@ -5,12 +5,13 @@ import TechPostList from './techpost/TechPostList';
 import DevPostList from './devpost/DevPostList';
 import fakedata from '../../fakedata';
 import { connect } from 'react-redux';
-import { ClikedComponent } from '../../redux/action';
+import { currentPost } from '../../redux/action';
+import { Link } from 'react-router-dom';
 
 class MainBlog extends Component {
   render() {
-    console.log(this.props);
-    const { handleClickedComponent } = this.props;
+    // console.log(this.props);
+    const { handleTheme } = this.props;
     return (
       <div className="cl_MainBlog">
         <div className="cl_MainBlog_theme">
@@ -20,18 +21,24 @@ class MainBlog extends Component {
           <span>DEV Post</span>
         </div>
         <div className="cl_MainBlog_posts">
-          <div onClick={() => handleClickedComponent('PlanePost')}>
+          <Link to="PlanePost" onClick={() => handleTheme('PlanePost')}>
             <PlanePostList fakedata={fakedata}></PlanePostList>
-          </div>
-          <div onClick={() => handleClickedComponent('TILPost')}>
+          </Link>
+
+          <div onClick={() => handleTheme('TILPost')}>
             <TILPostList fakedata={fakedata}></TILPostList>
           </div>
-          <div onClick={() => handleClickedComponent('TechPost')}>
+          <div onClick={() => handleTheme('TechPost')}>
             <TechPostList fakedata={fakedata}></TechPostList>
           </div>
-          <div onClick={() => handleClickedComponent('DevPost')}>
+          <Link
+            to="DevPost"
+            onClick={() => {
+              handleTheme('DevPost');
+            }}
+          >
             <DevPostList fakedata={fakedata}></DevPostList>
-          </div>
+          </Link>
         </div>
       </div>
     );
@@ -39,13 +46,15 @@ class MainBlog extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    clickedComponent: state.isEdit,
+    PostState: state.PostState,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleClickedComponent: (string) => dispatch(ClikedComponent(string)),
+    handleTheme: (theme) => {
+      dispatch(currentPost(theme));
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MainBlog);

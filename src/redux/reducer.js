@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SIGN_IN, GET_MY_PAGE, Edit, CLICK, ClikPost } from './action';
+import { SIGN_IN, GET_MY_PAGE, POST_SELECT } from './action';
 
 const sessionInitialState = {
   token: null,
@@ -38,45 +38,34 @@ function mypage(state = mypageInitialState, action) {
       };
   }
 }
-const isEditInitialState = {
-  isEdit: false,
-  clickedComponent: null,
-  ClikedPost: {
-    title: 'What is Dev post ?',
-    contents: ['concept', 'Strategy', 'error', 'reference', 'lesson'],
+const PostInitialState = {
+  currentPost: {
+    theme: null,
+    title: null,
+    contents: null,
   },
 };
 
-function isEdit(state = isEditInitialState, action) {
-  /**
-   * 전달된 엑션의 타입이 에딧이면 스테이트를 변경하는데
-   * 이즈에딧 스테이트를 엑션의 불린으로 변경된 객체를 반환한다.
-   * */
+function PostState(state = PostInitialState, action) {
   switch (action.type) {
-    case Edit:
+    case POST_SELECT:
       return Object.assign({}, state, {
-        isEdit: action.boolean,
-      });
-    case CLICK:
-      return Object.assign({}, state, {
-        clickedComponent: action.string,
-      });
-    case ClikPost:
-      return Object.assign({}, state, {
-        ClikedPost: { title: action.title, contents: action.contents },
+        currentPost: {
+          theme: action.theme,
+          title: action.title,
+          contents: action.contents,
+        },
       });
 
     default:
-      return {
-        state,
-      };
+      return state;
   }
 }
 
 const reducer = combineReducers({
   session,
   mypage,
-  isEdit,
+  PostState,
 });
 
 export default reducer;

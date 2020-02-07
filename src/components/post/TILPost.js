@@ -59,15 +59,7 @@ const data = [
 ];
 
 export default class TILPost extends Component {
-  state = {
-    value: '',
-  };
-
-  onChange = ({ target: { value } }) => {
-    this.setState({ value });
-  };
   render() {
-    const { value } = this.state;
     return (
       <div>
         <Tab></Tab>

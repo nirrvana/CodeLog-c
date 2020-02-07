@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // * react, redux
 import React, { Component } from 'react';
 import { Router, Link } from 'react-router-dom';

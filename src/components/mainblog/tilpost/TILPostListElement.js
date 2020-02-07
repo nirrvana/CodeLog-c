@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 export default class TILPostListElement extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { data } = this.props;
     return (

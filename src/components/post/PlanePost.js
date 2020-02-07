@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { Component } from 'react';
 import Tab from '../../pages/Tab'; // 추후에 TabBlog로 수정
 
@@ -60,15 +61,7 @@ const data = [
 ];
 
 export default class PlanePost extends Component {
-  state = {
-    value: '',
-  };
-
-  onChange = ({ target: { value } }) => {
-    this.setState({ value });
-  };
   render() {
-    const { value } = this.state;
     return (
       <div>
         <Tab></Tab>

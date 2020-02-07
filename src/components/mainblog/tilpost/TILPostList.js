@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import TILPostListElement from './TILPostListElement';
 
 export default class TILPostList extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { fakedata } = this.props;
     return (
       <div className="cl_PostList">
-        {fakedata.map((el) => (
-          <TILPostListElement data={el}></TILPostListElement>
+        {fakedata.map((el, i) => (
+          <TILPostListElement
+            key={i + 'TILPostList'}
+            data={el}
+          ></TILPostListElement>
         ))}
       </div>
     );

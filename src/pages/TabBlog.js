@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 // * react, redux
 import React, { Component } from 'react';
 import { Router, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { EditState } from '../redux/action';
+import { currentPost } from '../redux/action';
 
 // * CSS
 import { Layout, Menu, Dropdown, Icon, Input } from 'antd';
@@ -10,19 +11,7 @@ import './Tab.css';
 const { Header } = Layout;
 
 class TabBlog extends Component {
-  state = {
-    isEdit: false,
-  };
-  onChange = (e) => {
-    console.log(e.target.value);
-  };
-  handleIsEditState() {
-    this.setState({ isEdit: !this.state.isEdit });
-  }
   render() {
-    const { handleIsEditState, isEdit } = this.props;
-    console.log(isEdit);
-
     const menu = (
       <Menu>
         <Menu.Item>
@@ -31,9 +20,16 @@ class TabBlog extends Component {
         <Menu.Item>
           <Link to="/Write">New story</Link>
         </Menu.Item>
-        <Menu.Item onClick={() => handleIsEditState(true)}>
-          Edit story
-          {/* <Link to="/Edit"> Edit story</Link> */}
+        <Menu.Item>
+          <Link
+            to={
+              '/' +
+              JSON.parse(localStorage.getItem('currentPost')).theme +
+              'Edit'
+            }
+          >
+            Edit story
+          </Link>
         </Menu.Item>
       </Menu>
     );
@@ -69,22 +65,10 @@ class TabBlog extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log(state);
-  /**
-   * 해당 컴포넌트에서 스테이트를 프롭스로 사용할 수 있도록한다.
-   */
-  return {
-    isEdit: state.isEdit,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
-  /**
-   * 해당 컴포넌트에서 스테이트를 프롭스로 사용할 수 있도록한다.
-   * 디스패치로 EditState(boolean)의 결과값인 엑션을 리듀서에 보내서 스테이트를 변경할 수 있도록한다.
-   */
-  return {
-    handleIsEditState: (boolean) => dispatch(EditState(boolean)),
-  };
+  return {};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TabBlog);
