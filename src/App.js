@@ -13,6 +13,8 @@ import PlanePost from './components/post/PlanePost';
 import TILPost from './components/post/TILPost';
 import TechPost from './components/post/TechPost';
 import DevPost from './components/post/DevPost';
+import Write from './components/template/WritePlainTemplate'
+import Callback from './components/signin/Callback'
 // * CSS
 import 'antd/dist/antd.css';
 import './pages/Post.css';
@@ -36,6 +38,8 @@ export default class App extends Component {
             <Route path="/TechPost" component={TechPost}></Route>
             <Route path="/DevPost" component={DevPost}></Route>
             <Route path="/Blog" component={MainBlogPage}></Route>
+            <Route path="/Write" component={Write}></Route>
+            <Route path="/:Callback" component={Callback}></Route>
             <Redirect to='/'></Redirect>
           </Switch>
         </Router>
