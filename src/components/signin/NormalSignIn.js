@@ -3,21 +3,29 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+// * redux
 import { postSignInData } from '../../redux/api';
+import { signin } from '../../redux/action';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err, { email, password }) => {
+      // console.log(email, password);
       if (!err) {
-        if (/\S/.test(values.username) && /\S/.test(values.password)) {
-          postSignInData(values.username, values.password)
+        if (/\S/.test(email) && /\S/.test(password)) {
+          postSignInData(email, password)
             .then((data) => {
-              console.log(data);
-              // api 필요
+              if (data.status === 200) {
+                this.props.handleSignin();
+                // console.log(1005, this.props.isLogin)
+              }
             })
-            .catch((err) => {});
+            .catch((err) => {
+              window.alert('로그인에 실패하였습니다.');
+            });
         }
       }
     });
@@ -28,12 +36,12 @@ class NormalLoginForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
+          {getFieldDecorator('email', {
+            rules: [{ required: true, message: 'Please input your email!' }],
           })(
             <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
+              placeholder="email"
             />,
           )}
         </Form.Item>
@@ -71,8 +79,14 @@ class NormalLoginForm extends React.Component {
 }
 NormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
 
-// const mapStateToProps = {};
+const mapStateToProps = (state) => ({
+  isLogin: state.session.isLogin,
+});
 
-// const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => ({
+  handleSignin: () => {
+    dispatch(signin());
+  },
+});
 
-export default NormalLoginForm;
+export default connect(mapStateToProps, mapDispatchToProps)(NormalLoginForm);

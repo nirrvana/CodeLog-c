@@ -2,10 +2,9 @@ export const SIGN_IN = 'SIGN_IN';
 export const GET_MY_PAGE = 'GET_MY_PAGE';
 export const POST_SELECT = 'POST_SELECT';
 
-export function signin(token) {
+export function signin() {
   return {
     type: SIGN_IN,
-    token,
   };
 }
 
