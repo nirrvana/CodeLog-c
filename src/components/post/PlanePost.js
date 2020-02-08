@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { Component } from 'react';
-import Tab from '../../pages/TabBlog';
+import { connect } from 'react-redux';
+import { currentPost, currentPage } from '../../redux/action';
+import TabBlog from '../../pages/TabBlog';
+import { Link } from 'react-router-dom';
 
 // * CSS
 import {
@@ -12,7 +15,7 @@ import {
   Button,
   Icon,
   Popover,
-  Divider,
+  Avatar,
 } from 'antd';
 import moment from 'moment';
 const { TextArea } = Input;
@@ -69,17 +72,35 @@ const data = [
     ),
   },
 ];
+const example = [
+  `What is Dev post ?`,
+  ` We supply a series of design principles, practical patterns and
+high quality design resources (Sketch and Axure), to help people
+create their product prototypes beautifully and efficiently.
+div> We supply a series of design principles, practical patterns
+and high quality design resources (Sketch and Axure), to help
+people create their product prototypes beautifully and
+efficiently. div> We supply a series of design principles,
+practical patterns and high quality design resources (Sketch and
+Axure), to help people create their product prototypes
+beautifully and efficiently.`,
+];
 var count = 0;
-export default class PlanePost extends Component {
-
+class PlanePost extends Component {
   state = {
     value: '',
     isLike: false,
   };
+  componentDidMount() {
+    this.props.handlePage('Post');
+  }
+  handlePostData() {
+    localStorage.setItem(
+      'currentPost',
+      JSON.stringify({ title: example[0], contents: example[1] }),
+    );
+  }
 
-  onChange = ({ target: { value } }) => {
-    this.setState({ value });
-  };
   handleIsLikeState() {
     if (this.state.isLike) {
       count--;
@@ -92,21 +113,41 @@ export default class PlanePost extends Component {
   }
   render() {
     console.log(this.state.isLike);
-    const { value, isLike } = this.state;
+    const { isLike } = this.state;
     let color;
     if (isLike) {
       color = 'red';
     }
 
-
     return (
       <div>
-        <Tab></Tab>
-        <div className="cl_PlanePost">
-          <div className="cl_PlanePost_Title cl_PlanePost_set ">
-            About warr mantion
+        <TabBlog></TabBlog>
+        <div className="cl_Post">
+          <div className="cl_Post_Title cl_Post_set ">About warr mantion</div>
+          <div className="cl_Post_author_Info cl_Post_set ">
+            <Avatar
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              alt="Han Solo"
+            />
+            <div className="cl_Post_author">Root</div>
+
+            <Tooltip
+              className="cl_Post_Time"
+              title={moment().format('YYYY-MM-DD HH:mm:ss')}
+            >
+              <div>{moment().fromNow()}</div>
+            </Tooltip>
+
+            <Link
+              to="/PlanepostEdit"
+              className="cl_Post_Edit_Btn"
+              onClick={() => this.handlePostData()}
+            >
+              Edit
+            </Link>
           </div>
-          <div className="cl_PlanePost_Contents cl_PlanePost_set">
+          <div></div>
+          <div className="cl_Post_Contents cl_Post_set">
             contents Let’s start with Quick Introduction to React Hooks Hooks
             are functions that let you “hook into” React state and lifecycle
             features from function components. Hooks don’t work in classes —
@@ -171,7 +212,7 @@ export default class PlanePost extends Component {
             being able to manage the state inside the functional component.
             Reference
           </div>
-          <div className="cl_PlanePost_Tag cl_PlanePost_set">
+          <div className="cl_Post_Tag cl_Post_set">
             <Tag color="red">React</Tag>
             <Tag color="volcano">Redux</Tag>
             <Popover content={count + ' Likes'}>
@@ -200,14 +241,14 @@ export default class PlanePost extends Component {
               </li>
             )}
           />
-          <div className="cl_PlanePost_Comments_Add cl_PlanePost_set">
+          <div className="cl_Post_Comments_Add cl_Post_set">
             <TextArea
-              className="cl_PlanePost_Comments_Add"
+              className="cl_Post_Comments_Add"
               placeholder="Write your feedback !"
               autoSize={{ minRows: 1, maxRows: 6 }}
             />
           </div>
-          <Button type="primary" className="cl_PlanePost_Comments_Add_Btn">
+          <Button type="primary" className="cl_Post_Comments_Add_Btn">
             Feedback
           </Button>
           <div className="cl_post_Margin"></div>
@@ -216,3 +257,20 @@ export default class PlanePost extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    PostState: state.PostState,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleTheme: (theme, title, contents) => {
+      dispatch(currentPost(theme, title, contents));
+    },
+    handlePage: (page) => {
+      dispatch(currentPage(page));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(PlanePost);

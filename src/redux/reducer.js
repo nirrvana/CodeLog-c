@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SIGN_IN, GET_MY_PAGE, POST_SELECT } from './action';
+import { SIGN_IN, GET_MY_PAGE, POST_SELECT, PAGE_SELECT } from './action';
 
 const sessionInitialState = {
   token: null,
@@ -44,6 +44,7 @@ const PostInitialState = {
     title: null,
     contents: null,
   },
+  currentPage: null,
 };
 
 function PostState(state = PostInitialState, action) {
@@ -55,6 +56,10 @@ function PostState(state = PostInitialState, action) {
           title: action.title,
           contents: action.contents,
         },
+      });
+    case PAGE_SELECT:
+      return Object.assign({}, state, {
+        currentPage: action.page,
       });
 
     default:

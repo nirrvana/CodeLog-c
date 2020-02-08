@@ -1,39 +1,30 @@
 /* eslint-disable no-unused-vars */
 // * react, redux
 import React, { Component } from 'react';
-import { Router, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { currentPost } from '../redux/action';
 
 // * CSS
-import { Layout, Menu, Dropdown, Icon, Input } from 'antd';
+import { Layout, Menu, Input } from 'antd';
 import './Tab.css';
 const { Header } = Layout;
 const { Search } = Input;
-
+/**
+ * current page state 가 blog이면 inline post 이면 none
+ */
 class TabBlog extends Component {
   render() {
-    const menu = (
-      <Menu>
-        <Menu.Item>
-          <Link to="/Mypage">My page</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/Write">New story</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={
-              '/' +
-              JSON.parse(localStorage.getItem('currentPost')).theme +
-              'Edit'
-            }
-          >
-            Edit story
-          </Link>
-        </Menu.Item>
-      </Menu>
-    );
+    let display;
+    if (
+      this.props.currentPage === 'Post' ||
+      this.props.currentPage === 'Edit'
+    ) {
+      display = 'none';
+    } else {
+      display = '';
+    }
+    console.log(this.props);
     return (
       <Layout className="layout">
         <Header className="cl_Tab_Header">
@@ -41,7 +32,8 @@ class TabBlog extends Component {
             <Menu.Item className="cl_Home_Logo cl_Blog_Logo">
               <Link to="/"> CODE | LOG</Link>
             </Menu.Item>
-            <Menu.Item className="cl_Blog_Search">
+
+            <Menu.Item className="cl_Blog_Search" style={{ display: display }}>
               <Search
                 placeholder="input search text"
                 onSearch={(value) => console.log(value)}
@@ -49,11 +41,13 @@ class TabBlog extends Component {
               />
             </Menu.Item>
             <Menu.Item>
-              <Dropdown overlay={menu}>
-
-                <Link to="/Blog"> Blog</Link>
-
-              </Dropdown>
+              <Link to="/Blog"> Blog</Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to="/Write">New story</Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to="/Mypage">My page</Link>
             </Menu.Item>
 
             <Menu.Item>
@@ -66,7 +60,9 @@ class TabBlog extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    currentPage: state.PostState.currentPage,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-//# redux
+//* redux
 import { mypage } from '../../redux/action';
 import { getMyPageData } from '../../redux/api';
-//# component
-import Tab from '../../components/mypage/Tab';
+//* component
+import MypageTab from '../../pages/TabMypage';
 import PostTagCount from '../../components/mypage/PostTagCount';
 import UserInfo from '../../components/mypage/UserInfo';
 import RecommendedCompanyList from '../../components/mypage/RecommendedCompanyList';
@@ -19,7 +19,7 @@ class MyPage extends Component {
   render() {
     return (
       <div className="cl_MyPage">
-        <Tab />
+        <MypageTab />
         <PostTagCount />
         <UserInfo />
         <h1 className="cl_Company_Title">로 추천된 ***님의 파트너사는</h1>
