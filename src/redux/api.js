@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const HOST = 'http://localhost:3000';
 
-
 export function postSignInData(username, password) {
   return axios.post('', {
     username,
@@ -23,14 +22,25 @@ export function getMyPageData(token) {
 }
 
 export function getHashTagList() {
-  return axios.get('')
+  return axios.get('');
 }
 
-export function postPlainPost(title, content, hashtag) {
+export function postDevPost(
+  title,
+  ProjectConcept,
+  CodingStrategy,
+  CodingDifficulty,
+  Reference,
+  Lesson,
+  selected_tag_list,
+) {
   return axios.post('', {
     title,
-    content,
-    hashtag,
+    ProjectConcept,
+    CodingStrategy,
+    CodingDifficulty,
+    Reference,
+    Lesson,
+    selected_tag_list,
   });
 }
-
