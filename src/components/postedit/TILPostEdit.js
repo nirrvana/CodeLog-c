@@ -53,13 +53,15 @@ class TILPostEdit extends Component {
             </div>
             <div className="cl_Post_Content">
               Feeling
-              <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
-              />
+              <div>
+                <TextareaAutosize
+                  className="cl_Edit_content"
+                  type="text"
+                  defaultValue={
+                    JSON.parse(localStorage.getItem('currentPost')).contents
+                  }
+                />
+              </div>
             </div>
             <div className="cl_Post_Content">
               Finding

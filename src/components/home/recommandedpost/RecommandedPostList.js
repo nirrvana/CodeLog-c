@@ -6,8 +6,11 @@ export default class RecommandedPostList extends Component {
     const { fakedata } = this.props;
     return (
       <div className="cl_Home_Content">
-        {fakedata.map((el) => (
-          <RecommandedPostListElement data={el}></RecommandedPostListElement>
+        {fakedata.map((el, i) => (
+          <RecommandedPostListElement
+            key={'RecommandedPost' + i}
+            data={el}
+          ></RecommandedPostListElement>
         ))}
       </div>
     );

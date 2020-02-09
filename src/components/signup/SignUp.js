@@ -96,7 +96,6 @@ class SignUp extends Component {
   };
 
   render() {
-    console.log(this.state.isSignUp);
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
 
