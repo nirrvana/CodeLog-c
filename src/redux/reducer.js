@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { SIGN_IN, GET_MY_PAGE, POST_SELECT, PAGE_SELECT } from './action';
 
 const sessionInitialState = {
-  isLogin: null,
+  isLogin: false,
 };
 
 function session(state = sessionInitialState, action) {
