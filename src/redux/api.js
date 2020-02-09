@@ -36,8 +36,11 @@ export function postDevPost(
 ) {
   return axios.post(`${HOST}/dev_post`, {
     title,
-    content,
-    hashtag,
+    ProjectConcept,
+    CodingStrategy,
+    CodingDifficulty,
+    Reference,
+    Lesson,
+    selected_tag_list,
   });
 }
-
