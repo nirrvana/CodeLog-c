@@ -86,7 +86,7 @@ Axure), to help people create their product prototypes
 beautifully and efficiently.`,
 ];
 var count = 0;
-class PlanePost extends Component {
+class PlainPost extends Component {
   state = {
     value: '',
     isLike: false,
@@ -139,7 +139,7 @@ class PlanePost extends Component {
             </Tooltip>
 
             <Link
-              to="/PlanepostEdit"
+              to="/PlainpostEdit"
               className="cl_Post_Edit_Btn"
               onClick={() => this.handlePostData()}
             >
@@ -218,14 +218,14 @@ class PlanePost extends Component {
             <Popover content={count + ' Likes'}>
               <Icon
                 type="heart"
-                className="cl_PlanePost_Like"
+                className="cl_PlainPost_Like"
                 onClick={() => this.handleIsLikeState()}
                 style={(color = { color })}
               />
             </Popover>
           </div>
           <List
-            className="cl_PlanePost_Comments "
+            className="cl_PlainPost_Comments "
             header={`${data.length} replies`}
             itemLayout="horizontal"
             dataSource={data}
@@ -273,4 +273,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(PlanePost);
+export default connect(mapStateToProps, mapDispatchToProps)(PlainPost);

@@ -146,7 +146,7 @@ class DevPost extends Component {
             </Link>
           </div>
 
-          <div className="cl_Post_Contents cl_PlanePost_Contents ">
+          <div className="cl_Post_Contents cl_PlainPost_Contents ">
             <div className="cl_Post_Content">
               Project concept
               <div className="cl_Post_Contents">{example[1]}</div>
@@ -174,14 +174,14 @@ class DevPost extends Component {
             <Popover content={count + ' Likes'}>
               <Icon
                 type="heart"
-                className="cl_PlanePost_Like"
+                className="cl_PlainPost_Like"
                 onClick={() => this.handleIsLikeState()}
                 style={(color = { color })}
               />
             </Popover>
           </div>
           <List
-            className="cl_PlanePost_Comments "
+            className="cl_PlainPost_Comments "
             header={`${data.length} replies`}
             itemLayout="horizontal"
             dataSource={data}
