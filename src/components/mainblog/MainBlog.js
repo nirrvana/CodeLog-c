@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PlanePostList from './planepost/PlanePostList';
+import PlainPostList from './plainpost/PlainPostList';
 import TILPostList from './tilpost/TILPostList';
 import TechPostList from './techpost/TechPostList';
 import DevPostList from './devpost/DevPostList';
@@ -17,14 +17,14 @@ class MainBlog extends Component {
     return (
       <div className="cl_MainBlog">
         <div className="cl_MainBlog_theme">
-          <span>Plane Post</span>
+          <span>Plain Post</span>
           <span>TIL Post</span>
           <span>TECH Post</span>
           <span>DEV Post</span>
         </div>
         <div className="cl_MainBlog_posts">
-          <Link to="PlanePost" onClick={() => handleTheme('PlanePost')}>
-            <PlanePostList fakedata={fakedata}></PlanePostList>
+          <Link to="PlainPost" onClick={() => handleTheme('PlainPost')}>
+            <PlainPostList fakedata={fakedata}></PlainPostList>
           </Link>
 
           <div onClick={() => handleTheme('TILPost')}>

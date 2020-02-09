@@ -1,10 +1,10 @@
-import PlanePost from './PlanePost';
+import PlainPost from './PlainPost';
 import DevPost from './DevPost';
 import TechPost from './TechPost';
 import TILPost from './TILPost';
 
 export default {
-  PlanePost,
+  PlainPost,
   DevPost,
   TechPost,
   TILPost,
