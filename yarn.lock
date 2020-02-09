@@ -2349,6 +2349,11 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
+bootstrap-markdown-editor@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/bootstrap-markdown-editor/-/bootstrap-markdown-editor-2.2.4.tgz#eed87aecfa9e03edc4e57233b40e3c6442df4cca"
+  integrity sha1-7th67PqeA+3E5XIztA48ZELfTMo=
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -9207,6 +9212,14 @@ react-slick@~0.25.2:
     json2mq "^0.2.0"
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
+
+react-textarea-autosize@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-7.1.2.tgz#70fdb333ef86bcca72717e25e623e90c336e2cda"
+  integrity sha512-uH3ORCsCa3C6LHxExExhF4jHoXYCQwE5oECmrRsunlspaDAbS4mGKNlWZqjLfInWtFQcf0o1n1jC/NGXFdUBCg==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    prop-types "^15.6.0"
 
 react@^16.12.0:
   version "16.12.0"

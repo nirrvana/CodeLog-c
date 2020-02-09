@@ -1,4 +1,5 @@
-.cl_PlanePost {
+/* ? Post Page & Edit Page 공통 CSS */
+.cl_Post {
   padding-left: 5%;
   flex-direction: column;
   display: flex;
@@ -7,55 +8,66 @@
   position: absolute;
   top: 20%;
   left: 0px;
-  right: 0;
+  right: 0px;
   margin-left: auto;
   margin-right: auto;
 }
-.cl_post_Margin {
-  margin-top: 10%;
-}
-.cl_PlanePost_Title {
-  height: 15%;
-  font-size: -webkit-xxx-large;
-}
-.cl_PlanePost_Contents {
-  font-size: large;
-}
-.cl_PlanePost_Tag {
-  font-size: large;
-  margin-top: 2%;
-}
-
-.cl_PlanePost_Like {
-}
-
-.cl_PlanePost_set {
+.cl_Post_set {
   margin-bottom: 2%;
   align-items: center;
   width: 100%;
   display: flex;
 }
-.cl_PlanePost_Comments {
+.cl_post_Margin {
+  margin-top: 10%;
 }
-.cl_PlanePost_Comments_Add {
-  resize: none;
-  margin-top: 1%;
+.cl_Post_Title {
+  height: 15%;
+  font-size: -webkit-xxx-large;
 }
-.cl_PlanePost_Comments_Add_Btn {
-  width: 10%;
-  margin-left: 90%;
+.cl_Post_Contents {
+  font-size: large;
 }
-
-/* * TIL POST */
-.cl_TILPost_Contents {
-  display: flex;
-  flex-direction: column;
-  height: auto;
+.cl_Post_Tag {
+  font-size: large;
+  margin-top: 2%;
 }
-.cl_TILPost_4F {
+.cl_Post_Content {
   padding-bottom: 13%;
   font-weight: bold;
 }
-.cl_TILPost_4F_content {
+.cl_Post_Contents {
   font-weight: normal;
+}
+/* ? Post Page comment */
+.cl_Post_Comments_Add {
+  resize: none;
+  margin-top: 1%;
+}
+.cl_Post_Comments_Add_Btn {
+  width: 10%;
+  margin-left: 90%;
+}
+/* ? Post Page author */
+.cl_Post_author_Info {
+  margin-bottom: 4%;
+}
+.cl_Post_author {
+  font-size: initial;
+  color: rgb(161, 161, 161);
+  margin-left: 1%;
+}
+.cl_Post_Time {
+  font-size: small;
+  color: rgb(204, 204, 204);
+  margin-left: 1%;
+}
+/* ? Post Page Edit 버튼 */
+.cl_Post_Edit_Btn {
+  margin-left: auto;
+  color: rgb(161, 161, 161);
+}
+.cl_Post_Edit_Btn:hover {
+  margin-left: auto;
+  color: rgb(161, 161, 161);
 }

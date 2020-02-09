@@ -5,12 +5,14 @@ import TechPostList from './techpost/TechPostList';
 import DevPostList from './devpost/DevPostList';
 import fakedata from '../../fakedata';
 import { connect } from 'react-redux';
-import { currentPost } from '../../redux/action';
+import { currentPost, currentPage } from '../../redux/action';
 import { Link } from 'react-router-dom';
 
 class MainBlog extends Component {
+  componentDidMount() {
+    this.props.handlePage('Blog');
+  }
   render() {
-    // console.log(this.props);
     const { handleTheme } = this.props;
     return (
       <div className="cl_MainBlog">
@@ -54,6 +56,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleTheme: (theme) => {
       dispatch(currentPost(theme));
+    },
+    handlePage: (page) => {
+      dispatch(currentPage(page));
     },
   };
 };

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
+import { currentPost, currentPage } from '../../redux/action';
 import TabBlog from '../../pages/TabBlog';
-import { currentPost } from '../../redux/action';
-
+import { Link } from 'react-router-dom';
 // * CSS
 
 import {
@@ -15,6 +14,7 @@ import {
   Button,
   Icon,
   Popover,
+  Avatar,
 } from 'antd';
 import moment from 'moment';
 const { TextArea } = Input;
@@ -87,24 +87,20 @@ beautifully and efficiently.`,
 ];
 var count = 0;
 class DevPost extends Component {
-     state = {
+  state = {
     value: '',
     isLike: false,
   };
-  async componentDidMount() {
-    if (this.props.PostState.currentPost.theme) {
-      await this.props.handleTheme(
-        this.props.PostState.currentPost.theme,
-        example[0],
-        example[1],
-      );
-      localStorage.setItem(
-        'currentPost',
-        JSON.stringify(this.props.PostState.currentPost),
-      );
-    }
+
+  componentDidMount() {
+    this.props.handlePage('Post');
   }
-  
+  handlePostData() {
+    localStorage.setItem(
+      'currentPost',
+      JSON.stringify({ title: example[0], contents: example[1] }),
+    );
+  }
   handleIsLikeState() {
     if (this.state.isLike) {
       count--;
@@ -116,8 +112,7 @@ class DevPost extends Component {
     });
   }
   render() {
-    console.log(this.props);
-     const { value, isLike } = this.state;
+    const { isLike } = this.state;
     let color;
     if (isLike) {
       color = 'red';
@@ -126,33 +121,54 @@ class DevPost extends Component {
       <div>
         <TabBlog></TabBlog>
 
-        <div className="cl_PlanePost">
-          <div className="cl_PlanePost_Title cl_PlanePost_set ">
-            {example[0]}
+        <div className="cl_Post">
+          <div className="cl_Post_Title cl_Post_set ">{example[0]}</div>
+          <div className="cl_Post_author_Info cl_Post_set ">
+            <Avatar
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              alt="Han Solo"
+            />
+            <div className="cl_Post_author">Root</div>
+
+            <Tooltip
+              className="cl_Post_Time"
+              title={moment().format('YYYY-MM-DD HH:mm:ss')}
+            >
+              <div>{moment().fromNow()}</div>
+            </Tooltip>
+
+            <Link
+              to="/DevpostEdit"
+              className="cl_Post_Edit_Btn"
+              onClick={() => this.handlePostData()}
+            >
+              Edit
+            </Link>
           </div>
-          <div className="cl_TILPost_Contents cl_PlanePost_Contents ">
-            <div className="cl_TILPost_4F">
+
+          <div className="cl_Post_Contents cl_PlanePost_Contents ">
+            <div className="cl_Post_Content">
               Project concept
-              <div className="cl_TILPost_4F_content">{example[1]}</div>
+              <div className="cl_Post_Contents">{example[1]}</div>
             </div>
-            <div className="cl_TILPost_4F">
+            <div className="cl_Post_Content">
               Coding Strategy
-              <div className="cl_TILPost_4F_content">{example[1]}</div>
+              <div className="cl_Post_Contents">{example[1]}</div>
             </div>
-            <div className="cl_TILPost_4F">
+            <div className="cl_Post_Content">
               Error handling
-              <div className="cl_TILPost_4F_content">{example[1]}</div>
+              <div className="cl_Post_Contents">{example[1]}</div>
             </div>
-            <div className="cl_TILPost_4F">
+            <div className="cl_Post_Content">
               Referenece
-              <div className="cl_TILPost_4F_content">{example[1]}</div>
+              <div className="cl_Post_Contents">{example[1]}</div>
             </div>
-            <div className="cl_TILPost_4F">
+            <div className="cl_Post_Content">
               Lesson
-              <div className="cl_TILPost_4F_content">{example[1]}</div>
+              <div className="cl_Post_Contents">{example[1]}</div>
             </div>
           </div>
-          <div className="cl_PlanePost_Tag cl_PlanePost_set">
+          <div className="cl_Post_Tag cl_Post_set">
             <Tag color="red">React</Tag>
             <Tag color="volcano">Redux</Tag>
             <Popover content={count + ' Likes'}>
@@ -181,14 +197,14 @@ class DevPost extends Component {
               </li>
             )}
           />
-          <div className="cl_PlanePost_Comments_Add cl_PlanePost_set">
+          <div className="cl_Post_Comments_Add cl_Post_set">
             <TextArea
-              className="cl_PlanePost_Comments_Add"
+              className="cl_Post_Comments_Add"
               placeholder="Write your feedback !"
               autoSize={{ minRows: 1, maxRows: 6 }}
             />
           </div>
-          <Button type="primary" className="cl_PlanePost_Comments_Add_Btn">
+          <Button type="primary" className="cl_Post_Comments_Add_Btn">
             Feedback
           </Button>
           <div className="cl_post_Margin"></div>
@@ -207,6 +223,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleTheme: (theme, title, contents) => {
       dispatch(currentPost(theme, title, contents));
+    },
+    handlePage: (page) => {
+      dispatch(currentPage(page));
     },
   };
 };

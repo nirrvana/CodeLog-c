@@ -1,0 +1,21 @@
+.cl_Edit_Title {
+  height: 15%;
+  font-size: -webkit-xxx-large;
+  border: none;
+}
+.cl_Edit_content {
+  border: none;
+  height: 100%;
+}
+.cl_Tag_selector {
+  width: 15%;
+}
+.cl_Edit_Publish_Btn {
+  width: 12%;
+  margin-left: 90%;
+}
+/* ? Markdown edior */
+.mde-text {
+  outline: none;
+  border: none;
+}
