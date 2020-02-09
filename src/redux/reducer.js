@@ -9,13 +9,10 @@ function session(state = sessionInitialState, action) {
   switch (action.type) {
     case SIGN_IN:
       return {
-        ...state,
         isLogin: true,
       };
     default:
-      return {
-        state,
-      };
+      return state;
   }
 }
 
