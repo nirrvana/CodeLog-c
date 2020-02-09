@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 // * Component
-import Write from './components/template/WritePlainTemplate';
-import Callback from './components/signin/Callback';
+
+import Write from './components/template/WriteDevTemplate'
+import Callback from './components/signin/Callback'
 import DevPostEdit from './components/postedit/DevPostEdit';
 import PlanePostEdit from './components/postedit/PlanePostEdit';
 import TILPostEdit from './components/postedit/TILPostEdit';
