@@ -74,7 +74,6 @@ class SignUp extends Component {
     this.setState({ isSignUp: true });
   }
   render() {
-    console.log(this.state.isSignUp);
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
 

@@ -6,8 +6,11 @@ export default class NewCompanyList extends Component {
     const { fakedata } = this.props;
     return (
       <div className="cl_Home_Content">
-        {fakedata.map((el) => (
-          <NewCompanyListElement data={el}></NewCompanyListElement>
+        {fakedata.map((el, i) => (
+          <NewCompanyListElement
+            key={'NewCompany' + i}
+            data={el}
+          ></NewCompanyListElement>
         ))}
       </div>
     );

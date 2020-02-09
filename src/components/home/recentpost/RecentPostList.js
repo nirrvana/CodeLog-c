@@ -6,8 +6,11 @@ export default class RecentPostList extends Component {
     const { fakedata } = this.props;
     return (
       <div className="cl_Home_Content">
-        {fakedata.map((el) => (
-          <RecentPostListElement data={el}></RecentPostListElement>
+        {fakedata.map((el, i) => (
+          <RecentPostListElement
+            key={'RecentPost' + i}
+            data={el}
+          ></RecentPostListElement>
         ))}
       </div>
     );

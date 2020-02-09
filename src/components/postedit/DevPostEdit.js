@@ -6,24 +6,28 @@ import TabBlog from '../../pages/TabBlog';
 import TextareaAutosize from 'react-textarea-autosize';
 
 // * CSS
-import { Tag, Input, Button, Menu, Icon, Dropdown, Avatar } from 'antd';
-const menu = (
-  <Menu>
-    <Menu.Item key="1">React</Menu.Item>
-    <Menu.Item key="2">Redux</Menu.Item>
-    <Menu.Item key="3">TypeScript</Menu.Item>
-  </Menu>
-);
+import { Tag, Input, Button, Avatar, AutoComplete } from 'antd';
+
+const dataSource = ['React', 'Redux', 'TypeScript'];
+function onSelect(value) {
+  console.log('onSelect', value);
+}
 
 class DevPostEdit extends Component {
+  state = {
+    value: '',
+  };
   componentDidMount() {
     this.props.handlePage('Edit');
   }
   handleDeleteLocalData() {
     localStorage.removeItem('currentPost');
   }
+  onChange = (value) => {
+    this.setState({ value });
+  };
   render() {
-    console.log(this.props);
+    const { value } = this.state;
     return (
       <div>
         <TabBlog></TabBlog>
@@ -95,7 +99,6 @@ class DevPostEdit extends Component {
             </div>
           </div>
           <div className="cl_Post_Tag cl_Post_set">
-            {/* map을 이용하여 받은 태그 표현? */}
             <Tag color="red" closable>
               React
             </Tag>
@@ -103,11 +106,20 @@ class DevPostEdit extends Component {
               Redux
             </Tag>
           </div>
-          <Dropdown overlay={menu} className="cl_Tag_selector">
-            <Button>
-              Add tag <Icon type="down" />
-            </Button>
-          </Dropdown>
+          <AutoComplete
+            value={value}
+            onSelect={onSelect}
+            onChange={this.onChange}
+            style={{ width: 200 }}
+            dataSource={dataSource}
+            placeholder="Find a tag"
+            filterOption={(inputValue, option) =>
+              option.props.children
+                .toUpperCase()
+                .indexOf(inputValue.toUpperCase()) !== -1
+            }
+          />
+
           <Button
             type="primary"
             className="cl_Edit_Publish_Btn"

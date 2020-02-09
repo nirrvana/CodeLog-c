@@ -4,8 +4,9 @@
   border: none;
 }
 .cl_Edit_content {
+  width: 100%;
   border: none;
-  height: 100%;
+  resize: none;
 }
 .cl_Tag_selector {
   width: 15%;
