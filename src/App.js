@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 // * Component
+
 import Write from './components/template/WriteDevTemplate'
 import Callback from './components/signin/Callback'
 import DevPostEdit from './components/postedit/DevPostEdit';
@@ -27,9 +23,9 @@ export default class App extends Component {
       <div>
         <Router>
           <Switch>
-            <Route path="/Write" component={Write}></Route>
             <Route exact path="/" component={pages.HomePage} />
-            <Route path="/SignIn" component={pages.SignIn} />
+            <Route path="/Write" component={Write}></Route>
+            <Route path="/SignIn" component={pages.SignIn}></Route>
             <Route path="/SignUp" component={pages.SignUpPage} />
             <Route path="/MyPage" component={pages.developer.MyPage} />
             <Route path="/Blog" component={pages.developer.MainBlogPage} />
