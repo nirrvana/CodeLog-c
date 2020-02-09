@@ -1,14 +1,28 @@
-import React, { Component } from 'react'
-import NormalSignIn from '../components/signin/NormalSignIn'
-import GithubSignIn from '../components/signin/GithubSignIn'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-export default class SignIn extends Component {
+// *component
+import NormalSignIn from '../components/signin/NormalSignIn';
+import GithubSignIn from '../components/signin/GithubSignIn';
+
+class SignIn extends Component {
   render() {
-    return (
-      <div>
-        <NormalSignIn />
-        <GithubSignIn />
-      </div>
-    )
+    if (this.props.isLogin) {
+      return <Redirect to="/MyPage" />;
+    } else {
+      return (
+        <div>
+          <NormalSignIn />
+          <GithubSignIn />
+        </div>
+      );
+    }
   }
 }
+
+const mapStateToProps = (state) => ({
+  isLogin: state.session.isLogin,
+});
+
+export default connect(mapStateToProps)(SignIn);

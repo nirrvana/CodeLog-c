@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { SIGN_IN, GET_MY_PAGE, POST_SELECT } from './action';
 
 const sessionInitialState = {
-  token: null,
+  isLogin: null,
 };
 
 function session(state = sessionInitialState, action) {
@@ -10,7 +10,7 @@ function session(state = sessionInitialState, action) {
     case SIGN_IN:
       return {
         ...state,
-        token: action.token,
+        isLogin: true,
       };
     default:
       return {
