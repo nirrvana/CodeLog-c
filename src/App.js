@@ -10,7 +10,7 @@ import {
 import Write from './components/template/WriteDevTemplate'
 import Callback from './components/signin/Callback'
 import DevPostEdit from './components/postedit/DevPostEdit';
-import PlanePostEdit from './components/postedit/PlanePostEdit';
+import PlainPostEdit from './components/postedit/PlainPostEdit';
 import TILPostEdit from './components/postedit/TILPostEdit';
 import TechPostEdit from './components/postedit/TechPostEdit';
 
@@ -41,11 +41,11 @@ export default class App extends Component {
               component={components.mypage.CoverLetter}
             />
             <Route path="/Portfolio" component={components.mypage.Portfolio} />
-            <Route path="/PlanePost" component={components.post.PlanePost} />
+            <Route path="/PlainPost" component={components.post.PlainPost} />
             <Route path="/TILPost" component={components.post.TILPost} />
             <Route path="/TechPost" component={components.post.TechPost} />
             <Route path="/DevPost" component={components.post.DevPost} />
-            <Route path="/PlanePostEdit" component={PlanePostEdit}></Route>
+            <Route path="/PlainPostEdit" component={PlainPostEdit}></Route>
             <Route path="/TILPostEdit" component={TILPostEdit}></Route>
             <Route path="/TechPostEdit" component={TechPostEdit}></Route>
             <Route path="/DevPostEdit" component={DevPostEdit}></Route>

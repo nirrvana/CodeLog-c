@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import PlanePostListElement from './PlanePostListElement';
-export default class PlanePostList extends Component {
+import PlainPostListElement from './PlainPostListElement';
+export default class PlainPostList extends Component {
   render() {
     const { fakedata } = this.props;
     return (
       <div className="cl_PostList">
         {fakedata.map((el, i) => (
-          <PlanePostListElement
-            key={i + 'PlanePostList'}
+          <PlainPostListElement
+            key={i + 'PlainPostList'}
             data={el}
-          ></PlanePostListElement>
+          ></PlainPostListElement>
         ))}
       </div>
     );

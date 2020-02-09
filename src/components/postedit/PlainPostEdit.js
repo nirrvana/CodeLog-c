@@ -50,7 +50,7 @@ const menu = (
   </Menu>
 );
 
-function PlanePostEdit(props) {
+function PlainPostEdit(props) {
   const [value, setValue] = React.useState(
     JSON.parse(localStorage.getItem('currentPost')).contents,
   );
@@ -115,7 +115,7 @@ function PlanePostEdit(props) {
           className="cl_Edit_Publish_Btn"
           onClick={() => handleDeleteLocalData()}
         >
-          <Link to="/PlanePost">Publish</Link>
+          <Link to="/PlainPost">Publish</Link>
         </Button>
         <div className="cl_post_Margin"></div>
       </div>
@@ -136,4 +136,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlanePostEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(PlainPostEdit);
