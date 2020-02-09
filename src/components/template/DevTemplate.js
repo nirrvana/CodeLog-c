@@ -15,7 +15,7 @@ const formTailLayout = {
   wrapperCol: { span: 8, offset: 4 },
 };
 
-class WriteDevTemplate extends React.Component {
+class DevTemplate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,17 +49,34 @@ class WriteDevTemplate extends React.Component {
             Lesson,
             selected_tag_list,
           );
-          postDevPost(title, ProjectConcept, CodingStrategy, CodingDifficulty, Reference, Lesson, selected_tag_list);
+          postDevPost(
+            title,
+            ProjectConcept,
+            CodingStrategy,
+            CodingDifficulty,
+            Reference,
+            Lesson,
+            selected_tag_list,
+          );
         }
       },
     );
   };
 
-  selectTag = ({ target: { innerText: selected_tag } }) => {
-    console.log(selected_tag);
+  selectTag = (e) => {
+    const selected_tag = e.target.innerText;
     if (!this.state.selected_tag_list.includes(selected_tag)) {
+      e.target.className = 'ant-tag ant-tag-blue';
       this.setState({
         selected_tag_list: this.state.selected_tag_list.concat(selected_tag),
+      });
+      console.log(this.state.selected_tag_list);
+    } else {
+      e.target.className = 'ant-tag';
+      this.setState({
+        selected_tag_list: this.state.selected_tag_list.filter(
+          (tag) => tag !== selected_tag,
+        ),
       });
       console.log(this.state.selected_tag_list);
     }
@@ -135,7 +152,5 @@ class WriteDevTemplate extends React.Component {
     );
   }
 }
-const WrappedWriteDevTemplate = Form.create({ name: 'dynamic_rule' })(
-  WriteDevTemplate,
-);
-export default WrappedWriteDevTemplate;
+const WrappedDevTemplate = Form.create({ name: 'dynamic_rule' })(DevTemplate);
+export default WrappedDevTemplate;

@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 // * Component
 
-import Write from './components/template/WriteDevTemplate'
+import WriteDevPost from './pages/WriteDevPost'
 import Callback from './components/signin/Callback'
 import DevPostEdit from './components/postedit/DevPostEdit';
 import PlainPostEdit from './components/postedit/PlainPostEdit';
@@ -30,7 +30,7 @@ export default class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={pages.HomePage} />
-            <Route path="/Write" component={Write}></Route>
+            <Route path="/WriteDevPost" component={WriteDevPost}></Route>
             <Route path="/SignIn" component={pages.SignIn}></Route>
             <Route path="/SignUp" component={pages.SignUpPage} />
             <Route path="/MyPage" component={pages.developer.MyPage} />
