@@ -10,7 +10,7 @@ export function postSignInData(email, password) {
 }
 
 export function postCodeData(code) {
-  return axios.post(`${HOST}/github_signin_code`, {
+  return axios.post(`${HOST}/github_code`, {
     code,
   });
 }
@@ -22,7 +22,16 @@ export function getMyPageData(token) {
 }
 
 export function getHashTagList() {
-  return axios.get(`${HOST}/hashtag_list`);
+  return axios.get(`${HOST}/hashtag`);
+}
+
+export function postPlainPost(theme, title, content, selected_tags) {
+  return axios.post(`${HOST}/plainpost`, {
+    theme,
+    title,
+    content,
+    selected_tags,
+  });
 }
 
 export function postDevPost(
@@ -34,7 +43,7 @@ export function postDevPost(
   Lesson,
   selected_tag_list,
 ) {
-  return axios.post(`${HOST}/dev_post`, {
+  return axios.post(`${HOST}/devpost`, {
     title,
     ProjectConcept,
     CodingStrategy,
