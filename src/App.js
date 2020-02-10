@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom';
 // * Component
 
-
 import WriteDevPost from './pages/WriteDevPost';
+import WritePlainPost from './pages/WritePlainPost';
 import Callback from './components/signin/Callback';
 
 import pages from './pages';
