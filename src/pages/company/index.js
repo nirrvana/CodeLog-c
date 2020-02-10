@@ -1,5 +1,5 @@
-import Company from './Company';
+import CompanyMyPagePage from './CompanyMyPagePage';
 
-module.exports = {
-  Company,
+export default {
+  CompanyMyPagePage,
 };
