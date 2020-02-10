@@ -7,13 +7,8 @@ import {
 } from 'react-router-dom';
 // * Component
 
-import WriteDevPost from './pages/WriteDevPost'
-import Callback from './components/signin/Callback'
-import DevPostEdit from './components/postedit/DevPostEdit';
-import PlainPostEdit from './components/postedit/PlainPostEdit';
-import TILPostEdit from './components/postedit/TILPostEdit';
-import TechPostEdit from './components/postedit/TechPostEdit';
-
+import WriteDevPost from './pages/WriteDevPost';
+import Callback from './components/signin/Callback';
 import pages from './pages';
 import components from './components';
 
@@ -35,6 +30,18 @@ export default class App extends Component {
             <Route path="/SignUp" component={pages.SignUpPage} />
             <Route path="/MyPage" component={pages.developer.MyPage} />
             <Route path="/Blog" component={pages.developer.MainBlogPage} />
+            <Route
+              path="/DeveloperSignUp"
+              component={components.signup.DeveloperSignUp}
+            />
+            <Route
+              path="/CompanySignUp"
+              component={components.signup.CompanySignUp}
+            />
+            <Route
+              path="/PartnerSignUp"
+              component={components.signup.PartnerSignUp}
+            />
             <Route path="/Resume" component={components.mypage.Resume} />
             <Route
               path="/CoverLetter"
@@ -45,10 +52,22 @@ export default class App extends Component {
             <Route path="/TILPost" component={components.post.TILPost} />
             <Route path="/TechPost" component={components.post.TechPost} />
             <Route path="/DevPost" component={components.post.DevPost} />
-            <Route path="/PlainPostEdit" component={PlainPostEdit}></Route>
-            <Route path="/TILPostEdit" component={TILPostEdit}></Route>
-            <Route path="/TechPostEdit" component={TechPostEdit}></Route>
-            <Route path="/DevPostEdit" component={DevPostEdit}></Route>
+            <Route
+              path="/PlainPostEdit"
+              component={components.postedit.PlainPostEdit}
+            ></Route>
+            <Route
+              path="/TILPostEdit"
+              component={components.postedit.TILPostEdit}
+            ></Route>
+            <Route
+              path="/TechPostEdit"
+              component={components.postedit.TechPostEdit}
+            ></Route>
+            <Route
+              path="/DevPostEdit"
+              component={components.postedit.DevPostEdit}
+            ></Route>
             <Route path="/:Callback" component={Callback}></Route>
             <Redirect to="/"></Redirect>
           </Switch>

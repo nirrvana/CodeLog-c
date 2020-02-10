@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // * Library
 import React, { Component } from 'react';
@@ -21,7 +20,7 @@ import {
 
 const AutoCompleteOption = AutoComplete.Option;
 
-class SignUp extends Component {
+class DeveloperSignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -125,7 +124,6 @@ class SignUp extends Component {
     const websiteOptions = autoCompleteResult.map((website) => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
-
     if (!this.state.isSignUp) {
       return (
         <div className="cl_SignUpComponent">
@@ -243,4 +241,4 @@ class SignUp extends Component {
     }
   }
 }
-export default Form.create({ name: 'register' })(SignUp);
+export default Form.create({ name: 'register' })(DeveloperSignUp);
