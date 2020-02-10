@@ -32,6 +32,10 @@ export default class App extends Component {
             <Route path="/SignIn" component={pages.SignIn}></Route>
             <Route path="/SignUp" component={pages.SignUpPage} />
             <Route path="/MyPage" component={pages.developer.MyPage} />
+            <Route
+              path="/CompanyMyPage"
+              component={pages.company.CompanyMyPagePage}
+            />
             <Route path="/Blog" component={pages.developer.MainBlogPage} />
             <Route
               path="/DeveloperSignUp"
