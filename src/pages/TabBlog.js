@@ -57,7 +57,6 @@ class TabBlog extends Component {
             <Menu.Item className="cl_Home_Logo cl_Blog_Logo">
               <Link to="/"> CODE | LOG</Link>
             </Menu.Item>
-
             <Menu.Item className="cl_Blog_Search" style={{ display: display }}>
               <Search
                 placeholder="input search text"
@@ -74,11 +73,11 @@ class TabBlog extends Component {
                   New story
                 </a>
               </Dropdown>
+              <Link to="/WriteDevPost">New story</Link>
             </Menu.Item>
             <Menu.Item>
               <Link to="/Mypage">My page</Link>
             </Menu.Item>
-
             <Menu.Item>
               <Link to="/">Sign Out</Link>
             </Menu.Item>
