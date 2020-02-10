@@ -29,22 +29,22 @@ class TabBlog extends Component {
     const post_type = (
       <Menu>
         <Menu.Item>
-          <a rel="noopener noreferrer" href="http://localhost:3000/PlainPost">
+          <a rel="noopener noreferrer" href="http://localhost:3000/WritePlainPost">
             PlainPost
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a rel="noopener noreferrer" href="http://localhost:3000/DevPost">
+          <a rel="noopener noreferrer" href="http://localhost:3000/WriteDevPost">
             DevPost
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a rel="noopener noreferrer" href="http://localhost:3000/TechPost">
+          <a rel="noopener noreferrer" href="http://localhost:3000/WriteTechPost">
             TechPost
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a rel="noopener noreferrer" href="http://localhost:3000/TILPost">
+          <a rel="noopener noreferrer" href="http://localhost:3000/WriteTILPost">
             TILPost
           </a>
         </Menu.Item>
