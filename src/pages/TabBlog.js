@@ -44,12 +44,11 @@ class TabBlog extends Component {
               <Link to="/Blog"> Blog</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to="/Write">New story</Link>
+              <Link to="/WriteDevPost">New story</Link>
             </Menu.Item>
             <Menu.Item>
               <Link to="/Mypage">My page</Link>
             </Menu.Item>
-
             <Menu.Item>
               <Link to="/">Sign Out</Link>
             </Menu.Item>

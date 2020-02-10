@@ -8,6 +8,7 @@ import GithubSignIn from '../components/signin/GithubSignIn';
 
 class SignIn extends Component {
   render() {
+    console.log(this.props.isLogin)
     if (this.props.isLogin) {
       return <Redirect to="/" />;
     } else {
