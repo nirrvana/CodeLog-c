@@ -42,7 +42,7 @@ class DeveloperSignUp extends Component {
           .post(`${serverURL}/signup`, {
             email: values.email,
             password: values.password,
-            username: values.Username,
+            username: values.nickname,
             companyid: undefined,
             rank: undefined,
             completion: undefined,

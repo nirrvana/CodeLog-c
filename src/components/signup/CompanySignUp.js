@@ -9,6 +9,10 @@ import serverURL from '../../serverURL';
 import { message, Form, Input, Checkbox, Button, AutoComplete } from 'antd';
 
 const AutoCompleteOption = AutoComplete.Option;
+var isPartner = '';
+function onChange(e) {
+  isPartner = e.target.checked;
+}
 
 class CompanySignUp extends Component {
   constructor(props) {
@@ -19,6 +23,7 @@ class CompanySignUp extends Component {
       isSignUp: false,
     };
   }
+
   error = () => {
     message.error('exist email. please enter other email.');
   };
@@ -115,6 +120,10 @@ class CompanySignUp extends Component {
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
 
+    let AccessDisplay = 'none';
+    if (isPartner) {
+      AccessDisplay = '';
+    }
     if (!this.state.isSignUp) {
       return (
         <div className="cl_SignUpComponent">
@@ -157,6 +166,29 @@ class CompanySignUp extends Component {
                   <Input />
                 </AutoComplete>,
               )}
+            </Form.Item>
+            <Form.Item {...tailFormItemLayout}>
+              {getFieldDecorator('isPartner', {
+                valuePropName: 'checked',
+              })(
+                <Checkbox onChange={onChange}>
+                  Are you a partner company?
+                </Checkbox>,
+              )}
+            </Form.Item>
+            <Form.Item
+              label={<span>Access code&nbsp;</span>}
+              style={{ display: AccessDisplay }}
+            >
+              {getFieldDecorator('Access code', {
+                rules: [
+                  {
+                    required: !AccessDisplay,
+                    message: 'Please input access code!',
+                    whitespace: true,
+                  },
+                ],
+              })(<Input />)}
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>

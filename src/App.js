@@ -38,10 +38,7 @@ export default class App extends Component {
               path="/CompanySignUp"
               component={components.signup.CompanySignUp}
             />
-            <Route
-              path="/PartnerSignUp"
-              component={components.signup.PartnerSignUp}
-            />
+
             <Route path="/Resume" component={components.mypage.Resume} />
             <Route
               path="/CoverLetter"

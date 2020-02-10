@@ -30,32 +30,22 @@
   font-weight: 500;
 }
 .cl_SignUp_Developer_Btn {
-  background-color: #30a9de;
   border: none;
 }
 .cl_SignUp_Developer_Btn:hover,
 .cl_SignUp_Developer_Btn:focus {
-  background-color: #36bcf5;
   border: none;
 }
 .cl_SignUp_Company_Btn {
-  background-color: #efdc05;
+  background-color: #e53a40;
   border: none;
 }
 .cl_SignUp_Company_Btn:hover,
 .cl_SignUp_Company_Btn:focus {
-  background-color: #ffea05;
-  border: none;
-}
-.cl_SignUp_Partner_Btn {
-  background-color: #e53a40;
-  border: none;
-}
-.cl_SignUp_Partner_Btn:hover,
-.cl_SignUp_Partner_Btn:focus {
   background-color: #ff4046;
   border: none;
 }
+
 /* ? Sign Up component */
 .cl_SignUpComponent {
   display: flex;
