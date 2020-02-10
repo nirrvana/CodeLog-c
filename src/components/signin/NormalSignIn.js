@@ -7,16 +7,16 @@ import { connect } from 'react-redux';
 import { postSignInData } from '../../redux/api';
 import { signin } from '../../redux/action';
 
-class NormalLoginForm extends React.Component {
+class NormalSignInForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, { email, password }) => {
+      console.log(email, password);
       if (!err) {
         postSignInData(email, password)
-          .then((data) => {
-            if (data.status === 200) {
+          .then((res) => {
+            if (res.status === 200) {
               this.props.handleSignin();
-              // console.log(1005, this.props.isLogin)
             }
           })
           .catch((err) => {
@@ -72,7 +72,7 @@ class NormalLoginForm extends React.Component {
     );
   }
 }
-NormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
+NormalSignInForm = Form.create({ name: 'normal_login' })(NormalSignInForm);
 
 const mapStateToProps = (state) => ({
   isLogin: state.session.isLogin,
@@ -84,4 +84,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NormalLoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NormalSignInForm);

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { currentPost } from '../redux/action';
 
 // * CSS
-import { Layout, Menu, Input } from 'antd';
+import { Layout, Menu, Input, Dropdown } from 'antd';
 import './Tab.css';
 const { Header } = Layout;
 const { Search } = Input;
@@ -25,6 +25,31 @@ class TabBlog extends Component {
       display = '';
     }
     console.log(this.props);
+
+    const post_type = (
+      <Menu>
+        <Menu.Item>
+          <a rel="noopener noreferrer" href="http://localhost:3000/WritePlainPost">
+            PlainPost
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a rel="noopener noreferrer" href="http://localhost:3000/WriteDevPost">
+            DevPost
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a rel="noopener noreferrer" href="http://localhost:3000/WriteTechPost">
+            TechPost
+          </a>
+        </Menu.Item>
+        <Menu.Item>
+          <a rel="noopener noreferrer" href="http://localhost:3000/WriteTILPost">
+            TILPost
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
     return (
       <Layout className="layout">
         <Header className="cl_Tab_Header">
@@ -32,7 +57,6 @@ class TabBlog extends Component {
             <Menu.Item className="cl_Home_Logo cl_Blog_Logo">
               <Link to="/"> CODE | LOG</Link>
             </Menu.Item>
-
             <Menu.Item className="cl_Blog_Search" style={{ display: display }}>
               <Search
                 placeholder="input search text"
@@ -44,12 +68,16 @@ class TabBlog extends Component {
               <Link to="/Blog"> Blog</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to="/Write">New story</Link>
+              <Dropdown overlay={post_type}>
+                <a className="ant-dropdown-link" href="#">
+                  New story
+                </a>
+              </Dropdown>
+              <Link to="/WriteDevPost">New story</Link>
             </Menu.Item>
             <Menu.Item>
               <Link to="/Mypage">My page</Link>
             </Menu.Item>
-
             <Menu.Item>
               <Link to="/">Sign Out</Link>
             </Menu.Item>
