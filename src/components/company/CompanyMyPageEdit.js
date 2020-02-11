@@ -5,10 +5,18 @@ import { Link } from 'react-router-dom';
 import CompanyRecommentList from './CompanyRecommentList';
 import fakedata from '../../fakedata';
 // * CSS
-import { Layout, Menu, List, Avatar, Tag, Input, Modal } from 'antd';
-
+import {
+  Layout,
+  Menu,
+  List,
+  Avatar,
+  Tag,
+  Input,
+  Modal,
+  Icon,
+  Dropdown,
+} from 'antd';
 const { Header } = Layout;
-
 // ? 글자수 제한
 function fnChkByte(str, maxByte) {
   var str_len = str.length;
@@ -53,88 +61,81 @@ export default class CompanyMyPageEdit extends Component {
         { id: 4, name: 'root', email: 'root@example.com' },
         { id: 5, name: 'lion', email: 'loin@example.com' },
       ],
-
       CompanyInfoValue: null,
-
-      memberInfo: { name: '', email: '' },
-      name: '',
-      email: '',
-      isEdit: false,
       visible: false,
+      TagVisible: false,
+      isEdit: 'none',
+      isDelete: 'none',
     };
     this.handleCompanyInfoValue = this.handleCompanyInfoValue.bind(this);
     this.handleDeleteCompanyMember = this.handleDeleteCompanyMember.bind(this);
-    this.handleCompanyMemberValue_name = this.handleCompanyMemberValue_name.bind(
-      this,
-    );
-    this.handleCompanyMemberValue_email = this.handleCompanyMemberValue_email.bind(
-      this,
-    );
-    this.handleEditCompanyMember = this.handleEditCompanyMember.bind(this);
+    this.handleInputValue = this.handleInputValue.bind(this);
   }
-
+  handleInputValue = (key) => (e) => {
+    if (key === 'isEdit') {
+      this.setState({ [key]: '', isDelete: 'none' });
+    } else if (key === 'member') {
+      this.setState({ isEdit: 'none', isDelete: 'none' });
+    } else {
+      this.setState({ [key]: '', isEdit: 'none' });
+    }
+  };
   handleCompanyInfoValue(e) {
     this.setState({ CompanyInfoValue: e.target.value });
   }
-  handleCompanyMemberValue_name(e) {
-    this.setState({ name: e.target.value });
-  }
-  handleCompanyMemberValue_email(e) {
-    this.setState({ email: e.target.value });
-  }
-  handleEditCompanyMember(item) {
-    let memberData1 = {
-      name: this.state.name,
-      email: this.state.email,
-    };
 
-    if (!this.state.isEdit) {
-      this.setState({
-        isEdit: true,
-        memberInfo: Object.assign(this.state.memberInfo, item),
-      });
-    } else {
-      this.setState({
-        isEdit: false,
-        memberInfo: Object.assign(this.state.memberInfo, memberData1),
-        data: Object.assign(this.state.data, this.state.memberInfo),
-      });
-      // ! 배열에서 특정 아이디를 가진 객체를 memberInfo 값으로 대치해야한다.
-    }
-  }
   handleDeleteCompanyMember(item) {
-    console.log(item);
     this.setState({
       data: this.state.data.filter((el) => el.id !== item.id),
     });
   }
   // ? modal
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
+  showModal = (part) => (e) => {
+    if (part === 'member') {
+      this.setState({
+        visible: true,
+      });
+    } else {
+      this.setState({
+        TagVisible: true,
+      });
+    }
   };
 
   handleOk = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
+      TagVisible: false,
     });
   };
 
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
+      TagVisible: false,
     });
   };
 
   // ! RENDER
   render() {
-    let editDisplay = '';
-    if (!this.state.isEdit) {
-      editDisplay = 'none';
-    }
+    const menu = (
+      <Menu onClick={this.handleMenuClick}>
+        <Menu.Item key="1" onClick={this.handleInputValue('member')}>
+          Member view
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="1" onClick={this.showModal('member')}>
+          Add member
+        </Menu.Item>
+        <Menu.Item key="2" onClick={this.handleInputValue('isEdit')}>
+          Edit member
+        </Menu.Item>
+        <Menu.Item key="3" onClick={this.handleInputValue('isDelete')}>
+          Delete member
+        </Menu.Item>
+      </Menu>
+    );
+
     console.log(this.state);
 
     return (
@@ -172,9 +173,13 @@ export default class CompanyMyPageEdit extends Component {
           <div className="cl_Company_Members cl_CompanyMyPage_Set">
             <div className="cl_Company_Member_Header">
               Member
-              <span className="cl_Company_Member_Add" onClick={this.showModal}>
-                Add
-              </span>
+              <Dropdown
+                overlay={menu}
+                trigger={['click']}
+                className="cl_Company_Member_Dropdown"
+              >
+                <Icon type="down" />
+              </Dropdown>
               <Modal
                 className="cl_Company_Member_Add_Modal"
                 title="Add member"
@@ -202,7 +207,7 @@ export default class CompanyMyPageEdit extends Component {
                 <List.Item key={item.id}>
                   <div
                     className="cl_Company_Member_Edit"
-                    style={{ display: editDisplay }}
+                    style={{ display: this.state.isEdit }}
                   >
                     <Input
                       style={{
@@ -210,12 +215,10 @@ export default class CompanyMyPageEdit extends Component {
                         marginBottom: '3%',
                       }}
                       placeholder="name"
-                      defaultValue={item.name}
                       onChange={this.handleCompanyMemberValue_name}
                     ></Input>
                     <Input
                       placeholder="email"
-                      defaultValue={item.email}
                       style={{ height: '10%', marginBottom: '3%' }}
                       onChange={this.handleCompanyMemberValue_email}
                     ></Input>
@@ -229,11 +232,10 @@ export default class CompanyMyPageEdit extends Component {
                   />
 
                   <div>
-                    <span onClick={() => this.handleEditCompanyMember(item)}>
-                      Edit
-                    </span>
-                    <span> / </span>
-                    <span onClick={() => this.handleDeleteCompanyMember(item)}>
+                    <span
+                      style={{ display: this.state.isDelete }}
+                      onClick={() => this.handleDeleteCompanyMember(item)}
+                    >
                       Delete
                     </span>
                   </div>
@@ -242,39 +244,59 @@ export default class CompanyMyPageEdit extends Component {
             ></List>
           </div>
           <div className="cl_Company_Tags cl_CompanyMyPage_Set">
-            <div className="cl_Tags_Header"> WARR MATION's Tag</div>
+            <div className="cl_Tags_Header">
+              WARR MATION's Tag{' '}
+              <span>
+                {' '}
+                <Icon
+                  type="plus-circle"
+                  className="cl_Company_Tag_Plus"
+                  onClick={this.showModal('tag')}
+                />
+              </span>
+              <Modal
+                className="cl_Company_Member_Add_Modal"
+                title="Add member"
+                visible={this.state.TagVisible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+              >
+                <div className="cl_Company_Member_Add_Input">
+                  <Input
+                    style={{ height: '10%', marginBottom: '7%' }}
+                    placeholder="Tag name"
+                  ></Input>
+                </div>
+              </Modal>
+            </div>
+
             <div>
-              <Tag className="cl_Company_Tag" color="magenta">
+              <Tag className="cl_Company_Tag" closable color="magenta">
                 magenta
               </Tag>
-              <Tag className="cl_Company_Tag" color="volcano">
+              <Tag className="cl_Company_Tag" closable color="volcano">
                 volcano
               </Tag>
-              <Tag className="cl_Company_Tag" color="red">
+              <Tag className="cl_Company_Tag" closable color="red">
                 red
               </Tag>
-              <Tag className="cl_Company_Tag" color="orange">
+              <Tag className="cl_Company_Tag" closable color="orange">
                 orange
               </Tag>
-              <Tag className="cl_Company_Tag" color="gold">
+              <Tag className="cl_Company_Tag" closable color="gold">
                 gold
               </Tag>
-              <Tag className="cl_Company_Tag" color="lime">
+              <Tag className="cl_Company_Tag" closable color="lime">
                 lime
               </Tag>
-              <Tag className="cl_Company_Tag" color="green">
+              <Tag className="cl_Company_Tag" closable color="green">
                 green
               </Tag>
-              <Tag className="cl_Company_Tag" color="cyan">
+              <Tag className="cl_Company_Tag" closable color="cyan">
                 cyan
               </Tag>
-              <Tag className="cl_Company_Tag" color="blue">
-                blue
-              </Tag>
-              <Tag className="cl_Company_Tag" color="geekblue">
-                geekblue
-              </Tag>
-              <Tag className="cl_Company_Tag" color="purple">
+
+              <Tag className="cl_Company_Tag" closable color="purple">
                 purple
               </Tag>
             </div>

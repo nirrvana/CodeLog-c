@@ -26,6 +26,10 @@
   padding: 8px 24px;
   height: 300px;
 }
+
+.cl_Company_Member {
+  margin-top: 5%;
+}
 .cl_Company_Member_Header {
   padding-top: 1%;
   margin-top: -0.55%;
@@ -37,15 +41,7 @@
   padding-bottom: 1%;
   z-index: 1;
 }
-.cl_Company_Member {
-  margin-top: 5%;
-}
-.cl_Company_Member_loading {
-  position: absolute;
-  bottom: 40px;
-  width: 100%;
-  text-align: center;
-}
+
 .cl_Company_Tags {
   border-radius: 5px;
   text-align: center;
@@ -125,11 +121,11 @@
   resize: none;
   border: none;
 }
-.cl_Company_Member_Add {
+.cl_Company_Member_Dropdown {
+  margin-top: 0.5%;
   float: right;
   margin-right: 2%;
   font-size: smaller;
-  color: rgb(89, 89, 89);
 }
 .cl_Company_Member_Add_Modal {
   width: 400px !important;
@@ -143,4 +139,8 @@
   flex-direction: column;
   position: absolute;
   margin-left: 3%;
+}
+.cl_Company_Tag_Plus {
+  font-size: 20px;
+  float: right;
 }
