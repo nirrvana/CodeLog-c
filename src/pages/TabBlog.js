@@ -73,7 +73,6 @@ class TabBlog extends Component {
                   New story
                 </a>
               </Dropdown>
-              <Link to="/WriteDevPost">New story</Link>
             </Menu.Item>
             <Menu.Item>
               <Link to="/Mypage">My page</Link>
