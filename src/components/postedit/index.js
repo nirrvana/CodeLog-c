@@ -1,11 +1,11 @@
-import PlainPostedit from './PlainPostEdit';
-import DevPostedit from './DevPostEdit';
-import TechPostedit from './TechPostEdit';
-import TILPostedit from './TILPostEdit';
+import PlainPostEdit from './PlainPostEdit';
+import DevPostEdit from './DevPostEdit';
+import TechPostEdit from './TechPostEdit';
+import TILPostEdit from './TILPostEdit';
 
 export default {
-  PlainPostedit,
-  DevPostedit,
-  TechPostedit,
-  TILPostedit,
+  PlainPostEdit,
+  DevPostEdit,
+  TechPostEdit,
+  TILPostEdit,
 };

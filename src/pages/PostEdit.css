@@ -15,8 +15,20 @@
   width: 12%;
   margin-left: 90%;
 }
-/* ? Markdown edior */
-.mde-text {
-  outline: none;
-  border: none;
+/* ? Markdown */
+.cl_Plain_Edit_Contents {
+  display: flex;
+}
+.cl_Plain_Edit_Content {
+  height: 400px;
+  font-size: large;
+  padding: 2%;
+  width: 50%;
+}
+.cl_Plain_Edit_Text {
+  border-right: 1px solid lightgrey;
+  resize: none;
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
 }
