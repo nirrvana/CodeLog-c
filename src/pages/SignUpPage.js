@@ -26,12 +26,6 @@ class SignUpPage extends Component {
           >
             <Link to="/CompanySignUp">Company Sign Up</Link>
           </Button>
-          <Button
-            type="primary"
-            className="cl_SignUp_Btn cl_SignUp_Partner_Btn"
-          >
-            <Link to="/PartnerSignUp">Partner Sign Up</Link>
-          </Button>
         </div>
       </div>
     );
