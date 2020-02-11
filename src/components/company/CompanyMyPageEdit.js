@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import CompanyRecommentList from './CompanyRecommentList';
 import fakedata from '../../fakedata';
 // * CSS
-import { Layout, Menu, List, Avatar, Tag, Input, Modal, Button } from 'antd';
+import { Layout, Menu, List, Avatar, Tag, Input, Modal } from 'antd';
 
 const { Header } = Layout;
 
@@ -205,7 +205,10 @@ export default class CompanyMyPageEdit extends Component {
                     style={{ display: editDisplay }}
                   >
                     <Input
-                      style={{ height: '10%', marginBottom: '3%' }}
+                      style={{
+                        height: '10%',
+                        marginBottom: '3%',
+                      }}
                       placeholder="name"
                       defaultValue={item.name}
                       onChange={this.handleCompanyMemberValue_name}
