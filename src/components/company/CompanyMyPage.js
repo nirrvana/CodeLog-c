@@ -73,9 +73,13 @@ export default class CompanyMyPage extends Component {
           </Header>
         </Layout>
         <div className="cl_CompanyMyPage">
+          <Link to="/CompanyEdit" className="cl_Post_Edit_Btn">
+            Edit
+          </Link>
           <div className="cl_Company_Name cl_CompanyMyPage_Set">
             WARR MANTION
           </div>
+
           <div className="cl_Company_Info cl_CompanyMyPage_Set">
             We supply a series of design principles, practical patterns and high
             quality design resources (Sketch and Axure), to help people create
