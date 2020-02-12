@@ -6,8 +6,6 @@ import Showdown from 'showdown';
 import { getHashTagList, postPlainPost } from '../../redux/api';
 //* antd
 import { Tag } from 'antd';
-import 'antd/dist/antd.css';
-import './Plain.css';
 
 class PlainTemplate extends Component {
   constructor(props) {
@@ -66,7 +64,7 @@ class PlainTemplate extends Component {
 
   handleSubmit = () => {
     const { theme, title, content, selected_tags } = this.state;
-    console.log(1006, theme, title, content, selected_tags)
+    console.log(1006, theme, title, content, selected_tags);
     postPlainPost({ theme, title, content, selected_tags })
       .then((res) => window.alert('post가 작성되었습니다!'))
       .catch((err) => window.alert('post 작성에 실패하였습니다!'));

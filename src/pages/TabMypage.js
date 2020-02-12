@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // * CSS
 import { Layout, Menu } from 'antd';
-import './Tab.css';
 const { Header } = Layout;
 
 export default class Tab extends Component {

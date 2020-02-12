@@ -1,12 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import 'antd/dist/antd.css';
-import './index.css';
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import { connect } from 'react-redux';
-// * redux
 import { postSignInData } from '../../redux/api';
 import { signin } from '../../redux/action';
+
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 
 class NormalSignInForm extends React.Component {
   error = () => {

@@ -8,12 +8,9 @@ import { currentPost } from '../redux/action';
 
 // * CSS
 import { Layout, Menu, Input, Dropdown } from 'antd';
-import './Tab.css';
 const { Header } = Layout;
 const { Search } = Input;
-/**
- * current page state 가 blog이면 inline post 이면 none
- */
+
 class TabBlog extends Component {
   render() {
     let display;
