@@ -11,17 +11,22 @@
   font-size: x-large;
 }
 .cl_MainBlog_posts {
+  overflow: auto;
   margin-top: 1%;
   display: flex;
   justify-content: space-around;
   height: 500px;
 }
+.cl_MainBlog_Frame {
+  margin-right: 2.5%;
+}
 .cl_PostList {
   padding: 2%;
   width: 100%;
-  overflow-y: auto;
 }
 .cl_PostListElement {
+  width: 300px;
+  height: 200px;
   padding-bottom: 3%;
   border-bottom: 1px solid lightgray;
   margin-bottom: 10%;
