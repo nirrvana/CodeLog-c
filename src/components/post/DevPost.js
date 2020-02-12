@@ -4,7 +4,6 @@ import { currentPost, currentPage } from '../../redux/action';
 import TabBlog from '../../pages/TabBlog';
 import { Link } from 'react-router-dom';
 // * CSS
-
 import {
   Comment,
   Tooltip,

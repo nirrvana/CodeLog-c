@@ -10,19 +10,15 @@ import {
 import WriteDevPost from './pages/WriteDevPost';
 import WritePlainPost from './pages/WritePlainPost';
 import Callback from './components/signin/Callback';
-
 import pages from './pages';
 import components from './components';
 
 // * CSS
+import './css/css';
 import 'antd/dist/antd.css';
-import './pages/Post.css';
-import './pages/PostEdit.css';
-import './App.css';
 
 export default class App extends Component {
   render() {
-    console.log(components.postedit.PlainPostedit);
     return (
       <div>
         <Router>

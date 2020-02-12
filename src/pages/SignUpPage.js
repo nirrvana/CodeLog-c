@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 //* File
 import { currentPage } from '../redux/action';
 //* CSS
-import './SignUpPage.css';
 import { Button } from 'antd';
 
 class SignUpPage extends Component {

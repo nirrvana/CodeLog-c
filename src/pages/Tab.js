@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 // * CSS
 import { Layout, Menu } from 'antd';
-import './Tab.css';
 const { Header } = Layout;
 
 class Tab extends Component {

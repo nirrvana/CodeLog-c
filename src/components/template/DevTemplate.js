@@ -3,7 +3,6 @@ import React from 'react';
 import { postDevPost } from '../../redux/api';
 // * antd
 import { Form, Input, Tag, Button } from 'antd';
-import 'antd/dist/antd.css';
 
 const { TextArea } = Input;
 const formItemLayout = {
