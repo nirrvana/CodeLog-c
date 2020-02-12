@@ -9,9 +9,6 @@ import PlainPostList from './plainpost/PlainPostList';
 import TILPostList from './tilpost/TILPostList';
 import TechPostList from './techpost/TechPostList';
 import DevPostList from './devpost/DevPostList';
-// * CSS
-import { Layout } from 'antd';
-const { Footer } = Layout;
 
 class MainBlog extends Component {
   state = {
