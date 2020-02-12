@@ -11,7 +11,9 @@ export default class Tab extends Component {
       <Layout className="layout">
         <Header className="cl_Tab_Header">
           <Menu mode="horizontal" style={{ lineHeight: '64px' }}>
-            <Menu.Item className="cl_Home_Logo">CODE | LOG</Menu.Item>
+            <Menu.Item className="cl_Home_Logo">
+              <Link to="/"> CODE | LOG</Link>
+            </Menu.Item>
             <Menu.Item>
               <Link to="/">Sign Out</Link>
             </Menu.Item>

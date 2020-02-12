@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import DevPostListElement from './DevPostListElement';
 export default class DevPostList extends Component {
   render() {
-    const { fakedata } = this.props;
+    const { post } = this.props;
+    console.log(post);
     return (
       <div className="cl_PostList">
-        {fakedata.map((el, i) => (
+        {post.map((el, i) => (
           <DevPostListElement
             key={i + 'DevPostList'}
             data={el}

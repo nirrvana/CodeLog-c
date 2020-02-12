@@ -5,7 +5,7 @@ class PostTagCount extends Component {
   render() {
     const { post_count, tag_count } = this.props;
     return (
-      <div className="cl_Post_Tag">
+      <div className="cl_Post_Tags">
         <div className="cl_Post_Count">{post_count}8개의 포스팅</div>
         <div className="cl_tag_Count">{tag_count}24개의 태그</div>
       </div>

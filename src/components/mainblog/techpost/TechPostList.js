@@ -3,10 +3,10 @@ import TechPostListElement from './TechPostListElement';
 
 export default class TechPostList extends Component {
   render() {
-    const { fakedata } = this.props;
+    const { post } = this.props;
     return (
       <div className="cl_PostList">
-        {fakedata.map((el, i) => (
+        {post.map((el, i) => (
           <TechPostListElement
             key={i + 'TechPostList'}
             data={el}

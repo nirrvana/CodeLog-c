@@ -1,12 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { connect } from 'react-redux';
-// * redux
 import { postSignInData } from '../../redux/api';
 import { signin } from '../../redux/action';
 
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
+
 class NormalSignInForm extends React.Component {
+  error = () => {
+    message.error('Invaild account');
+  };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, { email, password }) => {
@@ -15,11 +18,12 @@ class NormalSignInForm extends React.Component {
         postSignInData(email, password)
           .then((res) => {
             if (res.status === 200) {
+              console.log(res);
               this.props.handleSignin();
             }
           })
           .catch((err) => {
-            window.alert('로그인에 실패하였습니다.');
+            this.error();
           });
       }
     });
