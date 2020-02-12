@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { currentPage } from '../../redux/action';
 import { Link } from 'react-router-dom';
 import TabBlog from '../../pages/TabBlog';
+import ReactMarkdown from 'react-markdown';
+import CodeBlock from './CodeBlock';
 import TextareaAutosize from 'react-textarea-autosize';
 // * CSS
 import { Tag, Input, Button, Menu, Icon, Dropdown, Avatar } from 'antd';
@@ -16,12 +18,19 @@ const menu = (
 );
 
 class TechPostEdit extends Component {
+  state = {
+    input: '',
+  };
   componentDidMount() {
     this.props.handlePage('Edit');
   }
   handleDeleteLocalData() {
     localStorage.removeItem('currentPost');
   }
+  handleInputData = (e) => {
+    console.log(e.target.value);
+    this.setState({ input: e.target.value });
+  };
   render() {
     console.log(this.props);
     return (
@@ -41,69 +50,123 @@ class TechPostEdit extends Component {
             <div className="cl_Post_author">Root</div>
           </div>
           <div className="cl_Post_Contents ">
-            <div className="cl_Post_Content">
-              Tech concept
+            <div className="cl_Post_Edit_Subtitle ">Tech concept</div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
-            <div className="cl_Post_Content">
-              Tech background
+
+            <div className="cl_Post_Edit_Subtitle "> Tech background</div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
-            <div className="cl_Post_Content">
-              Tech definition
+            <div className="cl_Post_Edit_Subtitle "> Tech definition</div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
-            <div className="cl_Post_Content">
-              Tech example
+
+            <div className="cl_Post_Edit_Subtitle "> Tech example</div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
-            <div className="cl_Post_Content">
-              Tech precausions
+
+            <div className="cl_Post_Edit_Subtitle "> Tech precausions</div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
-            <div className="cl_Post_Content">
+
+            <div className="cl_Post_Edit_Subtitle ">
+              {' '}
               Tech recommand concept
+            </div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
           </div>
           <div className="cl_Post_Tag cl_Post_set">
-            {/* map을 이용하여 받은 태그 표현? */}
             <Tag color="red" closable>
               React
             </Tag>
