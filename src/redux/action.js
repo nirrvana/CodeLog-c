@@ -16,9 +16,10 @@ export function mypage(post_count, tag_count) {
     tag_count,
   };
 }
-export function currentPost(theme, title, contents) {
+export function currentPost(id, theme, title, contents) {
   return {
     type: POST_SELECT,
+    id,
     theme,
     title,
     contents,

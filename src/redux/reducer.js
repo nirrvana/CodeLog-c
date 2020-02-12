@@ -37,6 +37,7 @@ function mypage(state = mypageInitialState, action) {
 }
 const PostInitialState = {
   currentPost: {
+    id: null,
     theme: null,
     title: null,
     contents: null,
@@ -49,6 +50,7 @@ function PostState(state = PostInitialState, action) {
     case POST_SELECT:
       return Object.assign({}, state, {
         currentPost: {
+          id: action.id,
           theme: action.theme,
           title: action.title,
           contents: action.contents,

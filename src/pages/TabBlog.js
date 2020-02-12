@@ -25,7 +25,6 @@ class TabBlog extends Component {
     } else {
       display = '';
     }
-    console.log(this.props);
 
     const post_type = (
       <Menu>

@@ -125,7 +125,7 @@ class TILPostEdit extends Component {
               </div>
             </div>
           </div>
-          <div className="cl_Post_Tag cl_Post_set">
+          <div className="cl_Post_Tags cl_Post_set">
             {/* map을 이용하여 받은 태그 표현? */}
             <Tag color="red" closable>
               React
