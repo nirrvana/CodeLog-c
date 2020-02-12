@@ -14,7 +14,6 @@
   overflow: auto;
   margin-top: 1%;
   display: flex;
-  justify-content: space-around;
   height: 500px;
 }
 .cl_MainBlog_Frame {
