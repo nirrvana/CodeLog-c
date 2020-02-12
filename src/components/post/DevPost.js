@@ -93,7 +93,7 @@ class DevPost extends Component {
       this.setState({ post: Object.assign(this.state.post, res.data) });
     });
   }
-
+  handlePostData() {}
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
 
