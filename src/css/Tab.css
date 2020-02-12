@@ -1,0 +1,12 @@
+.cl_Tab_Header {
+  background: none !important;
+  position: fixed;
+  padding: unset !important;
+  text-align: end;
+  width: 100%;
+  z-index: 2;
+}
+.cl_Home_Logo {
+  font-size: x-large;
+  float: left;
+}

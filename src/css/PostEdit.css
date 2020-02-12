@@ -1,0 +1,40 @@
+.cl_Edit_Title {
+  padding: none !important;
+  height: 15% !important;
+  font-size: -webkit-xxx-large !important;
+  border: none !important;
+  margin-bottom: 2% !important;
+}
+.cl_Edit_content {
+  width: 100%;
+  border: none;
+  resize: none;
+}
+.cl_Tag_selector {
+  width: 15%;
+}
+.cl_Edit_Publish_Btn {
+  width: 12%;
+  margin-left: 90%;
+}
+/* ? Markdown */
+.cl_Plain_Edit_Content {
+  display: flex;
+  margin-bottom: 10%;
+}
+.cl_Post_Edit_Subtitle {
+  font-weight: bold;
+}
+.cl_Plain_Edit_Set {
+  font-weight: normal;
+  font-size: large;
+  padding: 2%;
+  width: 50%;
+}
+.cl_Plain_Edit_Text {
+  resize: none;
+  border: none;
+}
+.cl_Plain_Edit_Markdown {
+  border-left: 1px solid lightgrey;
+}
