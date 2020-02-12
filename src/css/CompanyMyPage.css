@@ -28,7 +28,7 @@
 }
 
 .cl_Company_Member {
-  margin-top: 5%;
+  margin-top: 5% !important;
 }
 .cl_Company_Member_Header {
   padding-top: 1%;
@@ -57,11 +57,11 @@
   margin-bottom: 5%;
 }
 .cl_Company_Tag {
-  margin: 1%;
-  padding-top: 0.7%;
-  font-size: large;
+  margin: 1% !important;
+  padding-top: 0.7% !important;
+  font-size: large !important;
   width: 25%;
-  height: 40px;
+  height: 40px !important;
 }
 .cl_Company_Recommend {
   height: 800px;
