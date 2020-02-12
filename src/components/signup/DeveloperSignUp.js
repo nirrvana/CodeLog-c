@@ -2,9 +2,8 @@
 // * Library
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
 // * Import file
-import serverURL from '../../serverURL';
+import { postSignUpData } from '../../redux/api';
 // * CSS
 import {
   message,
@@ -38,16 +37,15 @@ class DeveloperSignUp extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        axios
-          .post(`${serverURL}/signup`, {
-            email: values.email,
-            password: values.password,
-            username: values.nickname,
-            companyid: undefined,
-            rank: undefined,
-            completion: undefined,
-            website: values.website,
-          })
+        postSignUpData(
+          values.email,
+          values.password,
+          values.nickname,
+          undefined,
+          undefined,
+          undefined,
+          values.website,
+        )
           .then((res) => {
             if (res.status === 200) {
               this.setState({ isSignUp: true });

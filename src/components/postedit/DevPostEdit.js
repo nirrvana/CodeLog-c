@@ -145,7 +145,7 @@ class DevPostEdit extends Component {
               </div>
             </div>
           </div>
-          <div className="cl_Post_Tag cl_Post_set">
+          <div className="cl_Post_Tags cl_Post_set">
             <Tag color="red" closable>
               React
             </Tag>

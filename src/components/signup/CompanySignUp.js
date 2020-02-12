@@ -2,9 +2,11 @@
 // * Library
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
+
 // * Import file
-import serverURL from '../../serverURL';
+
+import { postCompanySignUpData } from '../../redux/api';
+
 // * CSS
 import { message, Form, Input, Checkbox, Button, AutoComplete } from 'antd';
 
@@ -33,16 +35,15 @@ class CompanySignUp extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        axios
-          .post(`${serverURL}/signup`, {
-            email: values.email,
-            password: values.password,
-            username: values.Username,
-            companyid: undefined,
-            rank: undefined,
-            completion: undefined,
-            website: values.website,
-          })
+
+        postCompanySignUpData(
+          values.CorporateName,
+          values.companyName,
+          values.website,
+          values.isPartner,
+          values.AccessCode,
+          values.agreement,
+        )
           .then((res) => {
             if (res.status === 200) {
               this.setState({ isSignUp: true });
@@ -133,7 +134,7 @@ class CompanySignUp extends Component {
             onSubmit={this.handleSubmit}
           >
             <Form.Item label={<span>Corporate name&nbsp;</span>}>
-              {getFieldDecorator('Corporate name', {
+              {getFieldDecorator('CorporateName', {
                 rules: [
                   {
                     required: true,
@@ -144,7 +145,7 @@ class CompanySignUp extends Component {
               })(<Input />)}
             </Form.Item>
             <Form.Item label={<span>Company name&nbsp;</span>}>
-              {getFieldDecorator('company name', {
+              {getFieldDecorator('companyName', {
                 rules: [
                   {
                     required: true,
@@ -180,7 +181,7 @@ class CompanySignUp extends Component {
               label={<span>Access code&nbsp;</span>}
               style={{ display: AccessDisplay }}
             >
-              {getFieldDecorator('Access code', {
+              {getFieldDecorator('AccessCode', {
                 rules: [
                   {
                     required: !AccessDisplay,
