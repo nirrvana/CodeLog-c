@@ -1,0 +1,71 @@
+/* ? Post Page & Edit Page 공통 CSS */
+.cl_Post {
+  padding-left: 5%;
+  flex-direction: column;
+  display: flex;
+  width: 70%;
+  height: auto;
+  position: absolute;
+  top: 20%;
+  left: 0px;
+  right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cl_Post_set {
+  margin-bottom: 2%;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+.cl_post_Margin {
+  margin-top: 10%;
+}
+.cl_Post_Title {
+  height: 15%;
+  font-size: -webkit-xxx-large;
+}
+.cl_Post_Contents {
+  font-size: large;
+  font-weight: normal;
+}
+.cl_Post_Tag {
+  font-size: large;
+  margin-top: 2%;
+}
+.cl_Post_Content {
+  padding-bottom: 13%;
+  font-weight: bold;
+}
+/* ? Post Page comment */
+.cl_Post_Comments_Add {
+  resize: none;
+  margin-top: 1%;
+}
+.cl_Post_Comments_Add_Btn {
+  width: 10%;
+  margin-left: 90%;
+}
+/* ? Post Page author */
+.cl_Post_author_Info {
+  margin-bottom: 7%;
+}
+.cl_Post_author {
+  font-size: initial;
+  color: rgb(161, 161, 161);
+  margin-left: 1%;
+}
+.cl_Post_Time {
+  font-size: small;
+  color: rgb(204, 204, 204);
+  margin-left: 1%;
+}
+/* ? Post Page Edit 버튼 */
+.cl_Post_Edit_Btn {
+  margin-left: auto;
+  color: rgb(161, 161, 161);
+}
+.cl_Post_Edit_Btn:hover {
+  margin-left: auto;
+  color: rgb(161, 161, 161);
+}
