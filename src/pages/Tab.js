@@ -46,12 +46,6 @@ class Tab extends Component {
               <Menu.Item>
                 <Link to="/SignIn">Sign In</Link>
               </Menu.Item>
-              <Menu.Item>
-                <Link to="/Blog">Blog</Link>
-              </Menu.Item>
-              <Menu.Item>
-                <Link to="/Mypage">My page</Link>
-              </Menu.Item>
             </Menu>
           </Header>
         </Layout>
