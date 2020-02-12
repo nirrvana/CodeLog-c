@@ -4,8 +4,9 @@ import { currentPage } from '../../redux/action';
 import { Link } from 'react-router-dom';
 import TabBlog from '../../pages/TabBlog';
 import ReactMarkdown from 'react-markdown';
+import CodeBlock from './CodeBlock';
 import TextareaAutosize from 'react-textarea-autosize';
-import 'react-mde/lib/styles/css/react-mde-all.css';
+
 // * CSS
 import { Tag, Input, Button, Menu, Icon, Dropdown, Avatar } from 'antd';
 
@@ -26,7 +27,6 @@ class PlainPostEdit extends Component {
     localStorage.removeItem('currentPost');
   }
   render() {
-    console.log(this.props);
     const menu = (
       <Menu>
         <Menu.Item key="1">React</Menu.Item>
@@ -51,16 +51,15 @@ class PlainPostEdit extends Component {
             />
             <div className="cl_Post_author">Root</div>
           </div>
-          <div className="cl_Plain_Edit_Contents ">
+          <div className="cl_Plain_Edit_Content ">
             <TextareaAutosize
-              className="cl_Plain_Edit_Text cl_Plain_Edit_Content"
+              className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
               onChange={this.handleInputData}
               defaultValue={
                 JSON.parse(localStorage.getItem('currentPost')).contents
               }
             />
-
-            <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Content">
+            <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
               <ReactMarkdown
                 source={this.state.input}
                 renderers={{
@@ -96,19 +95,7 @@ class PlainPostEdit extends Component {
     );
   }
 }
-function CodeBlock(props) {
-  return (
-    <pre
-      style={{
-        background: '#000',
-        color: 'pink',
-        padding: 10,
-      }}
-    >
-      <code>{props.value}</code>
-    </pre>
-  );
-}
+
 const mapStateToProps = (state) => {
   return {
     PostState: state.PostState,

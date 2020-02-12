@@ -16,19 +16,23 @@
   margin-left: 90%;
 }
 /* ? Markdown */
-.cl_Plain_Edit_Contents {
-  display: flex;
-}
 .cl_Plain_Edit_Content {
-  height: 400px;
+  display: flex;
+  margin-bottom: 10%;
+}
+.cl_Post_Edit_Subtitle {
+  font-weight: bold;
+}
+.cl_Plain_Edit_Set {
+  font-weight: normal;
   font-size: large;
   padding: 2%;
   width: 50%;
 }
 .cl_Plain_Edit_Text {
-  border-right: 1px solid lightgrey;
   resize: none;
-  border-top: none;
-  border-left: none;
-  border-bottom: none;
+  border: none;
+}
+.cl_Plain_Edit_Markdown {
+  border-left: 1px solid lightgrey;
 }

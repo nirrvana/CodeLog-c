@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { currentPage } from '../../redux/action';
 import { Link } from 'react-router-dom';
 import TabBlog from '../../pages/TabBlog';
+import ReactMarkdown from 'react-markdown';
+import CodeBlock from './CodeBlock';
+import TextareaAutosize from 'react-textarea-autosize';
 // * CSS
 import { Tag, Input, Button, Menu, Icon, Dropdown, Avatar } from 'antd';
-import TextareaAutosize from 'react-textarea-autosize';
 
 const menu = (
   <Menu>
@@ -16,12 +18,19 @@ const menu = (
 );
 
 class TILPostEdit extends Component {
+  state = {
+    input: '',
+  };
   componentDidMount() {
     this.props.handlePage('Edit');
   }
   handleDeleteLocalData() {
     localStorage.removeItem('currentPost');
   }
+  handleInputData = (e) => {
+    console.log(e.target.value);
+    this.setState({ input: e.target.value });
+  };
   render() {
     console.log(this.props);
     return (
@@ -41,47 +50,79 @@ class TILPostEdit extends Component {
             <div className="cl_Post_author">Root</div>
           </div>
           <div className="cl_Post_Contents ">
-            <div className="cl_Post_Content">
-              Fact
+            <div className="cl_Post_Edit_Subtitle ">Fact</div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
-            </div>
-            <div className="cl_Post_Content">
-              Feeling
-              <div>
-                <TextareaAutosize
-                  className="cl_Edit_content"
-                  type="text"
-                  defaultValue={
-                    JSON.parse(localStorage.getItem('currentPost')).contents
-                  }
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
                 />
               </div>
             </div>
-            <div className="cl_Post_Content">
-              Finding
+
+            <div className="cl_Post_Edit_Subtitle "> Feeling</div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
-            <div className="cl_Post_Content">
-              Future Action
+            <div className="cl_Post_Edit_Subtitle "> Finding</div>
+            <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
-                className="cl_Edit_content"
-                type="text"
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
                 defaultValue={
                   JSON.parse(localStorage.getItem('currentPost')).contents
                 }
               />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="cl_Post_Edit_Subtitle "> Future Action</div>
+            <div className="cl_Plain_Edit_Content ">
+              <TextareaAutosize
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputData}
+                defaultValue={
+                  JSON.parse(localStorage.getItem('currentPost')).contents
+                }
+              />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={this.state.input}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
           </div>
           <div className="cl_Post_Tag cl_Post_set">
