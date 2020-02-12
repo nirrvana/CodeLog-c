@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
 // * react, redux
 import React, { Component } from 'react';
@@ -29,22 +30,34 @@ class TabBlog extends Component {
     const post_type = (
       <Menu>
         <Menu.Item>
-          <a rel="noopener noreferrer" href="http://localhost:3000/WritePlainPost">
+          <a
+            rel="noopener noreferrer"
+            href="http://localhost:3000/WritePlainPost"
+          >
             PlainPost
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a rel="noopener noreferrer" href="http://localhost:3000/WriteDevPost">
+          <a
+            rel="noopener noreferrer"
+            href="http://localhost:3000/WriteDevPost"
+          >
             DevPost
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a rel="noopener noreferrer" href="http://localhost:3000/WriteTechPost">
+          <a
+            rel="noopener noreferrer"
+            href="http://localhost:3000/WriteTechPost"
+          >
             TechPost
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a rel="noopener noreferrer" href="http://localhost:3000/WriteTILPost">
+          <a
+            rel="noopener noreferrer"
+            href="http://localhost:3000/WriteTILPost"
+          >
             TILPost
           </a>
         </Menu.Item>

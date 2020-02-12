@@ -15,7 +15,7 @@
   font-size: -webkit-xxx-large;
 }
 .cl_Company_Info {
-  font-size: initial;
+  font-size: x-large;
   height: 300px;
 }
 
@@ -25,6 +25,10 @@
   overflow: auto;
   padding: 8px 24px;
   height: 300px;
+}
+
+.cl_Company_Member {
+  margin-top: 5%;
 }
 .cl_Company_Member_Header {
   padding-top: 1%;
@@ -37,15 +41,7 @@
   padding-bottom: 1%;
   z-index: 1;
 }
-.cl_Company_Member {
-  margin-top: 5%;
-}
-.cl_Company_Member_loading {
-  position: absolute;
-  bottom: 40px;
-  width: 100%;
-  text-align: center;
-}
+
 .cl_Company_Tags {
   border-radius: 5px;
   text-align: center;
@@ -99,4 +95,52 @@
   font-size: x-large;
   width: 20%;
   height: 260px;
+}
+/* ? Company mypage edit */
+
+.cl_Post_Company_Edit_Btn {
+  position: absolute;
+  margin-top: 2.5%;
+  margin-left: 86.7%;
+  color: rgb(161, 161, 161);
+}
+.cl_Post_Company_Edit_Btn:hover {
+  position: absolute;
+  margin-top: 2.5%;
+  margin-left: 86.7%;
+  color: rgb(161, 161, 161);
+}
+.cl_Company_Edit_Info {
+  font-size: initial;
+  height: 300px;
+}
+.cl_Company_Edit_content {
+  font-size: x-large;
+  height: 300px;
+  width: 100%;
+  resize: none;
+  border: none;
+}
+.cl_Company_Member_Dropdown {
+  margin-top: 0.5%;
+  float: right;
+  margin-right: 2%;
+  font-size: smaller;
+}
+.cl_Company_Member_Add_Modal {
+  width: 400px !important;
+}
+.cl_Company_Member_Add_Input {
+  width: 55%;
+}
+
+.cl_Company_Member_Edit {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  margin-left: 3%;
+}
+.cl_Company_Tag_Plus {
+  font-size: 20px;
+  float: right;
 }
