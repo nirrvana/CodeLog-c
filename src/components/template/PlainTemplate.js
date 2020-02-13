@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ReactMde from 'react-mde';
 import Showdown from 'showdown';
 //* redux
-import { getHashTagList, postPlainPost } from '../../redux/api';
+import { getTags, postPlainPost } from '../../redux/api';
 //* antd
 import { Tag } from 'antd';
 import 'antd/dist/antd.css';
@@ -29,7 +29,7 @@ class PlainTemplate extends Component {
   }
 
   componentDidMount() {
-    getHashTagList()
+    getTags()
       .then(({ tags }) => this.setState({ tags }))
       .catch((err) => console.log('태그목록 가져오기에 실패하였습니다'));
   }
