@@ -22,6 +22,11 @@
   font-weight: 500;
   margin-bottom: 3%;
 }
+.cl_Email_Duplicate {
+  position: absolute;
+  left: 64.5%;
+  top: 25.5%;
+}
 .cl_SignUp_Btn {
   width: 55% !important;
   margin-top: 3% !important;
@@ -65,5 +70,5 @@
   width: 32% !important;
   padding-top: 2% !important;
   padding-right: 2% !important;
-  border: 2px dashed cornflowerblue !important;
+  /* border: 2px dashed cornflowerblue !important; */
 }
