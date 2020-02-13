@@ -1,38 +1,49 @@
+// * Library
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { currentPage } from '../../redux/action';
 import { Link } from 'react-router-dom';
-import TabBlog from '../../pages/TabBlog';
+import { connect } from 'react-redux';
+import { PostEditPost } from '../../redux/api';
+import { currentPage } from '../../redux/action';
 import ReactMarkdown from 'react-markdown';
-import CodeBlock from './CodeBlock';
 import TextareaAutosize from 'react-textarea-autosize';
+// * File
+import TabBlog from '../../pages/TabBlog';
+import CodeBlock from './CodeBlock';
 // * CSS
-import { Tag, Input, Button, Menu, Icon, Dropdown, Avatar } from 'antd';
+import { Tag, Input, Button, Avatar, AutoComplete } from 'antd';
 
-const menu = (
-  <Menu>
-    <Menu.Item key="1">React</Menu.Item>
-    <Menu.Item key="2">Redux</Menu.Item>
-    <Menu.Item key="3">TypeScript</Menu.Item>
-  </Menu>
-);
+const dataSource = ['React', 'Redux', 'TypeScript'];
+function onSelect(value) {
+  console.log('onSelect', value);
+}
 
 class TILPostEdit extends Component {
   state = {
-    input: '',
+    value: '',
+    title: JSON.parse(localStorage.getItem('currentPost')).title,
+    Fact: JSON.parse(localStorage.getItem('currentPost')).content,
+    Feeling: JSON.parse(localStorage.getItem('currentPost')).content,
+    Finding: JSON.parse(localStorage.getItem('currentPost')).content,
+    Future: JSON.parse(localStorage.getItem('currentPost')).content,
+    tags: [],
+    selected_tag: null,
   };
   componentDidMount() {
     this.props.handlePage('Edit');
   }
-  handleDeleteLocalData() {
+  handleInputData = (state) => (e) => {
+    this.setState({ [state]: e.target.value });
+  };
+  handlePublishBtn = () => {
     localStorage.removeItem('currentPost');
-  }
-  handleInputData = (e) => {
-    console.log(e.target.value);
-    this.setState({ input: e.target.value });
+    const { title, Fact, Feeling, Finding, Future } = this.state;
+    let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
+    let content = Fact + Feeling + Finding + Future;
+    PostEditPost(localData_id, title, content);
+    localStorage.removeItem('post_id');
   };
   render() {
-    console.log(this.props);
+    const { value, title, Fact, Feeling, Finding, Future } = this.state;
     return (
       <div>
         <TabBlog></TabBlog>
@@ -40,7 +51,8 @@ class TILPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            defaultValue={JSON.parse(localStorage.getItem('currentPost')).title}
+            onChange={this.handleInputData('title')}
+            defaultValue={title}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
@@ -54,14 +66,12 @@ class TILPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('Fact')}
+                defaultValue={Fact}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={Fact}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -73,14 +83,12 @@ class TILPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('Feeling')}
+                defaultValue={Feeling}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={Feeling}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -91,14 +99,12 @@ class TILPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('Finding')}
+                defaultValue={Finding}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={Finding}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -110,14 +116,12 @@ class TILPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('Future')}
+                defaultValue={Future}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={Future}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -126,7 +130,6 @@ class TILPostEdit extends Component {
             </div>
           </div>
           <div className="cl_Post_Tags cl_Post_set">
-            {/* map을 이용하여 받은 태그 표현? */}
             <Tag color="red" closable>
               React
             </Tag>
@@ -134,17 +137,25 @@ class TILPostEdit extends Component {
               Redux
             </Tag>
           </div>
-          <Dropdown overlay={menu} className="cl_Tag_selector">
-            <Button>
-              Add tag <Icon type="down" />
-            </Button>
-          </Dropdown>
+          <AutoComplete
+            value={value}
+            onSelect={onSelect}
+            onChange={this.onChange}
+            style={{ width: 200 }}
+            dataSource={dataSource}
+            placeholder="Find a tag"
+            filterOption={(inputValue, option) =>
+              option.props.children
+                .toUpperCase()
+                .indexOf(inputValue.toUpperCase()) !== -1
+            }
+          />
           <Button
             type="primary"
             className="cl_Edit_Publish_Btn"
-            onClick={() => this.handleDeleteLocalData()}
+            onClick={this.handlePublishBtn}
           >
-            <Link to="/TILPost">Publish</Link>
+            <Link to="/Blog">Publish</Link>
           </Button>
           <div className="cl_post_Margin"></div>
         </div>

@@ -17,7 +17,6 @@ const dataSource = ['React', 'Redux', 'TypeScript'];
 function onSelect(value) {
   console.log('onSelect', value);
 }
-// let localData = JSON.parse(localStorage.getItem('currentPost'));
 
 class DevPostEdit extends Component {
   state = {
@@ -39,7 +38,6 @@ class DevPostEdit extends Component {
     this.setState({ value });
   };
   handleInputData = (state) => (e) => {
-    // console.log(e.target.value);
     this.setState({ [state]: e.target.value });
   };
   handlePublishBtn = () => {
@@ -54,12 +52,10 @@ class DevPostEdit extends Component {
     } = this.state;
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = concept + Strategy + handling + Referenece + Lesson;
-    PostEditPost(localData_id, title, content).then((res) => {
-      console.log(res);
-    });
+    PostEditPost(localData_id, title, content);
+    localStorage.removeItem('post_id');
   };
   render() {
-    console.log(this.state);
     const {
       value,
       title,
@@ -197,7 +193,7 @@ class DevPostEdit extends Component {
             className="cl_Edit_Publish_Btn"
             onClick={this.handlePublishBtn}
           >
-            <Link to="/DevPost">Publish</Link>
+            <Link to="/Blog">Publish</Link>
           </Button>
           <div className="cl_post_Margin"></div>
         </div>

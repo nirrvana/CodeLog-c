@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { currentPost } from '../../../redux/action';
+import ReactMarkdown from 'react-markdown';
+import CodeBlock from '../../postedit/CodeBlock';
 
 class TechPostListElement extends Component {
   render() {
@@ -8,9 +10,13 @@ class TechPostListElement extends Component {
     return (
       <div className="cl_PostListElement" onClick={() => handlePostId(data.id)}>
         <div className="cl_PostListElement_Title"> {data.title}</div>
-        <div className="cl_PostListElement_Contents">
-          {data.content.slice(0, 100)}
-        </div>
+        <ReactMarkdown
+          className="cl_PostListElement_Contents"
+          source={data.content.slice(0, 100) + '...'}
+          renderers={{
+            code: CodeBlock,
+          }}
+        />
       </div>
     );
   }
