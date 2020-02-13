@@ -106,7 +106,7 @@ export default class DevTemplate3 extends Component {
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                 onChange={this.handleInputChange('project_concept')}
-                defaultValue={'hello'}
+                defaultValue={'구현하고자 하는 기능/과제/프로젝트에 대한 설명'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
@@ -122,7 +122,7 @@ export default class DevTemplate3 extends Component {
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                 onChange={this.handleInputChange('coding_strategy')}
-                defaultValue={'hello'}
+                defaultValue={'구현을 위한 코딩 전략'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
@@ -138,7 +138,7 @@ export default class DevTemplate3 extends Component {
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                 onChange={this.handleInputChange('occurred_error')}
-                defaultValue={'hello'}
+                defaultValue={'진행 중 겪은 에러/에러코드/어려움'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
@@ -154,7 +154,7 @@ export default class DevTemplate3 extends Component {
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                 onChange={this.handleInputChange('reference')}
-                defaultValue={'hello'}
+                defaultValue={'에러를 해결하기 위해 찾아본 키워드 및 레퍼런스'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
@@ -170,7 +170,7 @@ export default class DevTemplate3 extends Component {
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                 onChange={this.handleInputChange('lesson')}
-                defaultValue={'hello'}
+                defaultValue={'기능구현 및 에러해결을 통해 얻은 교훈'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
