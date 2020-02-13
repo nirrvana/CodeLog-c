@@ -40,6 +40,11 @@ export function postCompanySignUpData(
     agreement,
   });
 }
+export function postEmailDuplicate(email) {
+  return axios.post(`${HOST}/duplicate`, {
+    email,
+  });
+}
 
 // ? Sign in
 export function postSignInData(email, password) {

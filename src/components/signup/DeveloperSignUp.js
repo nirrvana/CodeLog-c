@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 // * Import file
-import { postSignUpData } from '../../redux/api';
+import { postSignUpData, postEmailDuplicate } from '../../redux/api';
 // * CSS
 import {
   message,
@@ -28,10 +28,19 @@ class DeveloperSignUp extends Component {
       isSignUp: false,
     };
   }
-  error = () => {
-    message.error('exist email. please enter other email.');
-  };
 
+  handleEmail = (e) => {
+    this.setState({ email: e.target.value });
+  };
+  handleEmailValid = () => {
+    postEmailDuplicate(String(this.state.email)).then((res) => {
+      if (res.data === 'This email has already joined') {
+        message.error('This email has already joined');
+      } else if (res.data === 'This email is usable!') {
+        message.success('This email is usable!');
+      }
+    });
+  };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -52,7 +61,7 @@ class DeveloperSignUp extends Component {
             }
           })
           .catch((err) => {
-            this.error();
+            throw err;
           });
       }
     });
@@ -122,9 +131,16 @@ class DeveloperSignUp extends Component {
     const websiteOptions = autoCompleteResult.map((website) => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
+
     if (!this.state.isSignUp) {
       return (
         <div className="cl_SignUpComponent">
+          <Button
+            className="cl_Email_Duplicate"
+            onClick={this.handleEmailValid}
+          >
+            Check email
+          </Button>
           <Form
             className="cl_SignUpForm"
             {...formItemLayout}
@@ -150,7 +166,12 @@ class DeveloperSignUp extends Component {
                 ],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="E-mail">
+
+            <Form.Item
+              className="cl_Email_Form"
+              label="E-mail"
+              onChange={this.handleEmail}
+            >
               {getFieldDecorator('email', {
                 rules: [
                   {
@@ -164,6 +185,7 @@ class DeveloperSignUp extends Component {
                 ],
               })(<Input />)}
             </Form.Item>
+
             <Form.Item label="Password" hasFeedback>
               {getFieldDecorator('password', {
                 rules: [
