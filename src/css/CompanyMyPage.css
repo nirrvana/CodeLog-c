@@ -14,6 +14,13 @@
   border-bottom: 1px solid lightgray;
   font-size: -webkit-xxx-large;
 }
+.cl_Company_Name_Input {
+  padding: 0px;
+  font-size: -webkit-xxx-large;
+  border: none;
+  background: none;
+  height: auto;
+}
 .cl_Company_Info {
   font-size: x-large;
   height: 300px;
@@ -103,6 +110,7 @@
   margin-top: 2.5%;
   margin-left: 86.7%;
   color: rgb(161, 161, 161);
+  z-index: 1;
 }
 .cl_Post_Company_Edit_Btn:hover {
   position: absolute;
