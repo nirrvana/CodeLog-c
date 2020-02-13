@@ -1,5 +1,6 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
+
 const HOST = 'http://localhost:3001';
 
 // ? Sign up
@@ -61,13 +62,13 @@ export function getMyPageData(token) {
   });
 }
 
-export function getHashTagList() {
-  return axios.get(`${HOST}/hashtag`);
+export function getTags() {
+  return axios.get(`${HOST}/tags`);
 }
 
 // ? Write post
 export function postPlainPost(theme, title, content, selected_tags) {
-  return axios.post(`${HOST}/plainpost`, {
+  return axios.post(`${HOST}/post`, {
     theme,
     title,
     content,
@@ -75,23 +76,12 @@ export function postPlainPost(theme, title, content, selected_tags) {
   });
 }
 
-export function postDevPost(
-  title,
-  ProjectConcept,
-  CodingStrategy,
-  CodingDifficulty,
-  Reference,
-  Lesson,
-  selected_tag_list,
-) {
-  return axios.post(`${HOST}/devpost`, {
+export function postDevPost(theme, title, content, selected_tags) {
+  return axios.post(`${HOST}/post`, {
+    theme,
     title,
-    ProjectConcept,
-    CodingStrategy,
-    CodingDifficulty,
-    Reference,
-    Lesson,
-    selected_tag_list,
+    content,
+    selected_tags,
   });
 }
 
