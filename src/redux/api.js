@@ -90,6 +90,15 @@ export function postDevPost(theme, title, content, selected_tags) {
   });
 }
 
+export function postTechPost(theme, title, content, selected_tags) {
+  return axios.post(`${HOST}/post`, {
+    theme,
+    title,
+    content,
+    selected_tags,
+  });
+}
+
 // ? Get post
 export function getBlogPost() {
   return axios.get(`${HOST}/blog/main`);
