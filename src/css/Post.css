@@ -26,6 +26,7 @@
   font-size: -webkit-xxx-large;
 }
 .cl_Post_Contents {
+  margin-top: 2%;
   font-size: large;
   font-weight: normal;
 }
@@ -36,6 +37,7 @@
 .cl_Post_Content {
   padding-bottom: 13%;
   font-weight: bold;
+  font-size: x-large;
 }
 /* ? Post Page comment */
 .cl_Post_Comments_Add {

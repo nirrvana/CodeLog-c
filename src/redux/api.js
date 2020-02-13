@@ -92,3 +92,8 @@ export function getBlogPost() {
 export function getSelectPost(id) {
   return axios.get(`${HOST}/post/${id}`);
 }
+
+// ? Edit post
+export function PostEditPost(id, title, content) {
+  return axios.post(`${HOST}/post/update`, { id, title, content });
+}
