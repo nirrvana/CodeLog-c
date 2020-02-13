@@ -126,10 +126,22 @@ class DevTemplate2 extends Component {
   };
 
   handleSubmit = (e) => {
-    const { theme, title, content, selected_tags } = this.state;
-    console.log(111, theme, title, content, selected_tags)
+    const {
+      theme,
+      title,
+      content: {
+        project_concept,
+        coding_strategy,
+        occurred_error,
+        reference,
+        lesson,
+      },
+      selected_tags,
+    } = this.state;
+    console.log(111, theme, title, project_concept, coding_strategy, occurred_error, reference, lesson, selected_tags);
 
-    postDevPost(theme, title, content, selected_tags)
+    const content = `${project_concept}${coding_strategy}${occurred_error}${reference}${lesson}`
+    postDevPost(theme, title, content , selected_tags)
       .then((res) => window.alert('post successfully!'))
       .catch((err) => window.alert('fail to post..'));
   };
@@ -173,12 +185,18 @@ class DevTemplate2 extends Component {
         </div>
         <div className="reference">
           <div className="flag">REFERENCE</div>
-          <Editor reference={content.reference} onChange={this.handleReferenceChange} />
+          <Editor
+            reference={content.reference}
+            onChange={this.handleReferenceChange}
+          />
           <Preview html={content.reference} />
         </div>
         <div className="lesson">
           <div className="flag">LESSON</div>
-          <Editor reference={content.lesson} onChange={this.handleLessonChange} />
+          <Editor
+            reference={content.lesson}
+            onChange={this.handleLessonChange}
+          />
           <Preview html={content.lesson} />
         </div>
         <div>
