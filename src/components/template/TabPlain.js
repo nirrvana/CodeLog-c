@@ -5,18 +5,10 @@ import { Link } from 'react-router-dom';
 import { Layout, Menu, Dropdown } from 'antd';
 const { Header } = Layout;
 
-export default class Tab extends Component {
+export default class TabPlain extends Component {
   render() {
     const post_type = (
       <Menu>
-        <Menu.Item>
-          <a
-            rel="noopener noreferrer"
-            href="http://localhost:3000/WritePlainPost"
-          >
-            PlainPost
-          </a>
-        </Menu.Item>
         <Menu.Item>
           <a
             rel="noopener noreferrer"

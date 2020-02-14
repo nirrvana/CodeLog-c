@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Layout, Menu, Dropdown } from 'antd';
 const { Header } = Layout;
 
-export default class Tab extends Component {
+export default class TabTech extends Component {
   render() {
     const post_type = (
       <Menu>
@@ -23,14 +23,6 @@ export default class Tab extends Component {
             href="http://localhost:3000/WriteDevPost"
           >
             DevPost
-          </a>
-        </Menu.Item>
-        <Menu.Item>
-          <a
-            rel="noopener noreferrer"
-            href="http://localhost:3000/WriteTechPost"
-          >
-            TechPost
           </a>
         </Menu.Item>
         <Menu.Item>
