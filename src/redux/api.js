@@ -110,7 +110,7 @@ export function postTILPost(theme, title, content, selected_tags) {
 
 // ? Get post
 export function getBlogPost() {
-  return axios.get(`${HOST}/blog/main`);
+  return axios.get(`${HOST}/blog`);
 }
 export function getSelectPost(id) {
   return axios.get(`${HOST}/post/${id}`);
