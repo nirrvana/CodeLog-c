@@ -21,9 +21,9 @@ export default class DevTemplate3 extends Component {
 
   componentDidMount() {
     getTags()
-      .then(({ data }) =>
+      .then(({ data: { tags } }) =>
         this.setState({
-          tags: data,
+          tags,
         }),
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
@@ -39,13 +39,13 @@ export default class DevTemplate3 extends Component {
     const { selected_tags } = this.state;
     const target = e.target.innerText;
     if (!selected_tags.includes(target)) {
-      e.target.style['background-color'] = 'blue'
+      e.target.style['background-color'] = 'blue';
       this.setState({
         selected_tags: [...selected_tags, target],
       });
       console.log(selected_tags);
     } else {
-      e.target.style['background-color'] = 'gray'
+      e.target.style['background-color'] = 'gray';
       this.setState({
         selected_tags: selected_tags.filter((tag) => tag !== target),
       });
@@ -83,7 +83,14 @@ export default class DevTemplate3 extends Component {
   };
 
   render() {
-    const { project_concept, coding_strategy, occurred_error, reference, lesson, tags } = this.state;
+    const {
+      project_concept,
+      coding_strategy,
+      occurred_error,
+      reference,
+      lesson,
+      tags,
+    } = this.state;
     return (
       <div>
         <div className="cl_Post">
@@ -182,15 +189,11 @@ export default class DevTemplate3 extends Component {
               </div>
             </div>
             <div className="cl_Post_Tags cl_Post_set">
-
               <List
                 dataSource={tags}
                 renderItem={(item) => (
                   <span>
-                    <Tag
-                      color="gray"
-                      onClick={this.selectTag}
-                    >
+                    <Tag color="gray" onClick={this.selectTag}>
                       {item}
                     </Tag>
                   </span>

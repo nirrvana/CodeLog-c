@@ -19,9 +19,9 @@ export default class TILTemplate extends Component {
 
   componentDidMount() {
     getTags()
-      .then(({ data }) =>
+      .then(({ data: { tags } }) =>
         this.setState({
-          tags: data,
+          tags,
         }),
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
