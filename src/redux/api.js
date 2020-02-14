@@ -23,21 +23,24 @@ export function postSignUpData(
     website,
   });
 }
+
 export function postCompanySignUpData(
-  Corporate,
-  company,
-  website,
-  isPartner,
-  AccessCode,
-  agreement,
+  name,
+  bname,
+  eid,
+  homepage,
+  member,
+  ispartner,
+  code,
 ) {
-  return axios.post(`${HOST}/signup`, {
-    Corporate,
-    company,
-    website,
-    isPartner,
-    AccessCode,
-    agreement,
+  return axios.post(`${HOST}/signup/company`, {
+    name,
+    bname,
+    eid,
+    homepage,
+    member,
+    ispartner,
+    code,
   });
 }
 export function postEmailDuplicate(email) {

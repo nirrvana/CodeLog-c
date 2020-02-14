@@ -147,7 +147,7 @@ class DevPost extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}}</div>
+            <div className="cl_Post_author">{userName}</div>
 
             <Tooltip
               className="cl_Post_Time"

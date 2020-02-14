@@ -43,23 +43,40 @@ class CompanySignUp extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        const {
+          coperate_name,
+          business_name,
+          eid,
+          website,
+          username,
+          position,
+          email,
+          password,
+          isPartner,
+          AccessCode,
+        } = values;
+        const member = {
+          username: username,
+          password: password,
+          position: position,
+          email: email,
+        };
 
-        // postCompanySignUpData(
-        //   values.CorporateName,
-        //   values.companyName,
-        //   values.website,
-        //   values.isPartner,
-        //   values.AccessCode,
-        //   values.agreement,
-        // )
-        //   .then((res) => {
-        //     if (res.status === 200) {
-        //       this.setState({ isSignUp: true });
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     this.error();
-        //   });
+        postCompanySignUpData(
+          coperate_name,
+          business_name,
+          eid,
+          website,
+          member,
+          isPartner,
+          AccessCode,
+        )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            this.error();
+          });
       }
     });
   };
@@ -98,7 +115,7 @@ class CompanySignUp extends Component {
     this.setState({ autoCompleteResult });
   };
   callback = (key) => {
-    console.log(key);
+    // console.log(key);
   };
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -201,7 +218,6 @@ class CompanySignUp extends Component {
                   ],
                 })(
                   <div
-                    {...formItemLayout}
                     className="cl_SignUp_Member"
                     onSubmit={this.handleSubmit}
                   >
