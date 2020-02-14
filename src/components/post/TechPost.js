@@ -92,7 +92,13 @@ class TILPost extends Component {
       this.setState({ post: Object.assign(this.state.post, res.data) });
     });
   }
-  handlePostData() {}
+  handlePostData = (title, content) => () => {
+    let currentPost = {
+      title,
+      content,
+    };
+    localStorage.setItem('currentPost', JSON.stringify(currentPost));
+  };
 
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
@@ -110,8 +116,6 @@ class TILPost extends Component {
     }
   };
   render() {
-    console.log('PROPS =>', this.props);
-    console.log('STATE =>', this.state);
     const { isLike, post } = this.state;
     let color, title, content, Likes;
     if (isLike) {
@@ -148,7 +152,7 @@ class TILPost extends Component {
             <Link
               to="/TechpostEdit"
               className="cl_Post_Edit_Btn"
-              onClick={() => this.handlePostData()}
+              onClick={this.handlePostData(title, content)}
             >
               Edit
             </Link>

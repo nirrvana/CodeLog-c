@@ -1,11 +1,14 @@
+// * Library
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { currentPage } from '../../redux/action';
 import { Link } from 'react-router-dom';
-import TabBlog from '../../pages/TabBlog';
+import { connect } from 'react-redux';
+import { PostEditPost } from '../../redux/api';
+import { currentPage } from '../../redux/action';
 import ReactMarkdown from 'react-markdown';
-import CodeBlock from './CodeBlock';
 import TextareaAutosize from 'react-textarea-autosize';
+// * File
+import TabBlog from '../../pages/TabBlog';
+import CodeBlock from './CodeBlock';
 
 // * CSS
 import { Tag, Input, Button, Avatar, AutoComplete } from 'antd';
@@ -18,23 +21,50 @@ function onSelect(value) {
 class DevPostEdit extends Component {
   state = {
     value: '',
-    input: '',
+    title: JSON.parse(localStorage.getItem('currentPost')).title,
+    concept: JSON.parse(localStorage.getItem('currentPost')).content,
+    Strategy: JSON.parse(localStorage.getItem('currentPost')).content,
+    handling: JSON.parse(localStorage.getItem('currentPost')).content,
+    Referenece: JSON.parse(localStorage.getItem('currentPost')).content,
+    Lesson: JSON.parse(localStorage.getItem('currentPost')).content,
+    tags: [],
+    selected_tag: null,
   };
   componentDidMount() {
     this.props.handlePage('Edit');
   }
-  handleDeleteLocalData() {
-    localStorage.removeItem('currentPost');
-  }
+
   onChange = (value) => {
     this.setState({ value });
   };
-  handleInputData = (e) => {
-    console.log(e.target.value);
-    this.setState({ input: e.target.value });
+  handleInputData = (state) => (e) => {
+    this.setState({ [state]: e.target.value });
+  };
+  handlePublishBtn = () => {
+    localStorage.removeItem('currentPost');
+    const {
+      title,
+      concept,
+      Strategy,
+      handling,
+      Referenece,
+      Lesson,
+    } = this.state;
+    let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
+    let content = concept + Strategy + handling + Referenece + Lesson;
+    PostEditPost(localData_id, title, content);
+    localStorage.removeItem('post_id');
   };
   render() {
-    const { value } = this.state;
+    const {
+      value,
+      title,
+      concept,
+      Strategy,
+      handling,
+      Referenece,
+      Lesson,
+    } = this.state;
     return (
       <div>
         <TabBlog></TabBlog>
@@ -42,7 +72,8 @@ class DevPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            defaultValue={JSON.parse(localStorage.getItem('currentPost')).title}
+            onChange={this.handleInputData('title')}
+            defaultValue={title}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
@@ -56,14 +87,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('concept')}
+                defaultValue={concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={concept}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -75,14 +104,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('Strategy')}
+                defaultValue={Strategy}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={Strategy}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -93,14 +120,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('handling')}
+                defaultValue={handling}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={handling}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -112,14 +137,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('Referenece')}
+                defaultValue={Referenece}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={Referenece}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -130,14 +153,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData}
-                defaultValue={
-                  JSON.parse(localStorage.getItem('currentPost')).contents
-                }
+                onChange={this.handleInputData('Lesson')}
+                defaultValue={Lesson}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={this.state.input}
+                  source={Lesson}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -170,9 +191,9 @@ class DevPostEdit extends Component {
           <Button
             type="primary"
             className="cl_Edit_Publish_Btn"
-            onClick={() => this.handleDeleteLocalData()}
+            onClick={this.handlePublishBtn}
           >
-            <Link to="/DevPost">Publish</Link>
+            <Link to="/Blog">Publish</Link>
           </Button>
           <div className="cl_post_Margin"></div>
         </div>
