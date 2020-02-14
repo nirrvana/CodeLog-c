@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   BrowserRouter as Router,
   Route,
@@ -9,7 +10,7 @@ import {
 
 import WriteDevPost from './pages/WriteDevPost';
 import WritePlainPost from './pages/WritePlainPost';
-import WriteTechPost from './pages/WriteTechPost'
+import WriteTechPost from './pages/WriteTechPost';
 import WriteTILPost from './pages/WriteTILPost';
 import Callback from './components/signin/Callback';
 import pages from './pages';
@@ -19,8 +20,9 @@ import components from './components';
 import './css/css';
 import 'antd/dist/antd.css';
 
-export default class App extends Component {
+class App extends Component {
   render() {
+    console.log(this.props.isLogin);
     return (
       <div>
         <Router>
@@ -85,3 +87,8 @@ export default class App extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  isLogin: state.session.isLogin,
+});
+
+export default connect(mapStateToProps)(App);
