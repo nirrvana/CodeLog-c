@@ -5,6 +5,8 @@ import { currentPost, currentPage } from '../../redux/action';
 import { getSelectPost } from '../../redux/api';
 import TabBlog from '../../pages/TabBlog';
 import { getRandomInt, colorArray } from '../../TagColor';
+import ReactMarkdown from 'react-markdown';
+import CodeBlock from '../postedit/CodeBlock';
 
 // * CSS
 import {
@@ -119,16 +121,19 @@ class TILPost extends Component {
   };
   render() {
     const { isLike, post } = this.state;
-    let color, title, content, Likes;
+    console.log(post);
+    let color, title, content, Likes, userName;
     if (isLike) {
       color = 'red';
     }
     if (!Object.keys(post).length) {
       title = '';
+      userName = '';
       content = '';
       Likes = 0;
     } else {
       title = post.title;
+      userName = post.users.username;
       content = post.content;
       Likes = post.likes;
     }
@@ -142,7 +147,7 @@ class TILPost extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">Root</div>
+            <div className="cl_Post_author">{userName}</div>
 
             <Tooltip
               className="cl_Post_Time"
@@ -162,19 +167,47 @@ class TILPost extends Component {
           <div className="cl_Post_Contents cl_PlainPost_Contents ">
             <div className="cl_Post_Content">
               Fact
-              <div className="cl_Post_Contents">{content}</div>
+              <div className="cl_Post_Contents ">
+                <ReactMarkdown
+                  source={content}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
             <div className="cl_Post_Content">
               Feeling
-              <div className="cl_Post_Contents">{content}</div>
+              <div className="cl_Post_Contents ">
+                <ReactMarkdown
+                  source={content}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
             <div className="cl_Post_Content">
               Finding
-              <div className="cl_Post_Contents">{content}</div>
+              <div className="cl_Post_Contents ">
+                <ReactMarkdown
+                  source={content}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
             <div className="cl_Post_Content">
               Future Action
-              <div className="cl_Post_Contents">{content}</div>
+              <div className="cl_Post_Contents ">
+                <ReactMarkdown
+                  source={content}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
           </div>
           <div className="cl_Post_Tags cl_Post_set">
