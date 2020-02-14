@@ -7,6 +7,8 @@ import { currentPost, currentPage } from '../../redux/action';
 import TabBlog from '../../pages/TabBlog';
 import { getRandomInt, colorArray } from '../../TagColor';
 import ReactMarkdown from 'react-markdown';
+import CodeBlock from '../postedit/CodeBlock';
+
 // * CSS
 import {
   Comment,
@@ -20,7 +22,6 @@ import {
   Avatar,
 } from 'antd';
 import moment from 'moment';
-import CodeBlock from '../postedit/CodeBlock';
 const { TextArea } = Input;
 
 const data = [
@@ -119,16 +120,19 @@ class DevPost extends Component {
   };
   render() {
     const { isLike, post } = this.state;
-    let color, title, content, Likes;
+    console.log(post);
+    let color, title, content, Likes, userName;
     if (isLike) {
       color = 'red';
     }
     if (!Object.keys(post).length) {
       title = '';
+      userName = '';
       content = '';
       Likes = 0;
     } else {
       title = post.title;
+      userName = post.users.username;
       content = post.content;
       Likes = post.likes;
     }
@@ -143,7 +147,7 @@ class DevPost extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">Root</div>
+            <div className="cl_Post_author">{userName}}</div>
 
             <Tooltip
               className="cl_Post_Time"

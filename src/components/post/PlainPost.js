@@ -5,6 +5,8 @@ import { currentPost, currentPage } from '../../redux/action';
 import { getSelectPost } from '../../redux/api';
 import TabBlog from '../../pages/TabBlog';
 import { getRandomInt, colorArray } from '../../TagColor';
+import ReactMarkdown from 'react-markdown';
+import CodeBlock from '../postedit/CodeBlock';
 
 // * CSS
 import {
@@ -116,16 +118,19 @@ class PlainPost extends Component {
   };
   render() {
     const { isLike, post } = this.state;
-    let color, title, content, Likes;
+    console.log(post);
+    let color, title, content, Likes, userName;
     if (isLike) {
       color = 'red';
     }
     if (!Object.keys(post).length) {
       title = '';
+      userName = '';
       content = '';
       Likes = 0;
     } else {
       title = post.title;
+      userName = post.users.username;
       content = post.content;
       Likes = post.likes;
     }
@@ -140,7 +145,7 @@ class PlainPost extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">Root</div>
+            <div className="cl_Post_author">{userName}</div>
 
             <Tooltip
               className="cl_Post_Time"
@@ -157,8 +162,14 @@ class PlainPost extends Component {
               Edit
             </Link>
           </div>
-
-          <div className="cl_Post_Contents cl_Post_set">{content}</div>
+          <div className="cl_Post_Contents ">
+            <ReactMarkdown
+              source={content}
+              renderers={{
+                code: CodeBlock,
+              }}
+            />
+          </div>
           <div className="cl_Post_Tags cl_Post_set">
             <List
               itemLayout="horizontal"

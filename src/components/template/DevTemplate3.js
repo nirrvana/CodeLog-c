@@ -25,7 +25,7 @@ export default class DevTemplate3 extends Component {
     getTags()
       .then(({ data: { tags } }) =>
         this.setState({
-          tags
+          tags,
         }),
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
@@ -93,19 +93,20 @@ export default class DevTemplate3 extends Component {
       reference,
       lesson,
       tags,
-      isPosted,
     } = this.state;
-    if (isPosted) {
-      return <Redirect to="/"></Redirect>;
-    } else {
-      return (
-        <div>
-          <div className="cl_Post">
-            <Input
-              className="cl_Edit_Title cl_Post_set "
-              type="text"
-              onChange={this.handleInputChange('title')}
-              defaultValue={'title'}
+    return (
+      <div>
+        <div className="cl_Post">
+          <Input
+            className="cl_Edit_Title cl_Post_set "
+            type="text"
+            onChange={this.handleInputChange('title')}
+            defaultValue={'title'}
+          />
+          <div className="cl_Post_author_Info cl_Post_set ">
+            <Avatar
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              alt="Han Solo"
             />
             <div className="cl_Post_author_Info cl_Post_set ">
               <Avatar
@@ -220,6 +221,26 @@ export default class DevTemplate3 extends Component {
               </Button>
               <div className="cl_post_Margin"></div>
             </div>
+            <div className="cl_Post_Tags cl_Post_set">
+              <List
+                dataSource={tags}
+                renderItem={(item) => (
+                  <span>
+                    <Tag color="gray" onClick={this.selectTag}>
+                      {item}
+                    </Tag>
+                  </span>
+                )}
+              />
+            </div>
+            <Button
+              type="primary"
+              className="cl_Post_Comments_Add_Btn"
+              onClick={this.handleSubmit}
+            >
+              Post!
+            </Button>
+            <div className="cl_post_Margin"></div>
           </div>
         </div>
       );
