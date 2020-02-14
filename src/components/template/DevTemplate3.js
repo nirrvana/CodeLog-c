@@ -5,7 +5,6 @@ import { Tag, Input, Button, Avatar, AutoComplete, List } from 'antd';
 import CodeBlock from '../../components/postedit/CodeBlock';
 import { getTags, postDevPost } from '../../redux/api';
 import { getRandomInt, colorArray } from '../../TagColor';
-import { Redirect } from 'react-router-dom';
 
 export default class DevTemplate3 extends Component {
   state = {
@@ -18,7 +17,6 @@ export default class DevTemplate3 extends Component {
     lesson: '',
     tags: [],
     selected_tags: [],
-    isPosted: false,
   };
 
   componentDidMount() {
@@ -82,7 +80,6 @@ export default class DevTemplate3 extends Component {
     postDevPost(theme, title, content, selected_tags)
       .then((res) => window.alert('post successfully!'))
       .catch((err) => window.alert('fail to post..'));
-    this.setState({ isPosted: true });
   };
 
   render() {
@@ -108,118 +105,88 @@ export default class DevTemplate3 extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author_Info cl_Post_set ">
-              <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                alt="Han Solo"
+            <div className="cl_Post_author">Root</div>
+          </div>
+          <div className="cl_Post_Contents ">
+            <div className="cl_Post_Edit_Subtitle ">Project concept</div>
+            <div className="cl_Plain_Edit_Content ">
+              <TextareaAutosize
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputChange('project_concept')}
+                defaultValue={'구현하고자 하는 기능/과제/프로젝트에 대한 설명'}
               />
-              <div className="cl_Post_author">Root</div>
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={project_concept}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
-            <div className="cl_Post_Contents ">
-              <div className="cl_Post_Edit_Subtitle ">Project concept</div>
-              <div className="cl_Plain_Edit_Content ">
-                <TextareaAutosize
-                  className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('project_concept')}
-                  defaultValue={
-                    '구현하고자 하는 기능/과제/프로젝트에 대한 설명'
-                  }
-                />
-                <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
-                  <ReactMarkdown
-                    source={project_concept}
-                    renderers={{
-                      code: CodeBlock,
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="cl_Post_Edit_Subtitle ">Coding strategy</div>
-              <div className="cl_Plain_Edit_Content ">
-                <TextareaAutosize
-                  className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('coding_strategy')}
-                  defaultValue={'구현을 위한 코딩 전략'}
-                />
-                <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
-                  <ReactMarkdown
-                    source={coding_strategy}
-                    renderers={{
-                      code: CodeBlock,
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="cl_Post_Edit_Subtitle ">Occurred error</div>
-              <div className="cl_Plain_Edit_Content ">
-                <TextareaAutosize
-                  className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('occurred_error')}
-                  defaultValue={'진행 중 겪은 에러/에러코드/어려움'}
-                />
-                <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
-                  <ReactMarkdown
-                    source={occurred_error}
-                    renderers={{
-                      code: CodeBlock,
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="cl_Post_Edit_Subtitle ">Reference</div>
-              <div className="cl_Plain_Edit_Content ">
-                <TextareaAutosize
-                  className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('reference')}
-                  defaultValue={
-                    '에러를 해결하기 위해 찾아본 키워드 및 레퍼런스'
-                  }
-                />
-                <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
-                  <ReactMarkdown
-                    source={reference}
-                    renderers={{
-                      code: CodeBlock,
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="cl_Post_Edit_Subtitle ">Lesson</div>
-              <div className="cl_Plain_Edit_Content ">
-                <TextareaAutosize
-                  className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('lesson')}
-                  defaultValue={'기능구현 및 에러해결을 통해 얻은 교훈'}
-                />
-                <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
-                  <ReactMarkdown
-                    source={lesson}
-                    renderers={{
-                      code: CodeBlock,
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="cl_Post_Tags cl_Post_set">
-                <List
-                  dataSource={tags}
-                  renderItem={(item) => (
-                    <span>
-                      <Tag color="gray" onClick={this.selectTag}>
-                        {item}
-                      </Tag>
-                    </span>
-                  )}
+            <div className="cl_Post_Edit_Subtitle ">Coding strategy</div>
+            <div className="cl_Plain_Edit_Content ">
+              <TextareaAutosize
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputChange('coding_strategy')}
+                defaultValue={'구현을 위한 코딩 전략'}
+              />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={coding_strategy}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
                 />
               </div>
-              <Button
-                type="primary"
-                className="cl_Post_Comments_Add_Btn"
-                onClick={this.handleSubmit}
-              >
-                Post!
-              </Button>
-              <div className="cl_post_Margin"></div>
+            </div>
+            <div className="cl_Post_Edit_Subtitle ">Occurred error</div>
+            <div className="cl_Plain_Edit_Content ">
+              <TextareaAutosize
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputChange('occurred_error')}
+                defaultValue={'진행 중 겪은 에러/에러코드/어려움'}
+              />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={occurred_error}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="cl_Post_Edit_Subtitle ">Reference</div>
+            <div className="cl_Plain_Edit_Content ">
+              <TextareaAutosize
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputChange('reference')}
+                defaultValue={'에러를 해결하기 위해 찾아본 키워드 및 레퍼런스'}
+              />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={reference}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="cl_Post_Edit_Subtitle ">Lesson</div>
+            <div className="cl_Plain_Edit_Content ">
+              <TextareaAutosize
+                className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
+                onChange={this.handleInputChange('lesson')}
+                defaultValue={'기능구현 및 에러해결을 통해 얻은 교훈'}
+              />
+              <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
+                <ReactMarkdown
+                  source={lesson}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
+              </div>
             </div>
             <div className="cl_Post_Tags cl_Post_set">
               <List
@@ -243,7 +210,7 @@ export default class DevTemplate3 extends Component {
             <div className="cl_post_Margin"></div>
           </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }

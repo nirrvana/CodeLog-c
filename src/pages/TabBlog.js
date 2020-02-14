@@ -4,6 +4,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { currentPost } from '../redux/action';
+
 // * CSS
 import { Layout, Menu, Input, Dropdown } from 'antd';
 const { Header } = Layout;
@@ -24,16 +26,36 @@ class TabBlog extends Component {
     const post_type = (
       <Menu>
         <Menu.Item>
-          <Link to="/WritePlainPost">Plain post</Link>
+          <a
+            rel="noopener noreferrer"
+            href="http://localhost:3000/WritePlainPost"
+          >
+            PlainPost
+          </a>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteDevPost">Dev post</Link>
+          <a
+            rel="noopener noreferrer"
+            href="http://localhost:3000/WriteDevPost"
+          >
+            DevPost
+          </a>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteTechPost">Tech post</Link>
+          <a
+            rel="noopener noreferrer"
+            href="http://localhost:3000/WriteTechPost"
+          >
+            TechPost
+          </a>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteTILPost">TIL post</Link>
+          <a
+            rel="noopener noreferrer"
+            href="http://localhost:3000/WriteTILPost"
+          >
+            TILPost
+          </a>
         </Menu.Item>
       </Menu>
     );
