@@ -3,10 +3,10 @@ import NewCompanyListElement from './NewCompanyListElement';
 
 export default class NewCompanyList extends Component {
   render() {
-    const { fakedata } = this.props;
+    const { data } = this.props;
     return (
       <div className="cl_Home_Content">
-        {fakedata.map((el, i) => (
+        {data.map((el, i) => (
           <NewCompanyListElement
             key={'NewCompany' + i}
             data={el}
