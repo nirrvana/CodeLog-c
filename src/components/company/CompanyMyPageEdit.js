@@ -153,11 +153,14 @@ export default class CompanyMyPageEdit extends Component {
           </Header>
         </Layout>
         <div className="cl_CompanyMyPage">
-          <Link to="/CompanyMypage" className="cl_Post_Company_Edit_Btn">
+          <Link to="/CompanyMypage" className="cl_Post_Edit_Btn">
             Update
           </Link>
           <div className="cl_Company_Name cl_CompanyMyPage_Set">
-            WARR MANTION
+            <Input
+              className="cl_Company_Name_Input"
+              defaultValue={'WARR MANTION'}
+            />
           </div>
 
           <div className="cl_Company_Edit_Info cl_CompanyMyPage_Set">
