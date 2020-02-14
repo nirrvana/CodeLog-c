@@ -99,10 +99,24 @@ export function postTechPost(theme, title, content, selected_tags) {
   });
 }
 
+export function postTILPost(theme, title, content, selected_tags) {
+  return axios.post(`${HOST}/post`, {
+    theme,
+    title,
+    content,
+    selected_tags,
+  });
+}
+
 // ? Get post
 export function getBlogPost() {
   return axios.get(`${HOST}/blog/main`);
 }
 export function getSelectPost(id) {
   return axios.get(`${HOST}/post/${id}`);
+}
+
+// ? Edit post
+export function PostEditPost(id, title, content) {
+  return axios.post(`${HOST}/post/update`, { id, title, content });
 }

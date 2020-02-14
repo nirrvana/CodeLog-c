@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import Tab from '../components/template/Tab'
-import PlainTemplate from '../components/template/plainTemplate2'
+import TILTemplate from '../components/template/TILTemplate'
 
-export default class WritePlainPost extends Component {
+export default class WriteTILPost extends Component {
   render() {
     return (
       <div>
         <Tab />
-        <PlainTemplate />
+        <TILTemplate />
       </div>
     )
   }

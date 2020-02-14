@@ -6,6 +6,7 @@ import { getSelectPost } from '../../redux/api';
 import { currentPost, currentPage } from '../../redux/action';
 import TabBlog from '../../pages/TabBlog';
 import { getRandomInt, colorArray } from '../../TagColor';
+import ReactMarkdown from 'react-markdown';
 // * CSS
 import {
   Comment,
@@ -19,6 +20,7 @@ import {
   Avatar,
 } from 'antd';
 import moment from 'moment';
+import CodeBlock from '../postedit/CodeBlock';
 const { TextArea } = Input;
 
 const data = [
@@ -93,7 +95,13 @@ class DevPost extends Component {
       this.setState({ post: Object.assign(this.state.post, res.data) });
     });
   }
-  handlePostData() {}
+  handlePostData = (title, content) => () => {
+    let currentPost = {
+      title,
+      content,
+    };
+    localStorage.setItem('currentPost', JSON.stringify(currentPost));
+  };
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
 
@@ -110,8 +118,6 @@ class DevPost extends Component {
     }
   };
   render() {
-    console.log('PROPS =>', this.props);
-    console.log('STATE =>', this.state);
     const { isLike, post } = this.state;
     let color, title, content, Likes;
     if (isLike) {
@@ -149,7 +155,7 @@ class DevPost extends Component {
             <Link
               to="/DevpostEdit"
               className="cl_Post_Edit_Btn"
-              onClick={() => this.handlePostData()}
+              onClick={this.handlePostData(title, content)}
             >
               Edit
             </Link>
@@ -158,23 +164,53 @@ class DevPost extends Component {
           <div className="cl_Post_Contents cl_PlainPost_Contents ">
             <div className="cl_Post_Content">
               Project concept
-              <div className="cl_Post_Contents">{content}</div>
+              <ReactMarkdown
+                className="cl_Post_Contents"
+                source={content}
+                renderers={{
+                  code: CodeBlock,
+                }}
+              />
             </div>
             <div className="cl_Post_Content">
               Coding Strategy
-              <div className="cl_Post_Contents">{content}</div>
+              <ReactMarkdown
+                className="cl_Post_Contents"
+                source={content}
+                renderers={{
+                  code: CodeBlock,
+                }}
+              />
             </div>
             <div className="cl_Post_Content">
               Error handling
-              <div className="cl_Post_Contents">{content}</div>
+              <ReactMarkdown
+                className="cl_Post_Contents"
+                source={content}
+                renderers={{
+                  code: CodeBlock,
+                }}
+              />
             </div>
             <div className="cl_Post_Content">
               Referenece
-              <div className="cl_Post_Contents">{content}</div>
+              <ReactMarkdown
+                className="cl_Post_Contents"
+                source={content}
+                renderers={{
+                  code: CodeBlock,
+                }}
+              />
             </div>
             <div className="cl_Post_Content">
               Lesson
-              <div className="cl_Post_Contents">{content}</div>
+              <ReactMarkdown
+                className="cl_Post_Contents"
+                source={content}
+                renderers={{
+                  code: CodeBlock,
+                }}
+              />
             </div>
           </div>
           <div className="cl_Post_Tags cl_Post_set">

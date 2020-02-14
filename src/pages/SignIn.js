@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
 // * component
-import NormalSignIn from '../components/signin/NormalSignIn';
-import GithubSignIn from '../components/signin/GithubSignIn';
+import DeveloperSignIn from '../components/signin/DeveloperSignIn'
+import CompanySignIn from '../components/company/';
 
 class SignIn extends Component {
   render() {
     console.log(this.props.isLogin);
-    if (this.props.isLogin) {
-      return <Redirect to="/" />;
-    } else {
+    if (!this.props.isLogin) {
       return (
-        <div>
-          <NormalSignIn />
-          <GithubSignIn />
-        </div>
+        <Router>
+          <Link to="/DeveloperSignIn">Developer Sign In</Link>
+          <Link to="/CompanySignIn">Company Sign In</Link>
+          <Route exact path="/DeveloperSignIn" component={DeveloperSignIn}></Route>
+          <Route exact path="/CompanySignIn" component={CompanySignIn}></Route>
+        </Router>
       );
+    } else {
+      return <Redirect to="/" />;
     }
   }
 }

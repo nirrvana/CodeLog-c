@@ -1,39 +1,47 @@
+// * Library
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { currentPage } from '../../redux/action';
 import { Link } from 'react-router-dom';
-import TabBlog from '../../pages/TabBlog';
+import { connect } from 'react-redux';
+import { PostEditPost } from '../../redux/api';
+import { currentPage } from '../../redux/action';
 import ReactMarkdown from 'react-markdown';
-import CodeBlock from './CodeBlock';
 import TextareaAutosize from 'react-textarea-autosize';
-
+// * File
+import TabBlog from '../../pages/TabBlog';
+import CodeBlock from './CodeBlock';
 // * CSS
-import { Tag, Input, Button, Menu, Icon, Dropdown, Avatar } from 'antd';
+import { Tag, Input, Button, Avatar, AutoComplete } from 'antd';
+
+const dataSource = ['React', 'Redux', 'TypeScript'];
+function onSelect(value) {
+  console.log('onSelect', value);
+}
 
 class PlainPostEdit extends Component {
   state = {
-    input: '',
+    value: '',
+    title: JSON.parse(localStorage.getItem('currentPost')).title,
+    content: JSON.parse(localStorage.getItem('currentPost')).content,
+    tags: [],
+    selected_tag: null,
   };
 
   componentDidMount() {
     this.props.handlePage('Edit');
   }
-  handleInputData = (e) => {
-    console.log(e.target.value);
-    this.setState({ input: e.target.value });
+  handleInputData = (state) => (e) => {
+    this.setState({ [state]: e.target.value });
   };
-
-  handleDeleteLocalData() {
+  handlePublishBtn = () => {
     localStorage.removeItem('currentPost');
-  }
+    const { title, content } = this.state;
+    let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
+    PostEditPost(localData_id, title, content);
+    localStorage.removeItem('post_id');
+  };
   render() {
-    const menu = (
-      <Menu>
-        <Menu.Item key="1">React</Menu.Item>
-        <Menu.Item key="2">Redux</Menu.Item>
-        <Menu.Item key="3">TypeScript</Menu.Item>
-      </Menu>
-    );
+    const { value, title, content } = this.state;
+
     return (
       <div>
         <TabBlog></TabBlog>
@@ -42,7 +50,8 @@ class PlainPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            defaultValue={JSON.parse(localStorage.getItem('currentPost')).title}
+            onChange={this.handleInputData('title')}
+            defaultValue={title}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
@@ -54,14 +63,12 @@ class PlainPostEdit extends Component {
           <div className="cl_Plain_Edit_Content ">
             <TextareaAutosize
               className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-              onChange={this.handleInputData}
-              defaultValue={
-                JSON.parse(localStorage.getItem('currentPost')).contents
-              }
+              onChange={this.handleInputData('content')}
+              defaultValue={content}
             />
             <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
               <ReactMarkdown
-                source={this.state.input}
+                source={content}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -77,17 +84,25 @@ class PlainPostEdit extends Component {
               Redux
             </Tag>
           </div>
-          <Dropdown overlay={menu} className="cl_Tag_selector">
-            <Button>
-              Add tag <Icon type="down" />
-            </Button>
-          </Dropdown>
+          <AutoComplete
+            value={value}
+            onSelect={onSelect}
+            onChange={this.onChange}
+            style={{ width: 200 }}
+            dataSource={dataSource}
+            placeholder="Find a tag"
+            filterOption={(inputValue, option) =>
+              option.props.children
+                .toUpperCase()
+                .indexOf(inputValue.toUpperCase()) !== -1
+            }
+          />
           <Button
             type="primary"
             className="cl_Edit_Publish_Btn"
-            onClick={() => this.handleDeleteLocalData()}
+            onClick={this.handlePublishBtn}
           >
-            <Link to="/PlainPost">Publish</Link>
+            <Link to="/Blog">Publish</Link>
           </Button>
           <div className="cl_post_Margin"></div>
         </div>
