@@ -14,16 +14,16 @@ export default class TechTemplate extends Component {
     tech_definition: '',
     tech_example: '',
     tech_precaution: '',
-    tech_recommended_concept:'',
+    tech_recommended_concept: '',
     tags: [],
     selected_tags: [],
   };
 
   componentDidMount() {
     getTags()
-      .then(({ data }) =>
+      .then(({ data: { tags } }) =>
         this.setState({
-          tags: data,
+          tags,
         }),
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
@@ -92,7 +92,7 @@ export default class TechTemplate extends Component {
       tech_example,
       tech_precaution,
       tech_recommended_concept,
-      tags
+      tags,
     } = this.state;
     return (
       <div>
@@ -191,7 +191,9 @@ export default class TechTemplate extends Component {
                 />
               </div>
             </div>
-            <div className="cl_Post_Edit_Subtitle ">Tech recommended concept</div>
+            <div className="cl_Post_Edit_Subtitle ">
+              Tech recommended concept
+            </div>
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
