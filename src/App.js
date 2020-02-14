@@ -9,6 +9,7 @@ import {
 
 import WriteDevPost from './pages/WriteDevPost';
 import WritePlainPost from './pages/WritePlainPost';
+import WriteTILPost from './pages/WriteTILPost';
 import Callback from './components/signin/Callback';
 import pages from './pages';
 import components from './components';
@@ -26,6 +27,7 @@ export default class App extends Component {
             <Route exact path="/" component={pages.HomePage} />
             <Route path="/WriteDevPost" component={WriteDevPost}></Route>
             <Route path="/WritePlainPost" component={WritePlainPost}></Route>
+            <Route path="/WriteTILPost" component={WritePlainPost}></Route>
             <Route path="/SignIn" component={pages.SignIn}></Route>
             <Route path="/SignUp" component={pages.SignUpPage} />
             <Route path="/MyPage" component={pages.developer.MyPage} />
