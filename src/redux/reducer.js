@@ -30,9 +30,7 @@ function mypage(state = mypageInitialState, action) {
         tag_count: action.tag_count,
       };
     default:
-      return {
-        state,
-      };
+      return state;
   }
 }
 const PostInitialState = {
