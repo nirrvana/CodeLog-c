@@ -48,11 +48,26 @@
   justify-content: flex-start;
 }
 .cl_ListElement {
+  color: rgb(89, 89, 89);
+  overflow: hidden;
   margin-top: 5%;
   width: 200px;
   height: 175px;
   padding: 5%;
 }
-.cl_Company_Image {
-  width: 100%;
+.cl_ListElement_Title {
+  color: black;
+  font-size: xx-large;
+}
+.cl_ListElement_Content {
+  font-size: larger;
+  height: 98px;
+}
+.cl_ListElement_Likes {
+  float: left;
+}
+.cl_ListElement_UpdatedAt {
+  float: right;
+}
+.cl_ListElement_Set {
 }

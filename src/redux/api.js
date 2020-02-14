@@ -60,6 +60,11 @@ export function postCodeData(code) {
   });
 }
 
+// ? Home
+export function getHomeData() {
+  return axios.get(`${HOST}/home`);
+}
+
 // ? My page
 export function getMyPageData(token) {
   return axios.get(`${HOST}/mypage`, {
