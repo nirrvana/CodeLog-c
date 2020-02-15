@@ -13,9 +13,9 @@ import CompanySignIn from '../components/company/CompanySignIn';
 
 class SignIn extends Component {
   render() {
-    const cookie = document.cookie.slice(6);
-    console.log('cookie', cookie);
-    if (!cookie) {
+    const token = document.cookie.slice(6);
+    console.log('token', token);
+    if (!token) {
       return (
         <Router>
           <Link to="/DeveloperSignIn">Developer Sign In</Link>
