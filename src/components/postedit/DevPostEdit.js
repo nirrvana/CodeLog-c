@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { PostEditPost } from '../../redux/api';
+import { PostEditPost, getSelectPost } from '../../redux/api';
 import { currentPage } from '../../redux/action';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -21,6 +21,7 @@ function onSelect(value) {
 class DevPostEdit extends Component {
   state = {
     value: '',
+    post: {},
     title: JSON.parse(localStorage.getItem('currentPost')).title,
     concept: JSON.parse(localStorage.getItem('currentPost')).content,
     Strategy: JSON.parse(localStorage.getItem('currentPost')).content,
@@ -30,8 +31,20 @@ class DevPostEdit extends Component {
     tags: [],
     selected_tag: null,
   };
+
   componentDidMount() {
     this.props.handlePage('Edit');
+
+    let id = this.props.PostState.currentPost.id;
+    if (id) {
+      localStorage.setItem('post_id', JSON.stringify({ id: id }));
+    } else {
+      id = JSON.parse(localStorage.getItem('post_id')).id;
+    }
+
+    getSelectPost(id).then((res) => {
+      this.setState({ post: Object.assign(this.state.post, res.data) });
+    });
   }
 
   onChange = (value) => {
@@ -40,7 +53,7 @@ class DevPostEdit extends Component {
   handleInputData = (state) => (e) => {
     this.setState({ [state]: e.target.value });
   };
-  handlePublishBtn = () => {
+  handlePublishBtn = async () => {
     localStorage.removeItem('currentPost');
     const {
       title,
@@ -52,19 +65,27 @@ class DevPostEdit extends Component {
     } = this.state;
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = concept + Strategy + handling + Referenece + Lesson;
-    PostEditPost(localData_id, title, content);
+    await PostEditPost(localData_id, title, content);
     localStorage.removeItem('post_id');
   };
   render() {
     const {
       value,
-      title,
       concept,
       Strategy,
       handling,
       Referenece,
       Lesson,
+      post,
     } = this.state;
+    console.log(post);
+    let PropTitle, userName;
+    if (!Object.keys(post).length) {
+      return <dev></dev>;
+    } else {
+      PropTitle = post.title;
+      userName = post.users.username;
+    }
     return (
       <div>
         <TabBlog></TabBlog>
@@ -73,14 +94,14 @@ class DevPostEdit extends Component {
             className="cl_Edit_Title cl_Post_set "
             type="text"
             onChange={this.handleInputData('title')}
-            defaultValue={title}
+            defaultValue={PropTitle}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">Root</div>
+            <div className="cl_Post_author">{userName}</div>
           </div>
           <div className="cl_Post_Contents ">
             <div className="cl_Post_Edit_Subtitle ">Project concept</div>

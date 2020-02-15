@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getSelectPost } from '../../redux/api';
+import { getSelectPost, PostDeletePost } from '../../redux/api';
 import { currentPost, currentPage } from '../../redux/action';
 import TabBlog from '../../pages/TabBlog';
 import { getRandomInt, colorArray } from '../../TagColor';
@@ -20,6 +20,8 @@ import {
   Icon,
   Popover,
   Avatar,
+  Dropdown,
+  Menu,
 } from 'antd';
 import moment from 'moment';
 const { TextArea } = Input;
@@ -103,6 +105,12 @@ class DevPost extends Component {
     };
     localStorage.setItem('currentPost', JSON.stringify(currentPost));
   };
+  handlDeletePost = async () => {
+    console.log('ID!!:', this.state.post.id);
+    await PostDeletePost(this.state.post.id).then((res) => {
+      console.log('응답', res);
+    });
+  };
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
 
@@ -120,22 +128,37 @@ class DevPost extends Component {
   };
   render() {
     const { isLike, post } = this.state;
-    console.log(post);
+
+    console.log('포스트', post);
     let color, title, content, Likes, userName;
+    // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
     }
     if (!Object.keys(post).length) {
-      title = '';
-      userName = '';
-      content = '';
-      Likes = 0;
+      return <></>;
     } else {
       title = post.title;
       userName = post.users.username;
       content = post.content;
       Likes = post.likes;
     }
+
+    const menu = (
+      <Menu>
+        <Menu.Item key="0">
+          <Link to="/DevpostEdit" onClick={this.handlePostData(title, content)}>
+            Edit
+          </Link>
+        </Menu.Item>
+
+        <Menu.Item key="1">
+          <Link to="/Blog" onClick={this.handlDeletePost}>
+            Delete
+          </Link>
+        </Menu.Item>
+      </Menu>
+    );
     return (
       <div>
         <TabBlog></TabBlog>
@@ -147,7 +170,7 @@ class DevPost extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}}</div>
+            <div className="cl_Post_author">{userName}</div>
 
             <Tooltip
               className="cl_Post_Time"
@@ -156,13 +179,9 @@ class DevPost extends Component {
               <div>{moment(this.state.post.updatedAt).fromNow()}</div>
             </Tooltip>
 
-            <Link
-              to="/DevpostEdit"
-              className="cl_Post_Edit_Btn"
-              onClick={this.handlePostData(title, content)}
-            >
-              Edit
-            </Link>
+            <Dropdown overlay={menu} trigger={['click']}>
+              <Icon type="setting" className="cl_Post_Edit_Btn" />
+            </Dropdown>
           </div>
 
           <div className="cl_Post_Contents cl_PlainPost_Contents ">

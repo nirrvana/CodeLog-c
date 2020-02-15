@@ -66,7 +66,8 @@
 /* ? Post Page Edit 버튼 */
 .cl_Post_Edit_Btn {
   margin-left: auto;
-  color: rgb(161, 161, 161);
+  color: rgb(161, 161, 161) !important;
+  font-size: large;
 }
 .cl_Post_Edit_Btn:hover {
   margin-left: auto;
