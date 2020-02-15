@@ -84,6 +84,10 @@ export function getTags() {
   return axios.get(`${HOST}/tags`);
 }
 
+export function getMyPageCompany() {
+  return axios.get(`${HOST}/mypage/company`)
+}
+
 // ? Write post
 export function postPlainPost(theme, title, content, selected_tags) {
   return axios.post(`${HOST}/post`, {
