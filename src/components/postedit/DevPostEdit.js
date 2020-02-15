@@ -18,7 +18,7 @@ class DevPostEdit extends Component {
   state = {
     value: '',
     post: {},
-    title: null,
+    title: JSON.parse(localStorage.getItem('currentPost')).title,
     concept: JSON.parse(localStorage.getItem('currentPost')).content,
     Strategy: JSON.parse(localStorage.getItem('currentPost')).content,
     handling: JSON.parse(localStorage.getItem('currentPost')).content,

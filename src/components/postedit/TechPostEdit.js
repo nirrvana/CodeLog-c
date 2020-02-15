@@ -21,7 +21,7 @@ class TechPostEdit extends Component {
   state = {
     value: '',
     post: {},
-    title: null,
+    title: JSON.parse(localStorage.getItem('currentPost')).title,
     concept: JSON.parse(localStorage.getItem('currentPost')).content,
     background: JSON.parse(localStorage.getItem('currentPost')).content,
     definition: JSON.parse(localStorage.getItem('currentPost')).content,
