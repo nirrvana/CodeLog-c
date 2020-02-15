@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom
 
 // * component
 import DeveloperSignIn from '../components/signin/DeveloperSignIn'
-import CompanySignIn from '../components/company/';
+import CompanySignIn from '../components/company/CompanySignIn';
 
 class SignIn extends Component {
   render() {
