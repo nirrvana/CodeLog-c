@@ -31,6 +31,11 @@
   font-size: large;
   font-weight: normal;
 }
+.cl_Post_Tags {
+  margin-bottom: 2% !important;
+  align-items: center;
+  display: flex !important;
+}
 .cl_Post_Tag {
   font-size: large;
   margin-top: 2%;

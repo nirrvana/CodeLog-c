@@ -2,12 +2,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getSelectPost, PostDeletePost } from '../../redux/api';
-import { currentPost, currentPage } from '../../redux/action';
-import TabBlog from '../../pages/TabBlog';
-import { getRandomInt, colorArray } from '../../TagColor';
 import ReactMarkdown from 'react-markdown';
+// * File
+import TabBlog from '../../pages/TabBlog';
 import CodeBlock from '../postedit/CodeBlock';
+import { getRandomInt, colorArray } from '../../TagColor';
+import { currentPost, currentPage } from '../../redux/action';
+import { getSelectPost, PostDeletePost } from '../../redux/api';
 
 // * CSS
 import {
@@ -79,6 +80,7 @@ const data = [
   },
 ];
 
+// ! Component
 class DevPost extends Component {
   state = {
     post: {},
@@ -98,18 +100,16 @@ class DevPost extends Component {
       this.setState({ post: Object.assign(this.state.post, res.data) });
     });
   }
-  handlePostData = (title, content) => () => {
+  handlePostData = (title, content, tags) => () => {
     let currentPost = {
       title,
       content,
+      tags,
     };
     localStorage.setItem('currentPost', JSON.stringify(currentPost));
   };
   handlDeletePost = async () => {
-    console.log('ID!!:', this.state.post.id);
-    await PostDeletePost(this.state.post.id).then((res) => {
-      console.log('응답', res);
-    });
+    await PostDeletePost(this.state.post.id);
   };
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
@@ -128,12 +128,15 @@ class DevPost extends Component {
   };
   render() {
     const { isLike, post } = this.state;
-
     console.log('포스트', post);
-    let color, title, content, Likes, userName;
+    let tagView, color, title, content, Likes, userName, tags;
+
     // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
+    }
+    if (post.tags === undefined || !post.tags.length) {
+      tagView = 'none';
     }
     if (!Object.keys(post).length) {
       return <></>;
@@ -141,13 +144,17 @@ class DevPost extends Component {
       title = post.title;
       userName = post.users.username;
       content = post.content;
+      tags = post.tags;
       Likes = post.likes;
     }
 
     const menu = (
       <Menu>
         <Menu.Item key="0">
-          <Link to="/DevpostEdit" onClick={this.handlePostData(title, content)}>
+          <Link
+            to="/DevpostEdit"
+            onClick={this.handlePostData(title, content, tags)}
+          >
             Edit
           </Link>
         </Menu.Item>
@@ -238,7 +245,8 @@ class DevPost extends Component {
           </div>
           <div className="cl_Post_Tags cl_Post_set">
             <List
-              dataSource={['react', 'redux']}
+              style={{ display: tagView }}
+              dataSource={this.state.post.tags}
               renderItem={(item) => (
                 <span>
                   <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>
