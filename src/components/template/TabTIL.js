@@ -13,10 +13,10 @@ export default class TabTIL extends Component {
           <Link to="/WritePlainPost">Plain post</Link>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteDevPost">Dev post</Link>
+          <Link to="/WriteTechPost">Tech post</Link>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteTechPost">Tech post</Link>
+          <Link to="/WriteDevPost">Dev post</Link>
         </Menu.Item>
       </Menu>
     );

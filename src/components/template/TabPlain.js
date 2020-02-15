@@ -10,13 +10,13 @@ export default class TabPlain extends Component {
     const post_type = (
       <Menu>
         <Menu.Item>
-          <Link to="/WriteDevPost">Dev post</Link>
+          <Link to="/WriteTILPost">TIL post</Link>
         </Menu.Item>
         <Menu.Item>
           <Link to="/WriteTechPost">Tech post</Link>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteTILPost">TIL post</Link>
+          <Link to="/WriteDevPost">Dev post</Link>
         </Menu.Item>
       </Menu>
     );

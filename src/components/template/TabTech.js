@@ -13,10 +13,10 @@ export default class TabTech extends Component {
           <Link to="/WritePlainPost">Plain post</Link>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteDevPost">Dev post</Link>
+          <Link to="/WriteTILPost">TIL post</Link>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteTILPost">TIL post</Link>
+          <Link to="/WriteDevPost">Dev post</Link>
         </Menu.Item>
       </Menu>
     );

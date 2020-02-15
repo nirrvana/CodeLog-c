@@ -13,11 +13,12 @@ export default class TabDev extends Component {
           <Link to="/WritePlainPost">Plain post</Link>
         </Menu.Item>
         <Menu.Item>
-          <Link to="/WriteTechPost">Tech post</Link>
-        </Menu.Item>
-        <Menu.Item>
           <Link to="/WriteTILPost">TIL post</Link>
         </Menu.Item>
+        <Menu.Item>
+          <Link to="/WriteTechPost">Tech post</Link>
+        </Menu.Item>
+
       </Menu>
     );
     return (
