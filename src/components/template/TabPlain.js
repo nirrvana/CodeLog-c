@@ -39,7 +39,7 @@ export default class TabPlain extends Component {
               <Link to="/MyPage">MyPage</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to="/">Sign Out</Link>
+              <Link to="/SignOut">Sign Out</Link>
             </Menu.Item>
           </Menu>
         </Header>

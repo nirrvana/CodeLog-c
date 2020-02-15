@@ -13,6 +13,7 @@ import WritePlainPost from './pages/WritePlainPost';
 import WriteTechPost from './pages/WriteTechPost';
 import WriteTILPost from './pages/WriteTILPost';
 import Callback from './components/signin/Callback';
+import SignOut from './components/signout/SignOut'
 import pages from './pages';
 import components from './components';
 
@@ -32,6 +33,7 @@ class App extends Component {
             <Route path="/WritePlainPost" component={WritePlainPost}></Route>
             <Route path="/WriteTechPost" component={WriteTechPost}></Route>
             <Route path="/WriteTILPost" component={WriteTILPost}></Route>
+            <Route path="/SignOut" component={SignOut}></Route>
             <Route path="/SignIn" component={pages.SignIn}></Route>
             <Route path="/SignUp" component={pages.SignUpPage} />
             <Route path="/MyPage" component={pages.developer.MyPage} />

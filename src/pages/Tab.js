@@ -19,7 +19,7 @@ class Tab extends Component {
                 <Link to="/"> CODE | LOG</Link>
               </Menu.Item>
               <Menu.Item>
-                <Link to="/">Sign Out</Link>
+                <Link to="/SignOut">Sign Out</Link>
               </Menu.Item>
               <Menu.Item>
                 <Link to="/Blog">Blog</Link>
