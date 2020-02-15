@@ -22,14 +22,6 @@ class CompanySignIn extends Component {
     );
   };
 
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  };
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -98,19 +90,6 @@ class CompanySignIn extends Component {
               },
             ],
           })(<Input.Password />)}
-        </Form.Item>
-        <Form.Item label="Confirm Password" hasFeedback>
-          {getFieldDecorator('confirm', {
-            rules: [
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
-              {
-                validator: this.compareToFirstPassword,
-              },
-            ],
-          })(<Input.Password onBlur={this.handleConfirmBlur} />)}
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
