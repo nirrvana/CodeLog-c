@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Tag, Input, Button, Avatar, AutoComplete, List } from 'antd';
 import CodeBlock from '../../components/postedit/CodeBlock';
-import { getTags, postDevPost } from '../../redux/api';
+import { getTags, postPlainPost } from '../../redux/api';
 import { getRandomInt, colorArray } from '../../TagColor';
 
 export default class PlainTemplate2 extends Component {
@@ -53,7 +53,7 @@ export default class PlainTemplate2 extends Component {
     const { theme, title, content, selected_tags } = this.state;
     console.log(111, theme, title, content, selected_tags);
 
-    postDevPost(theme, title, content, selected_tags)
+    postPlainPost(theme, title, content, selected_tags)
       .then((res) => window.alert('post successfully!'))
       .catch((err) => window.alert('fail to post..'));
   };
@@ -81,7 +81,7 @@ export default class PlainTemplate2 extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputChange('project_concept')}
+                onChange={this.handleInputChange('content')}
                 defaultValue={'hello'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">

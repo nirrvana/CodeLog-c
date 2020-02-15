@@ -115,7 +115,7 @@ export default class TechTemplate extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputChange('project_concept')}
+                onChange={this.handleInputChange('tech_concept')}
                 defaultValue={'hello'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -131,7 +131,7 @@ export default class TechTemplate extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputChange('coding_strategy')}
+                onChange={this.handleInputChange('tech_background')}
                 defaultValue={'hello'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -147,7 +147,7 @@ export default class TechTemplate extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputChange('occurred_error')}
+                onChange={this.handleInputChange('tech_definition')}
                 defaultValue={'hello'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -163,7 +163,7 @@ export default class TechTemplate extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputChange('reference')}
+                onChange={this.handleInputChange('tech_example')}
                 defaultValue={'hello'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -179,7 +179,7 @@ export default class TechTemplate extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputChange('lesson')}
+                onChange={this.handleInputChange('tech_precaution')}
                 defaultValue={'hello'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -197,7 +197,7 @@ export default class TechTemplate extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputChange('lesson')}
+                onChange={this.handleInputChange('tech_recommended_concept')}
                 defaultValue={'hello'}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
