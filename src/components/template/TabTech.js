@@ -10,28 +10,13 @@ export default class TabTech extends Component {
     const post_type = (
       <Menu>
         <Menu.Item>
-          <a
-            rel="noopener noreferrer"
-            href="http://localhost:3000/WritePlainPost"
-          >
-            PlainPost
-          </a>
+          <Link to="/WritePlainPost">Plain post</Link>
         </Menu.Item>
         <Menu.Item>
-          <a
-            rel="noopener noreferrer"
-            href="http://localhost:3000/WriteDevPost"
-          >
-            DevPost
-          </a>
+          <Link to="/WriteDevPost">Dev post</Link>
         </Menu.Item>
         <Menu.Item>
-          <a
-            rel="noopener noreferrer"
-            href="http://localhost:3000/WriteTILPost"
-          >
-            TILPost
-          </a>
+          <Link to="/WriteTILPost">TIL post</Link>
         </Menu.Item>
       </Menu>
     );
