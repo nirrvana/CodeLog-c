@@ -10,7 +10,9 @@ const { Header } = Layout;
 class Tab extends Component {
   render() {
     const { isLogin } = this.props;
-    if (isLogin) {
+    const cookie = document.cookie.slice(6)
+    console.log('cookie', cookie)
+    if (cookie) {
       return (
         <Layout className="layout">
           <Header className="cl_Tab_Header">

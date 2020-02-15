@@ -22,7 +22,6 @@ import 'antd/dist/antd.css';
 
 class App extends Component {
   render() {
-    console.log(this.props.isLogin);
     return (
       <div>
         <Router>
