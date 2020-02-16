@@ -65,7 +65,7 @@ class TabBlog extends Component {
               <Link to="/Mypage">My page</Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to="/">Sign Out</Link>
+              <Link to="/SignOut">Sign Out</Link>
             </Menu.Item>
           </Menu>
         </Header>
