@@ -1,8 +1,12 @@
+// * Library
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
+// * File
+import CodeBlock from '../../postedit/CodeBlock';
 import { currentPost } from '../../../redux/action';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 
 class RecentPostListElement extends Component {
   render() {
@@ -20,7 +24,13 @@ class RecentPostListElement extends Component {
                 {data.title}
               </div>
               <div className="cl_ListElement_Content cl_ListElement_Set">
-                {data.content.slice(0, 30) + '...'}
+                <ReactMarkdown
+                  className="cl_Post_Contents"
+                  source={data.content.slice(0, 50)}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
               </div>
               <div className="cl_ListElement_Set ">
                 <span className="cl_ListElement_Likes ">

@@ -21,7 +21,7 @@ class TILPostEdit extends Component {
   state = {
     value: '',
     post: {},
-    title: null,
+    title: JSON.parse(localStorage.getItem('currentPost')).title,
     Fact: JSON.parse(localStorage.getItem('currentPost')).content,
     Feeling: JSON.parse(localStorage.getItem('currentPost')).content,
     Finding: JSON.parse(localStorage.getItem('currentPost')).content,

@@ -21,7 +21,7 @@ class PlainPostEdit extends Component {
   state = {
     value: '',
     post: {},
-    title: null,
+    title: JSON.parse(localStorage.getItem('currentPost')).title,
     content: JSON.parse(localStorage.getItem('currentPost')).content,
     tags: [],
     selected_tag: null,
