@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { postSignInData } from '../../redux/api';
 import { signin } from '../../redux/action';
-
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 
 class NormalSignInForm extends React.Component {
@@ -13,12 +12,10 @@ class NormalSignInForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, { email, password }) => {
-      console.log(email, password);
       if (!err) {
         postSignInData(email, password)
           .then((res) => {
             if (res.status === 200) {
-              console.log(res);
               this.props.handleSignin();
             }
           })
