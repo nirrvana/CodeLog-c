@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
+// * Library
 import React, { Component } from 'react';
-// * Components
-import { getHomeData } from '../../redux/api';
+
+// * File
 import Tab from '../../pages/Tab';
+import { getHomeData } from '../../redux/api';
 import Newcompany from './newcompany/NewCompanyList';
 import RecentPostList from './recentpost/RecentPostList';
 import RecommandedPostList from './recommandedpost/RecommandedPostList';
@@ -13,7 +15,7 @@ export default class Home extends Component {
   };
   componentDidMount() {
     getHomeData().then((res) => {
-      // ! console.log('응답 : ',res);
+      console.log('응답 : ', res);
       this.setState({ contents: Object.assign(this.state.contents, res.data) });
     });
   }

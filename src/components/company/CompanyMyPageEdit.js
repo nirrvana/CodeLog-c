@@ -15,6 +15,7 @@ import {
   Modal,
   Icon,
   Dropdown,
+  message,
 } from 'antd';
 const { Header } = Layout;
 // ? 글자수 제한
@@ -118,19 +119,27 @@ export default class CompanyMyPageEdit extends Component {
 
   // ! RENDER
   render() {
+    const { data } = this.state;
     const menu = (
       <Menu onClick={this.handleMenuClick}>
         <Menu.Item key="1" onClick={this.handleInputValue('member')}>
           Member view
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="1" onClick={this.showModal('member')}>
+        <Menu.Item
+          onClick={
+            data.length === 5
+              ? () =>
+                  message.error('기업 유저는 최대 5명까지 추가할 수 있습니다.')
+              : this.showModal('member')
+          }
+        >
           Add member
         </Menu.Item>
-        <Menu.Item key="2" onClick={this.handleInputValue('isEdit')}>
+        <Menu.Item onClick={this.handleInputValue('isEdit')}>
           Edit member
         </Menu.Item>
-        <Menu.Item key="3" onClick={this.handleInputValue('isDelete')}>
+        <Menu.Item onClick={this.handleInputValue('isDelete')}>
           Delete member
         </Menu.Item>
       </Menu>
@@ -147,11 +156,12 @@ export default class CompanyMyPageEdit extends Component {
                 <Link to="/">CODE | LOG</Link>
               </Menu.Item>
               <Menu.Item>
-                <Link to="/">Sign Out</Link>
+                <Link to="/SignOut">Sign Out</Link>
               </Menu.Item>
             </Menu>
           </Header>
         </Layout>
+
         <div className="cl_CompanyMyPage">
           <Link to="/CompanyMypage" className="cl_Post_Edit_Btn">
             Update

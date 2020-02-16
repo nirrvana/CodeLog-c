@@ -1,5 +1,11 @@
 import { combineReducers } from 'redux';
-import { SIGN_IN, GET_MY_PAGE, POST_SELECT, PAGE_SELECT } from './action';
+import {
+  SIGN_IN,
+  GET_MY_PAGE,
+  POST_SELECT,
+  PAGE_SELECT,
+  SIGN_OUT,
+} from './action';
 
 const sessionInitialState = {
   isLogin: false,
@@ -10,6 +16,10 @@ function session(state = sessionInitialState, action) {
     case SIGN_IN:
       return {
         isLogin: true,
+      };
+    case SIGN_OUT:
+      return {
+        isLogin: false,
       };
     default:
       return state;

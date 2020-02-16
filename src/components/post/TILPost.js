@@ -1,12 +1,14 @@
+// * Library
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { currentPost, currentPage } from '../../redux/action';
-import { getSelectPost } from '../../redux/api';
-import TabBlog from '../../pages/TabBlog';
-import { getRandomInt, colorArray } from '../../TagColor';
+import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
+// * File
+import TabBlog from '../../pages/TabBlog';
 import CodeBlock from '../postedit/CodeBlock';
+import { getRandomInt, colorArray } from '../../TagColor';
+import { currentPost, currentPage } from '../../redux/action';
+import { getSelectPost, PostDeletePost } from '../../redux/api';
 
 // * CSS
 import {
@@ -19,6 +21,8 @@ import {
   Icon,
   Popover,
   Avatar,
+  Dropdown,
+  Menu,
 } from 'antd';
 import moment from 'moment';
 const { TextArea } = Input;
@@ -95,7 +99,6 @@ class TILPost extends Component {
       this.setState({ post: Object.assign(this.state.post, res.data) });
     });
   }
-
   handlePostData = (title, content) => () => {
     let currentPost = {
       title,
@@ -103,7 +106,9 @@ class TILPost extends Component {
     };
     localStorage.setItem('currentPost', JSON.stringify(currentPost));
   };
-
+  handlDeletePost = async () => {
+    await PostDeletePost(this.state.post.id);
+  };
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
 
@@ -122,9 +127,13 @@ class TILPost extends Component {
   render() {
     const { isLike, post } = this.state;
     console.log(post);
-    let color, title, content, Likes, userName;
+    let tagView, color, title, content, Likes, userName;
+
     if (isLike) {
       color = 'red';
+    }
+    if (post.tags === undefined || !post.tags.length) {
+      tagView = 'none';
     }
     if (!Object.keys(post).length) {
       title = '';
@@ -137,6 +146,21 @@ class TILPost extends Component {
       content = post.content;
       Likes = post.likes;
     }
+    const menu = (
+      <Menu>
+        <Menu.Item key="0">
+          <Link to="/TILpostEdit" onClick={this.handlePostData(title, content)}>
+            Edit
+          </Link>
+        </Menu.Item>
+
+        <Menu.Item key="1">
+          <Link to="/Blog" onClick={this.handlDeletePost}>
+            Delete
+          </Link>
+        </Menu.Item>
+      </Menu>
+    );
     return (
       <div>
         <TabBlog></TabBlog>
@@ -156,13 +180,9 @@ class TILPost extends Component {
               <div>{moment(this.state.post.updatedAt).fromNow()}</div>
             </Tooltip>
 
-            <Link
-              to="/TILpostEdit"
-              className="cl_Post_Edit_Btn"
-              onClick={this.handlePostData(title, content)}
-            >
-              Edit
-            </Link>
+            <Dropdown overlay={menu} trigger={['click']}>
+              <Icon type="setting" className="cl_Post_Edit_Btn" />
+            </Dropdown>
           </div>
           <div className="cl_Post_Contents cl_PlainPost_Contents ">
             <div className="cl_Post_Content">
@@ -212,8 +232,9 @@ class TILPost extends Component {
           </div>
           <div className="cl_Post_Tags cl_Post_set">
             <List
+              style={{ display: tagView }}
               itemLayout="horizontal"
-              dataSource={['react', 'redux']}
+              dataSource={this.state.post.tags}
               renderItem={(item) => (
                 <span>
                   <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>

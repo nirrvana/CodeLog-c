@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
+
+// * component
+import DeveloperSignIn from '../components/signin/DeveloperSignIn';
+import CompanySignIn from '../components/company/CompanySignIn';
 
 class SignIn extends Component {
   render() {
-    if (!this.props.isLogin) {
+    const token = document.cookie.slice(6);
+    console.log('token', token);
+    if (!token) {
       return (
         <div>
           <Link to="/DeveloperSignIn">Developer Sign In</Link>
@@ -17,8 +27,4 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  isLogin: state.session.isLogin,
-});
-
-export default connect(mapStateToProps)(SignIn);
+export default SignIn;

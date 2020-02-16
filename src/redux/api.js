@@ -134,6 +134,10 @@ export function getSelectPost(id) {
 }
 
 // ? Edit post
-export function PostEditPost(id, title, content) {
-  return axios.post(`${HOST}/post/update`, { id, title, content });
+export function PostEditPost(id, title, content, tags) {
+  return axios.post(`${HOST}/post/update`, { id, title, content, tags });
+}
+// ? Delete post
+export function PostDeletePost(id) {
+  return axios.post(`${HOST}/post/delete`, { id });
 }

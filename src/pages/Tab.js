@@ -10,7 +10,9 @@ const { Header } = Layout;
 class Tab extends Component {
   render() {
     const { isLogin } = this.props;
-    if (isLogin) {
+    const cookie = document.cookie.slice(6)
+    console.log('cookie', cookie)
+    if (cookie) {
       return (
         <Layout className="layout">
           <Header className="cl_Tab_Header">
@@ -19,7 +21,7 @@ class Tab extends Component {
                 <Link to="/"> CODE | LOG</Link>
               </Menu.Item>
               <Menu.Item>
-                <Link to="/">Sign Out</Link>
+                <Link to="/SignOut">Sign Out</Link>
               </Menu.Item>
               <Menu.Item>
                 <Link to="/Blog">Blog</Link>
