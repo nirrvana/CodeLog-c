@@ -2,45 +2,74 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { PostEditPost } from '../../redux/api';
-import { currentPage } from '../../redux/action';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
 // * File
-import TabBlog from '../../pages/TabBlog';
 import CodeBlock from './CodeBlock';
+import TabBlog from '../../pages/TabBlog';
+import { currentPage } from '../../redux/action';
+import { getRandomInt, colorArray } from '../../TagColor';
+import { PostEditPost, getSelectPost, getTags } from '../../redux/api';
 
 // * CSS
-import { Tag, Input, Button, Avatar, AutoComplete } from 'antd';
-
-const dataSource = ['React', 'Redux', 'TypeScript'];
-function onSelect(value) {
-  console.log('onSelect', value);
-}
+import { Tag, Input, Button, Avatar, AutoComplete, List, message } from 'antd';
 
 class DevPostEdit extends Component {
   state = {
     value: '',
-    title: JSON.parse(localStorage.getItem('currentPost')).title,
+    post: {},
+    title: null,
     concept: JSON.parse(localStorage.getItem('currentPost')).content,
     Strategy: JSON.parse(localStorage.getItem('currentPost')).content,
     handling: JSON.parse(localStorage.getItem('currentPost')).content,
     Referenece: JSON.parse(localStorage.getItem('currentPost')).content,
     Lesson: JSON.parse(localStorage.getItem('currentPost')).content,
-    tags: [],
-    selected_tag: null,
+    selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
+    dataSource: [],
   };
+
   componentDidMount() {
     this.props.handlePage('Edit');
+
+    let id = this.props.PostState.currentPost.id;
+    if (id) {
+      localStorage.setItem('post_id', JSON.stringify({ id: id }));
+    } else {
+      id = JSON.parse(localStorage.getItem('post_id')).id;
+    }
+    getSelectPost(id).then((res) => {
+      this.setState({
+        post: Object.assign(this.state.post, res.data),
+      });
+    });
+    getTags().then((res) => this.setState({ dataSource: res.data.tags }));
   }
+  // ? tag controll
+  onSelect = (value) => {
+    if (this.state.selected_tag.includes(value)) {
+      message.warning(`${value} is already added`);
+    } else {
+      this.setState({
+        selected_tag: this.state.selected_tag.concat([value]),
+      });
+    }
+  };
 
   onChange = (value) => {
     this.setState({ value });
   };
+
+  onClose = (item) => {
+    this.setState({
+      selected_tag: this.state.selected_tag.filter((tag) => tag !== item),
+    });
+  };
+  // ? input value change
   handleInputData = (state) => (e) => {
     this.setState({ [state]: e.target.value });
   };
-  handlePublishBtn = () => {
+  // ? publish
+  handlePublishBtn = async () => {
     localStorage.removeItem('currentPost');
     const {
       title,
@@ -49,22 +78,39 @@ class DevPostEdit extends Component {
       handling,
       Referenece,
       Lesson,
+      selected_tag,
     } = this.state;
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = concept + Strategy + handling + Referenece + Lesson;
-    PostEditPost(localData_id, title, content);
-    localStorage.removeItem('post_id');
+    console.log('request body:', localData_id, title, content, selected_tag);
+    await PostEditPost(localData_id, title, content, selected_tag);
   };
   render() {
     const {
       value,
-      title,
       concept,
       Strategy,
       handling,
       Referenece,
       Lesson,
+      post,
+      dataSource,
+      selected_tag,
     } = this.state;
+
+    let PropTitle, userName, tagView;
+
+    if (selected_tag === undefined || !selected_tag.length) {
+      tagView = 'none';
+    }
+
+    if (!Object.keys(post).length) {
+      return <></>;
+    } else {
+      PropTitle = post.title;
+      userName = post.users.username;
+    }
+
     return (
       <div>
         <TabBlog></TabBlog>
@@ -73,14 +119,14 @@ class DevPostEdit extends Component {
             className="cl_Edit_Title cl_Post_set "
             type="text"
             onChange={this.handleInputData('title')}
-            defaultValue={title}
+            defaultValue={PropTitle}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">Root</div>
+            <div className="cl_Post_author">{userName}</div>
           </div>
           <div className="cl_Post_Contents ">
             <div className="cl_Post_Edit_Subtitle ">Project concept</div>
@@ -166,17 +212,10 @@ class DevPostEdit extends Component {
               </div>
             </div>
           </div>
-          <div className="cl_Post_Tags cl_Post_set">
-            <Tag color="red" closable>
-              React
-            </Tag>
-            <Tag color="volcano" closable>
-              Redux
-            </Tag>
-          </div>
           <AutoComplete
+            className="cl_Post_Tags cl_Post_set"
             value={value}
-            onSelect={onSelect}
+            onSelect={this.onSelect}
             onChange={this.onChange}
             style={{ width: 200 }}
             dataSource={dataSource}
@@ -187,13 +226,30 @@ class DevPostEdit extends Component {
                 .indexOf(inputValue.toUpperCase()) !== -1
             }
           />
+          <div>
+            <List
+              style={{ display: tagView }}
+              dataSource={this.state.selected_tag}
+              renderItem={(item) => (
+                <span>
+                  <Tag
+                    closable
+                    color={colorArray[getRandomInt(0, 10)]}
+                    onClose={() => this.onClose(item)}
+                  >
+                    {item}
+                  </Tag>
+                </span>
+              )}
+            />
+          </div>
 
           <Button
             type="primary"
             className="cl_Edit_Publish_Btn"
             onClick={this.handlePublishBtn}
           >
-            <Link to="/Blog">Publish</Link>
+            <Link to="/Devpost">Publish</Link>
           </Button>
           <div className="cl_post_Margin"></div>
         </div>

@@ -12,7 +12,7 @@ class PlainPostListElement extends Component {
         <div className="cl_PostListElement_Title"> {data.title}</div>
         <ReactMarkdown
           className="cl_PostListElement_Contents"
-          source={data.content.slice(0, 100) + '...'}
+          source={data.content.slice(0, 100)}
           renderers={{
             code: CodeBlock,
           }}
