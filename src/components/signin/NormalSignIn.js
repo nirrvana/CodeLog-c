@@ -3,6 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { postSignInData } from '../../redux/api';
 import { signin } from '../../redux/action';
+import { Link, Route } from 'react-router-dom';
+import SignUp from '../../pages/SignUpPage';
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 
 class NormalSignInForm extends React.Component {
@@ -66,7 +68,7 @@ class NormalSignInForm extends React.Component {
           >
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <Link to="/SignUp">register now!</Link>
         </Form.Item>
       </Form>
     );

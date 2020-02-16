@@ -12,6 +12,8 @@ import WriteDevPost from './pages/WriteDevPost';
 import WritePlainPost from './pages/WritePlainPost';
 import WriteTechPost from './pages/WriteTechPost';
 import WriteTILPost from './pages/WriteTILPost';
+import DeveloperSignIn from './components/signin/DeveloperSignIn';
+import CompanySignIn from './components/company/CompanySignIn';
 import Callback from './components/signin/Callback';
 import SignOut from './components/signout/SignOut'
 import pages from './pages';
@@ -34,6 +36,8 @@ class App extends Component {
             <Route path="/WriteTILPost" component={WriteTILPost}></Route>
             <Route path="/SignOut" component={SignOut}></Route>
             <Route path="/SignIn" component={pages.SignIn}></Route>
+            <Route path="/DeveloperSignIn" component={DeveloperSignIn}></Route>
+            <Route path="/CompanySignIn" component={CompanySignIn}></Route>
             <Route path="/SignUp" component={pages.SignUpPage} />
             <Route path="/MyPage" component={pages.developer.MyPage} />
             <Route

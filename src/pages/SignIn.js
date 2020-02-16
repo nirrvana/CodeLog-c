@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import {
   BrowserRouter as Router,
   Route,
@@ -17,16 +16,10 @@ class SignIn extends Component {
     console.log('token', token);
     if (!token) {
       return (
-        <Router>
+        <div>
           <Link to="/DeveloperSignIn">Developer Sign In</Link>
           <Link to="/CompanySignIn">Company Sign In</Link>
-          <Route
-            exact
-            path="/DeveloperSignIn"
-            component={DeveloperSignIn}
-          ></Route>
-          <Route exact path="/CompanySignIn" component={CompanySignIn}></Route>
-        </Router>
+        </div>
       );
     } else {
       return <Redirect to="/" />;
@@ -34,8 +27,4 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  isLogin: state.session.isLogin,
-});
-
-export default connect(mapStateToProps)(SignIn);
+export default SignIn;

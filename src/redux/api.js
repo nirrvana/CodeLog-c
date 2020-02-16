@@ -60,6 +60,14 @@ export function postCodeData(code) {
   });
 }
 
+export function postCompanySignInData(company_code, username, password) {
+  return axios.post(`${HOST}/signin/company`, {
+    company_code,
+    username,
+    password
+  });
+}
+
 // ? Home
 export function getHomeData() {
   return axios.get(`${HOST}/home`);
@@ -74,6 +82,10 @@ export function getMyPageData(token) {
 
 export function getTags() {
   return axios.get(`${HOST}/tags`);
+}
+
+export function getMyPageCompany() {
+  return axios.get(`${HOST}/mypage/company`)
 }
 
 // ? Write post
