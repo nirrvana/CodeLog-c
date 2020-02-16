@@ -15,11 +15,11 @@
   font-size: -webkit-xxx-large;
 }
 .cl_Company_Name_Input {
-  padding: 0px;
-  font-size: -webkit-xxx-large;
-  border: none;
-  background: none;
-  height: auto;
+  padding: 0px !important;
+  font-size: -webkit-xxx-large !important;
+  border: none !important;
+  background: none !important;
+  height: auto !important;
 }
 .cl_Company_Info {
   font-size: x-large;
