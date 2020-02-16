@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Link,
-  Redirect,
-} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class SignIn extends Component {
   render() {
     if (!this.props.isLogin) {
       return (
-        <Router>
+        <div>
           <Link to="/DeveloperSignIn">Developer Sign In</Link>
           <Link to="/CompanySignIn">Company Sign In</Link>
-        </Router>
+        </div>
       );
     } else {
       return <Redirect to="/" />;
