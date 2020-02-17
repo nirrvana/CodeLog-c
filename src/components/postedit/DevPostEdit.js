@@ -81,7 +81,21 @@ class DevPostEdit extends Component {
     this.debouncedHandleChange();
   };
   debouncedHandleChange = () => {
-    this.handlePublish();
+    const {
+      title,
+      concept,
+      Strategy,
+      handling,
+      Referenece,
+      Lesson,
+    } = this.state;
+
+    let content = concept + Strategy + handling + Referenece + Lesson;
+
+    localStorage.setItem(
+      'PostSave',
+      JSON.stringify({ title: title, content: content }),
+    );
   };
 
   // ? publish
@@ -106,6 +120,7 @@ class DevPostEdit extends Component {
     console.log('request body:', localData_id, title, content, selected_tag);
     PostEditPost(localData_id, title, content, selected_tag);
   };
+  // ! Render
   render() {
     const {
       value,

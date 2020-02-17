@@ -76,6 +76,7 @@ class TILPostEdit extends Component {
     console.log('request body:', localData_id, title, content, selected_tag);
     PostEditPost(localData_id, title, content, selected_tag);
   };
+  // ! Render
   render() {
     const { value, post, Fact, Feeling, Finding, Future } = this.state;
 

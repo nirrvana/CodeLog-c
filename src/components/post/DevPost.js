@@ -108,8 +108,10 @@ class DevPost extends Component {
     };
     localStorage.setItem('currentPost', JSON.stringify(currentPost));
   };
-  handlDeletePost = async () => {
-    await PostDeletePost(this.state.post.id);
+  handlDeletePost = () => {
+    PostDeletePost(this.state.post.id).then((res) => {
+      console.log(res);
+    });
   };
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
