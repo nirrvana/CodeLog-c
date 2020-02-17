@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -58,7 +58,12 @@ class TILPostEdit extends Component {
     this.debouncedHandleChange();
   };
   debouncedHandleChange = () => {
-    this.handlePublish();
+    const { title, Fact, Feeling, Finding, Future } = this.state;
+    let content = Fact + Feeling + Finding + Future;
+    localStorage.setItem(
+      'PostSave',
+      JSON.stringify({ title: title, content: content }),
+    );
   };
 
   // ? publish
@@ -68,19 +73,23 @@ class TILPostEdit extends Component {
   };
 
   // 서버에 업데이트 요청 메소드
-  handlePublish = () => {
+  handlePublish = async () => {
     const { title, Fact, Feeling, Finding, Future, selected_tag } = this.state;
 
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = Fact + Feeling + Finding + Future;
     console.log('request body:', localData_id, title, content, selected_tag);
-    PostEditPost(localData_id, title, content, selected_tag);
+    await PostEditPost(localData_id, title, content, selected_tag);
+    this.setState({ isEdit: true });
   };
   // ! Render
   render() {
-    const { value, post, Fact, Feeling, Finding, Future } = this.state;
+    const { value, post, Fact, Feeling, Finding, Future, isEdit } = this.state;
 
     let PropTitle, userName;
+    if (isEdit) {
+      return <Redirect to="/Devpost">Publish</Redirect>;
+    }
     if (!Object.keys(post).length) {
       return <></>;
     } else {
@@ -198,7 +207,7 @@ class TILPostEdit extends Component {
             className="cl_Edit_Publish_Btn"
             onClick={this.handlePublishBtn}
           >
-            <Link to="/Blog">Publish</Link>
+            Publish
           </Button>
           <div className="cl_post_Margin"></div>
         </div>

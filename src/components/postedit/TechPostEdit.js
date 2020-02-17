@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -33,6 +33,7 @@ class TechPostEdit extends Component {
       recommand: JSON.parse(localStorage.getItem('currentPost')).content,
       tags: [],
       selected_tag: null,
+      isEdit: false,
     };
     this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
   }
@@ -60,7 +61,21 @@ class TechPostEdit extends Component {
     this.debouncedHandleChange();
   };
   debouncedHandleChange = () => {
-    this.handlePublish();
+    const {
+      title,
+      concept,
+      background,
+      definition,
+      example,
+      precausions,
+      recommand,
+    } = this.state;
+    let content =
+      concept + background + definition + example + precausions + recommand;
+    localStorage.setItem(
+      'PostSave',
+      JSON.stringify({ title: title, content: content }),
+    );
   };
 
   // ? publish
@@ -70,7 +85,7 @@ class TechPostEdit extends Component {
   };
 
   // 서버에 업데이트 요청 메소드
-  handlePublish = () => {
+  handlePublish = async () => {
     const {
       title,
       concept,
@@ -86,7 +101,8 @@ class TechPostEdit extends Component {
     let content =
       concept + background + definition + example + precausions + recommand;
     console.log('request body:', localData_id, title, content, selected_tag);
-    PostEditPost(localData_id, title, content, selected_tag);
+    await PostEditPost(localData_id, title, content, selected_tag);
+    this.setState({ isEdit: true });
   };
   // ! Render
   render() {
@@ -99,15 +115,20 @@ class TechPostEdit extends Component {
       precausions,
       recommand,
       post,
+      isEdit,
     } = this.state;
     console.log(post);
     let PropTitle, userName;
+    if (isEdit) {
+      return <Redirect to="/Devpost">Publish</Redirect>;
+    }
     if (!Object.keys(post).length) {
       return <></>;
     } else {
       PropTitle = post.title;
       userName = post.users.username;
     }
+
     return (
       <div>
         <TabBlog></TabBlog>
@@ -253,7 +274,7 @@ class TechPostEdit extends Component {
             className="cl_Edit_Publish_Btn"
             onClick={this.handlePublishBtn}
           >
-            <Link to="/Blog">Publish</Link>
+            Publish
           </Button>
           <div className="cl_post_Margin"></div>
         </div>

@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -29,6 +29,7 @@ class DevPostEdit extends Component {
       Lesson: JSON.parse(localStorage.getItem('currentPost')).content,
       selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
       dataSource: [],
+      isEdit: false,
     };
     this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
   }
@@ -91,7 +92,7 @@ class DevPostEdit extends Component {
     } = this.state;
 
     let content = concept + Strategy + handling + Referenece + Lesson;
-
+    // 로컬 스토리지에 저장 데이터 저장
     localStorage.setItem(
       'PostSave',
       JSON.stringify({ title: title, content: content }),
@@ -104,7 +105,7 @@ class DevPostEdit extends Component {
     this.handlePublish();
   };
   // 서버에 업데이트 요청 메소드
-  handlePublish = () => {
+  handlePublish = async () => {
     const {
       title,
       concept,
@@ -118,7 +119,8 @@ class DevPostEdit extends Component {
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = concept + Strategy + handling + Referenece + Lesson;
     console.log('request body:', localData_id, title, content, selected_tag);
-    PostEditPost(localData_id, title, content, selected_tag);
+    await PostEditPost(localData_id, title, content, selected_tag);
+    this.setState({ isEdit: true });
   };
   // ! Render
   render() {
@@ -132,6 +134,7 @@ class DevPostEdit extends Component {
       post,
       dataSource,
       selected_tag,
+      isEdit,
     } = this.state;
 
     let PropTitle, userName, tagView;
@@ -139,7 +142,9 @@ class DevPostEdit extends Component {
     if (selected_tag === undefined || !selected_tag.length) {
       tagView = 'none';
     }
-
+    if (isEdit) {
+      return <Redirect to="/Devpost">Publish</Redirect>;
+    }
     if (!Object.keys(post).length) {
       return <></>;
     } else {
@@ -286,7 +291,7 @@ class DevPostEdit extends Component {
             className="cl_Edit_Publish_Btn"
             onClick={this.handlePublishBtn}
           >
-            <Link to="/Devpost">Publish</Link>
+            Publish
           </Button>
           <div className="cl_post_Margin"></div>
         </div>

@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -28,6 +28,7 @@ class PlainPostEdit extends Component {
       content: JSON.parse(localStorage.getItem('currentPost')).content,
       tags: [],
       selected_tag: null,
+      isEdit: false,
     };
     this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
   }
@@ -54,7 +55,11 @@ class PlainPostEdit extends Component {
     this.debouncedHandleChange();
   };
   debouncedHandleChange = () => {
-    this.handlePublish();
+    const { title, content } = this.state;
+    localStorage.setItem(
+      'PostSave',
+      JSON.stringify({ title: title, content: content }),
+    );
   };
 
   // ? publish
@@ -64,15 +69,16 @@ class PlainPostEdit extends Component {
   };
 
   // 서버에 업데이트 요청 메소드
-  handlePublish = () => {
+  handlePublish = async () => {
     const { title, content } = this.state;
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     console.log('request body:', localData_id, title, content);
-    PostEditPost(localData_id, title, content);
+    await PostEditPost(localData_id, title, content);
+    this.setState({ isEdit: true });
   };
   // ! Render
   render() {
-    const { value, post, content } = this.state;
+    const { value, post, content, isEdit } = this.state;
     let PropTitle, userName;
     if (!Object.keys(post).length) {
       return <></>;
@@ -80,7 +86,9 @@ class PlainPostEdit extends Component {
       PropTitle = post.title;
       userName = post.users.username;
     }
-
+    if (isEdit) {
+      return <Redirect to="/Devpost">Publish</Redirect>;
+    }
     return (
       <div>
         <TabBlog></TabBlog>
@@ -141,7 +149,7 @@ class PlainPostEdit extends Component {
             className="cl_Edit_Publish_Btn"
             onClick={this.handlePublishBtn}
           >
-            <Link to="/blog">Publish</Link>
+            Publish
           </Button>
           <div className="cl_post_Margin"></div>
         </div>
