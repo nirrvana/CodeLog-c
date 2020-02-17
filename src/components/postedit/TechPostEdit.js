@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
+import debounce from 'lodash.debounce';
 // * File
 import CodeBlock from './CodeBlock';
 import TabBlog from '../../pages/TabBlog';
@@ -18,19 +19,23 @@ function onSelect(value) {
 }
 
 class TechPostEdit extends Component {
-  state = {
-    value: '',
-    post: {},
-    title: JSON.parse(localStorage.getItem('currentPost')).title,
-    concept: JSON.parse(localStorage.getItem('currentPost')).content,
-    background: JSON.parse(localStorage.getItem('currentPost')).content,
-    definition: JSON.parse(localStorage.getItem('currentPost')).content,
-    example: JSON.parse(localStorage.getItem('currentPost')).content,
-    precausions: JSON.parse(localStorage.getItem('currentPost')).content,
-    recommand: JSON.parse(localStorage.getItem('currentPost')).content,
-    tags: [],
-    selected_tag: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+      post: {},
+      title: JSON.parse(localStorage.getItem('currentPost')).title,
+      concept: JSON.parse(localStorage.getItem('currentPost')).content,
+      background: JSON.parse(localStorage.getItem('currentPost')).content,
+      definition: JSON.parse(localStorage.getItem('currentPost')).content,
+      example: JSON.parse(localStorage.getItem('currentPost')).content,
+      precausions: JSON.parse(localStorage.getItem('currentPost')).content,
+      recommand: JSON.parse(localStorage.getItem('currentPost')).content,
+      tags: [],
+      selected_tag: null,
+    };
+    this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
+  }
   componentDidMount() {
     this.props.handlePage('Edit');
 
@@ -45,12 +50,27 @@ class TechPostEdit extends Component {
       this.setState({ post: Object.assign(this.state.post, res.data) });
     });
   }
-  handleInputData = (state) => (e) => {
-    this.setState({ [state]: e.target.value });
-  };
-  handlePublishBtn = async () => {
-    localStorage.removeItem('currentPost');
 
+  // ? 텍스트 수정 관리
+  // 디바운스 사용 reference: https://hyunseob.github.io/2018/06/24/debounce-react-synthetic-event/
+  handleChange = (state) => (event) => {
+    this.setState({
+      [state]: event.target.value,
+    });
+    this.debouncedHandleChange();
+  };
+  debouncedHandleChange = () => {
+    this.handlePublish();
+  };
+
+  // ? publish
+  handlePublishBtn = () => {
+    localStorage.removeItem('currentPost');
+    this.handlePublish();
+  };
+
+  // 서버에 업데이트 요청 메소드
+  handlePublish = () => {
     const {
       title,
       concept,
@@ -59,13 +79,16 @@ class TechPostEdit extends Component {
       example,
       precausions,
       recommand,
+      selected_tag,
     } = this.state;
+
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content =
       concept + background + definition + example + precausions + recommand;
-    await PostEditPost(localData_id, title, content);
-    localStorage.removeItem('post_id');
+    console.log('request body:', localData_id, title, content, selected_tag);
+    PostEditPost(localData_id, title, content, selected_tag);
   };
+  // ! Render
   render() {
     const {
       value,
@@ -92,7 +115,7 @@ class TechPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            onChange={this.handleInputData('title')}
+            onChange={this.handleChange('title')}
             defaultValue={PropTitle}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
@@ -107,7 +130,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('concept')}
+                onChange={this.handleChange('concept')}
                 defaultValue={concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -124,7 +147,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('background')}
+                onChange={this.handleChange('background')}
                 defaultValue={background}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -140,7 +163,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('definition')}
+                onChange={this.handleChange('definition')}
                 defaultValue={definition}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -157,7 +180,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('example')}
+                onChange={this.handleChange('example')}
                 defaultValue={example}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -174,7 +197,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('precausions')}
+                onChange={this.handleChange('precausions')}
                 defaultValue={precausions}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -191,7 +214,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('recommand')}
+                onChange={this.handleChange('recommand')}
                 defaultValue={recommand}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">

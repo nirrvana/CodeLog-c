@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
+import debounce from 'lodash.debounce';
 // * File
 import CodeBlock from './CodeBlock';
 import TabBlog from '../../pages/TabBlog';
@@ -18,15 +19,18 @@ function onSelect(value) {
 }
 
 class PlainPostEdit extends Component {
-  state = {
-    value: '',
-    post: {},
-    title: JSON.parse(localStorage.getItem('currentPost')).title,
-    content: JSON.parse(localStorage.getItem('currentPost')).content,
-    tags: [],
-    selected_tag: null,
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+      post: {},
+      title: JSON.parse(localStorage.getItem('currentPost')).title,
+      content: JSON.parse(localStorage.getItem('currentPost')).content,
+      tags: [],
+      selected_tag: null,
+    };
+    this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
+  }
   componentDidMount() {
     this.props.handlePage('Edit');
     let id = this.props.PostState.currentPost.id;
@@ -41,17 +45,32 @@ class PlainPostEdit extends Component {
     });
   }
 
-  handleInputData = (state) => (e) => {
-    this.setState({ [state]: e.target.value });
+  // ? 텍스트 수정 관리
+  // 디바운스 사용 reference: https://hyunseob.github.io/2018/06/24/debounce-react-synthetic-event/
+  handleChange = (state) => (event) => {
+    this.setState({
+      [state]: event.target.value,
+    });
+    this.debouncedHandleChange();
+  };
+  debouncedHandleChange = () => {
+    this.handlePublish();
   };
 
-  handlePublishBtn = async () => {
+  // ? publish
+  handlePublishBtn = () => {
     localStorage.removeItem('currentPost');
+    this.handlePublish();
+  };
+
+  // 서버에 업데이트 요청 메소드
+  handlePublish = () => {
     const { title, content } = this.state;
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
-    await PostEditPost(localData_id, title, content);
-    localStorage.removeItem('post_id');
+    console.log('request body:', localData_id, title, content);
+    PostEditPost(localData_id, title, content);
   };
+  // ! Render
   render() {
     const { value, post, content } = this.state;
     let PropTitle, userName;
@@ -70,7 +89,7 @@ class PlainPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            onChange={this.handleInputData('title')}
+            onChange={this.handleChange('title')}
             defaultValue={PropTitle}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
@@ -83,7 +102,7 @@ class PlainPostEdit extends Component {
           <div className="cl_Plain_Edit_Content ">
             <TextareaAutosize
               className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-              onChange={this.handleInputData('content')}
+              onChange={this.handleChange('content')}
               defaultValue={content}
             />
             <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
