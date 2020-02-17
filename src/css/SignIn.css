@@ -1,9 +1,109 @@
-.login-form {
-  max-width: 300px;
+/* ? Sign In Main */
+.cl_SignIn {
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 35%;
+  height: 500px;
+  border: 3px solid rgb(89, 89, 89);
 }
-.login-form-forgot {
-  float: right;
+.cl_SignIn_Title {
+  font-size: -webkit-xxx-large;
+  font-weight: 500;
+  margin-bottom: 3%;
 }
-.login-form-button {
-  width: 100%;
+.cl_Email_Duplicate {
+  margin-bottom: 2%;
+  left: 63.5%;
+}
+.cl_SignIn_Btn {
+  width: 55% !important;
+  margin-top: 3% !important;
+  height: 10% !important;
+  font-size: 21px !important;
+  font-weight: 500 !important;
+}
+.cl_SignIn_Developer_Btn {
+  background-color: lightseagreen !important;
+  border: none !important;
+}
+.cl_SignIn_Developer_Btn:hover {
+  background-color: seagreen !important;
+  border: none !important;
+}
+.cl_SignIn_Developer_Btn:focus {
+  border: none !important;
+}
+.cl_SignIn_Company_Btn {
+  background-color: lightcoral !important;
+  border: none !important;
+}
+.cl_SignIn_Company_Btn:hover,
+.cl_SignIn_Company_Btn:focus {
+  background-color: #ff4046 !important;
+  border: none !important;
+}
+
+/* ? Sign In component */
+.cl_SignIn_header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+  margin-right: 10%;
+  font-size: -webkit-xxx-large;
+  padding-bottom: 2%;
+  border-bottom: 1px solid lightgray;
+}
+.cl_SignIn_Company_header {
+  margin-right: 0%;
+}
+.cl_SignInComponent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.cl_SignInForm {
+  margin-bottom: 10% !important;
+  width: 40% !important;
+}
+.cl_SignIn_DevInput {
+  width: 40% !important;
+  margin-left: 25%;
+}
+.cl_SignIn_Company_Input {
+  width: 60% !important;
+}
+.cl_SignIn_Checkbox {
+  margin-left: 25%;
+  width: 25% 
+}
+.cl_SignIn_Login_Btn {
+  margin-left: 25%;
+  margin-top: 30px;
+  width: 40% !important;
+}
+.cl_SignIn_Company_Login_Btn {
+  width: 60% !important;
+}
+.cl_SignIn_Register {
+  margin-left: 25%;
 }
