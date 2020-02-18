@@ -1,10 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { connect } from 'react-redux';
 import { postSignInData } from '../../redux/api';
 import { signin } from '../../redux/action';
-import { Link, Route } from 'react-router-dom';
-import SignUp from '../../pages/SignUpPage';
+import { Link, Redirect } from 'react-router-dom';
+import TabNoBtn from '../../pages/TabNoBtn';
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 
 class NormalSignInForm extends React.Component {
@@ -30,48 +29,75 @@ class NormalSignInForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>
-          {getFieldDecorator('email', {
-            rules: [{ required: true, message: 'Please input your email!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="email"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-          >
-            Log in
-          </Button>
-          Or <Link to="/SignUp">register now!</Link>
-        </Form.Item>
-      </Form>
-    );
+    const token = document.cookie.slice(6);
+    console.log('token', token);
+    if (token) {
+      return <Redirect to="/" />;
+    } else {
+      return (
+        <div>
+          <TabNoBtn></TabNoBtn>
+          <div className="cl_SignInComponent">
+            <Form onSubmit={this.handleSubmit} className="cl_SignInForm">
+              <div className="cl_SignIn_header">Sign in</div>
+              <Form.Item>
+                {getFieldDecorator('email', {
+                  rules: [
+                    { required: true, message: 'Please input your email!' },
+                  ],
+                })(
+                  <Input
+                    prefix={
+                      <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                    }
+                    placeholder="email"
+                    className="cl_SignIn_DevInput"
+                  />,
+                )}
+              </Form.Item>
+              <Form.Item>
+                {getFieldDecorator('password', {
+                  rules: [
+                    { required: true, message: 'Please input your Password!' },
+                  ],
+                })(
+                  <Input
+                    prefix={
+                      <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                    }
+                    type="password"
+                    placeholder="Password"
+                    className="cl_SignIn_DevInput"
+                  />,
+                )}
+              </Form.Item>
+              <Form.Item>
+                {getFieldDecorator('remember', {
+                  valuePropName: 'checked',
+                  initialValue: true,
+                })(
+                  <Checkbox className="cl_SignIn_Checkbox">
+                    Remember me
+                  </Checkbox>,
+                )}
+                <Link to="">Forgot password</Link>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button cl_SignIn_Login_Btn"
+                >
+                  Login
+                </Button>
+                <br />
+                <Link to="/SignUp" className="cl_SignIn_Register">
+                  register now!
+                </Link>
+              </Form.Item>
+            </Form>
+          </div>
+        </div>
+      );
+    }
   }
 }
 NormalSignInForm = Form.create({ name: 'normal_login' })(NormalSignInForm);
