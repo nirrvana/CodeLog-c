@@ -97,6 +97,7 @@ class PlainPost extends Component {
       this.setState({ post: Object.assign({}, this.state.post, res.data) });
     });
   }
+  // ? 포스트 데이터 저장 메소드
   handlePostData = (title, content) => () => {
     let currentPost = {
       title,
@@ -104,10 +105,12 @@ class PlainPost extends Component {
     };
     localStorage.setItem('currentPost', JSON.stringify(currentPost));
   };
+  // ? 삭제 메소드
   handlDeletePost = async () => {
     await PostDeletePost(this.state.post.id);
-    this.setState({ isDelete: true });
+    this.props.history.push('/blog');
   };
+  // ? 좋아요 메소드
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
 
@@ -123,17 +126,16 @@ class PlainPost extends Component {
       });
     }
   };
+  // ! RENDER
   render() {
-    const { isLike, post, isDelete } = this.state;
+    const { isLike, post } = this.state;
     console.log(post);
     let tagView, color, title, content, Likes, userName;
 
     if (isLike) {
       color = 'red';
     }
-    if (isDelete) {
-      return <Redirect to="/blog" />;
-    }
+
     if (post.tags === undefined || !post.tags.length) {
       tagView = 'none';
     }
