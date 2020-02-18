@@ -18,6 +18,7 @@
 }
 .cl_MainBlog_Frame {
   margin-right: 2.5%;
+  width: 300px;
 }
 .cl_PostList {
   padding: 2%;
@@ -25,7 +26,7 @@
 }
 .cl_PostListElement {
   overflow: hidden;
-  width: 300px;
+
   height: 200px;
   padding-bottom: 3%;
   border-bottom: 1px solid lightgray;

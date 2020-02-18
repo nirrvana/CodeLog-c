@@ -1,6 +1,5 @@
 // * Library
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -35,22 +34,21 @@ class TILPostEdit extends Component {
     this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
   }
   componentDidMount() {
+    // 현재 페이지 값 업데이트
     this.props.handlePage('Edit');
-
     let id = this.props.PostState.currentPost.id;
     if (id) {
       localStorage.setItem('post_id', JSON.stringify({ id: id }));
     } else {
       id = JSON.parse(localStorage.getItem('post_id')).id;
     }
-
+    // 서버 요청
     getSelectPost(id).then((res) => {
       this.setState({ post: Object.assign(this.state.post, res.data) });
     });
   }
 
-  // ? 텍스트 수정 관리
-  // 디바운스 사용 reference: https://hyunseob.github.io/2018/06/24/debounce-react-synthetic-event/
+  // ? 포스트 자동저장 메소드
   handleChange = (state) => (event) => {
     this.setState({
       [state]: event.target.value,
@@ -66,30 +64,26 @@ class TILPostEdit extends Component {
     );
   };
 
-  // ? publish
-  handlePublishBtn = () => {
-    localStorage.removeItem('currentPost');
-    this.handlePublish();
-  };
-
-  // 서버에 업데이트 요청 메소드
-  handlePublish = async () => {
+  // ? 포스트 수정 메소드
+  handlePublishBtn = async () => {
     const { title, Fact, Feeling, Finding, Future, selected_tag } = this.state;
-
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = Fact + Feeling + Finding + Future;
     console.log('request body:', localData_id, title, content, selected_tag);
     await PostEditPost(localData_id, title, content, selected_tag);
-    this.setState({ isEdit: true });
+    // 로컬 스토리지 아이템 제거
+    localStorage.removeItem('currentPost');
+    localStorage.removeItem('PostSave');
+    // 페이지 이동
+    this.props.history.push('/tilpost');
   };
+
   // ! Render
   render() {
-    const { value, post, Fact, Feeling, Finding, Future, isEdit } = this.state;
+    const { value, post, Fact, Feeling, Finding, Future } = this.state;
 
     let PropTitle, userName;
-    if (isEdit) {
-      return <Redirect to="/Devpost">Publish</Redirect>;
-    }
+
     if (!Object.keys(post).length) {
       return <></>;
     } else {
