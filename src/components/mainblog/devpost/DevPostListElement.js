@@ -1,23 +1,31 @@
+// * Library
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { currentPost } from '../../../redux/action';
+import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+// * File
 import CodeBlock from '../../postedit/CodeBlock';
+import { currentPost } from '../../../redux/action';
 
 class DevPostListElement extends Component {
   render() {
     const { data, handlePostId } = this.props;
     return (
-      <div className="cl_PostListElement" onClick={() => handlePostId(data.id)}>
-        <div className="cl_PostListElement_Title"> {data.title}</div>
-        <ReactMarkdown
-          className="cl_PostListElement_Contents"
-          source={data.content.slice(0, 100)}
-          renderers={{
-            code: CodeBlock,
-          }}
-        />
-      </div>
+      <Link to="/DevPost">
+        <div
+          className="cl_PostListElement"
+          onClick={() => handlePostId(data.id)}
+        >
+          <div className="cl_PostListElement_Title"> {data.title}</div>
+          <ReactMarkdown
+            className="cl_PostListElement_Contents"
+            source={data.content.slice(0, 100)}
+            renderers={{
+              code: CodeBlock,
+            }}
+          />
+        </div>
+      </Link>
     );
   }
 }

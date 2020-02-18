@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
 import CodeBlock from '../../components/postedit/CodeBlock';
 //* css
-import { Tag, Input, Button, Avatar, List } from 'antd';
+import { Tag, Input, Button, Avatar, List, message } from 'antd';
 class TILTemplate extends Component {
   state = {
     theme: 'til',
@@ -84,10 +84,10 @@ class TILTemplate extends Component {
     postTILPost(theme, title, content, selected_tags)
       .then(({ data: { id } }) => {
         this.props.handlePost(id);
-        window.alert('post successfully!');
+        message.success('Post successfully!');
         this.setState({ isPosted: true });
       })
-      .catch((err) => window.alert('fail to post..'));
+      .catch((err) => message.error('Fail to post..'));
   };
 
   render() {

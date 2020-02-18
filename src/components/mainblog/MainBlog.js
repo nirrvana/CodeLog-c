@@ -45,19 +45,18 @@ class MainBlog extends Component {
             <span>DEV Post</span>
           </div>
           <div className="cl_MainBlog_posts">
-            <Link to="/PlainPost" className="cl_MainBlog_Frame">
+            <div className="cl_MainBlog_Frame">
               <PlainPostList post={post.plain_posts}></PlainPostList>
-            </Link>
-            <Link to="/TILPost" className="cl_MainBlog_Frame">
+            </div>
+            <div className="cl_MainBlog_Frame">
               <TILPostList post={post.til_posts}></TILPostList>
-            </Link>
-            <Link to="/TechPost" className="cl_MainBlog_Frame">
+            </div>
+            <div className="cl_MainBlog_Frame">
               <TechPostList post={post.tech_posts}></TechPostList>
-            </Link>
-
-            <Link to="/DevPost" className="cl_MainBlog_Frame">
+            </div>
+            <div className="cl_MainBlog_Frame">
               <DevPostList post={post.dev_posts}></DevPostList>
-            </Link>
+            </div>
           </div>
         </div>
       );
