@@ -57,13 +57,6 @@ class App extends Component {
               path="/CompanySignUp"
               component={components.signup.CompanySignUp}
             />
-
-            <Route path="/Resume" component={components.mypage.Resume} />
-            <Route
-              path="/CoverLetter"
-              component={components.mypage.CoverLetter}
-            />
-            <Route path="/Portfolio" component={components.mypage.Portfolio} />
             <Route path="/PlainPost" component={components.post.PlainPost} />
             <Route path="/TILPost" component={components.post.TILPost} />
             <Route path="/TechPost" component={components.post.TechPost} />
