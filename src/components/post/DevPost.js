@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 // * File
@@ -85,6 +85,7 @@ class DevPost extends Component {
   state = {
     post: {},
     isLike: false,
+    isDelete: false,
   };
 
   componentDidMount() {
@@ -110,6 +111,7 @@ class DevPost extends Component {
   };
   handlDeletePost = async () => {
     await PostDeletePost(this.state.post.id);
+    this.setState({ isDelete: true });
   };
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
@@ -127,13 +129,16 @@ class DevPost extends Component {
     }
   };
   render() {
-    const { isLike, post } = this.state;
+    const { isLike, post, isDelete } = this.state;
     console.log('포스트', post);
     let tagView, color, title, content, Likes, userName, tags;
 
     // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
+    }
+    if (isDelete) {
+      return <Redirect to="/blog" />;
     }
     if (post.tags === undefined || !post.tags.length) {
       tagView = 'none';
@@ -159,10 +164,8 @@ class DevPost extends Component {
           </Link>
         </Menu.Item>
 
-        <Menu.Item key="1">
-          <Link to="/Blog" onClick={this.handlDeletePost}>
-            Delete
-          </Link>
+        <Menu.Item key="1" onClick={this.handlDeletePost}>
+          Delete
         </Menu.Item>
       </Menu>
     );

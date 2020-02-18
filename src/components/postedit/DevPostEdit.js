@@ -1,9 +1,10 @@
 // * Library
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
+import debounce from 'lodash.debounce';
 // * File
 import CodeBlock from './CodeBlock';
 import TabBlog from '../../pages/TabBlog';
@@ -15,35 +16,42 @@ import { PostEditPost, getSelectPost, getTags } from '../../redux/api';
 import { Tag, Input, Button, Avatar, AutoComplete, List, message } from 'antd';
 
 class DevPostEdit extends Component {
-  state = {
-    value: '',
-    post: {},
-    title: JSON.parse(localStorage.getItem('currentPost')).title,
-    concept: JSON.parse(localStorage.getItem('currentPost')).content,
-    Strategy: JSON.parse(localStorage.getItem('currentPost')).content,
-    handling: JSON.parse(localStorage.getItem('currentPost')).content,
-    Referenece: JSON.parse(localStorage.getItem('currentPost')).content,
-    Lesson: JSON.parse(localStorage.getItem('currentPost')).content,
-    selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
-    dataSource: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+      post: {},
+      title: JSON.parse(localStorage.getItem('currentPost')).title,
+      concept: JSON.parse(localStorage.getItem('currentPost')).content,
+      Strategy: JSON.parse(localStorage.getItem('currentPost')).content,
+      handling: JSON.parse(localStorage.getItem('currentPost')).content,
+      Referenece: JSON.parse(localStorage.getItem('currentPost')).content,
+      Lesson: JSON.parse(localStorage.getItem('currentPost')).content,
+      selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
+      dataSource: [],
+      isEdit: false,
+    };
+    this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
+  }
 
   componentDidMount() {
-    this.props.handlePage('Edit');
-
+    this.props.handlePage('Edit'); // 현재 페이지 값 업데이트
     let id = this.props.PostState.currentPost.id;
     if (id) {
       localStorage.setItem('post_id', JSON.stringify({ id: id }));
     } else {
       id = JSON.parse(localStorage.getItem('post_id')).id;
     }
+    // 아이디 값으로 서버에 정보 요청 후 포스트 스테이트로 업데이트
     getSelectPost(id).then((res) => {
       this.setState({
         post: Object.assign(this.state.post, res.data),
       });
     });
+    // 태그 값 서버에 요청 후 스테이트 값으로 업데이트
     getTags().then((res) => this.setState({ dataSource: res.data.tags }));
   }
+
   // ? tag controll
   onSelect = (value) => {
     if (this.state.selected_tag.includes(value)) {
@@ -64,13 +72,40 @@ class DevPostEdit extends Component {
       selected_tag: this.state.selected_tag.filter((tag) => tag !== item),
     });
   };
-  // ? input value change
-  handleInputData = (state) => (e) => {
-    this.setState({ [state]: e.target.value });
+
+  // ? 텍스트 수정 관리
+  // 디바운스 사용 reference: https://hyunseob.github.io/2018/06/24/debounce-react-synthetic-event/
+  handleChange = (state) => (event) => {
+    this.setState({
+      [state]: event.target.value,
+    });
+    this.debouncedHandleChange();
   };
+  debouncedHandleChange = () => {
+    const {
+      title,
+      concept,
+      Strategy,
+      handling,
+      Referenece,
+      Lesson,
+    } = this.state;
+
+    let content = concept + Strategy + handling + Referenece + Lesson;
+    // 로컬 스토리지에 저장 데이터 저장
+    localStorage.setItem(
+      'PostSave',
+      JSON.stringify({ title: title, content: content }),
+    );
+  };
+
   // ? publish
-  handlePublishBtn = async () => {
+  handlePublishBtn = () => {
     localStorage.removeItem('currentPost');
+    this.handlePublish();
+  };
+  // 서버에 업데이트 요청 메소드
+  handlePublish = async () => {
     const {
       title,
       concept,
@@ -80,11 +115,14 @@ class DevPostEdit extends Component {
       Lesson,
       selected_tag,
     } = this.state;
+
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = concept + Strategy + handling + Referenece + Lesson;
     console.log('request body:', localData_id, title, content, selected_tag);
     await PostEditPost(localData_id, title, content, selected_tag);
+    this.setState({ isEdit: true });
   };
+  // ! Render
   render() {
     const {
       value,
@@ -96,6 +134,7 @@ class DevPostEdit extends Component {
       post,
       dataSource,
       selected_tag,
+      isEdit,
     } = this.state;
 
     let PropTitle, userName, tagView;
@@ -103,7 +142,9 @@ class DevPostEdit extends Component {
     if (selected_tag === undefined || !selected_tag.length) {
       tagView = 'none';
     }
-
+    if (isEdit) {
+      return <Redirect to="/Devpost">Publish</Redirect>;
+    }
     if (!Object.keys(post).length) {
       return <></>;
     } else {
@@ -118,9 +159,10 @@ class DevPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            onChange={this.handleInputData('title')}
+            onChange={this.handleChange('title')}
             defaultValue={PropTitle}
           />
+
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -133,7 +175,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('concept')}
+                onChange={this.handleChange('concept')}
                 defaultValue={concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -150,7 +192,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('Strategy')}
+                onChange={this.handleChange('Strategy')}
                 defaultValue={Strategy}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -166,7 +208,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('handling')}
+                onChange={this.handleChange('handling')}
                 defaultValue={handling}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -183,7 +225,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('Referenece')}
+                onChange={this.handleChange('Referenece')}
                 defaultValue={Referenece}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -199,7 +241,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('Lesson')}
+                onChange={this.handleChange('Lesson')}
                 defaultValue={Lesson}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -249,7 +291,7 @@ class DevPostEdit extends Component {
             className="cl_Edit_Publish_Btn"
             onClick={this.handlePublishBtn}
           >
-            <Link to="/Devpost">Publish</Link>
+            Publish
           </Button>
           <div className="cl_post_Margin"></div>
         </div>

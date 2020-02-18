@@ -1,9 +1,10 @@
 // * Library
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
+import debounce from 'lodash.debounce';
 // * File
 import CodeBlock from './CodeBlock';
 import TabBlog from '../../pages/TabBlog';
@@ -18,15 +19,19 @@ function onSelect(value) {
 }
 
 class PlainPostEdit extends Component {
-  state = {
-    value: '',
-    post: {},
-    title: JSON.parse(localStorage.getItem('currentPost')).title,
-    content: JSON.parse(localStorage.getItem('currentPost')).content,
-    tags: [],
-    selected_tag: null,
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+      post: {},
+      title: JSON.parse(localStorage.getItem('currentPost')).title,
+      content: JSON.parse(localStorage.getItem('currentPost')).content,
+      tags: [],
+      selected_tag: null,
+      isEdit: false,
+    };
+    this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
+  }
   componentDidMount() {
     this.props.handlePage('Edit');
     let id = this.props.PostState.currentPost.id;
@@ -41,19 +46,39 @@ class PlainPostEdit extends Component {
     });
   }
 
-  handleInputData = (state) => (e) => {
-    this.setState({ [state]: e.target.value });
+  // ? 텍스트 수정 관리
+  // 디바운스 사용 reference: https://hyunseob.github.io/2018/06/24/debounce-react-synthetic-event/
+  handleChange = (state) => (event) => {
+    this.setState({
+      [state]: event.target.value,
+    });
+    this.debouncedHandleChange();
+  };
+  debouncedHandleChange = () => {
+    const { title, content } = this.state;
+    localStorage.setItem(
+      'PostSave',
+      JSON.stringify({ title: title, content: content }),
+    );
   };
 
-  handlePublishBtn = async () => {
+  // ? publish
+  handlePublishBtn = () => {
     localStorage.removeItem('currentPost');
+    this.handlePublish();
+  };
+
+  // 서버에 업데이트 요청 메소드
+  handlePublish = async () => {
     const { title, content } = this.state;
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
+    console.log('request body:', localData_id, title, content);
     await PostEditPost(localData_id, title, content);
-    localStorage.removeItem('post_id');
+    this.setState({ isEdit: true });
   };
+  // ! Render
   render() {
-    const { value, post, content } = this.state;
+    const { value, post, content, isEdit } = this.state;
     let PropTitle, userName;
     if (!Object.keys(post).length) {
       return <></>;
@@ -61,7 +86,9 @@ class PlainPostEdit extends Component {
       PropTitle = post.title;
       userName = post.users.username;
     }
-
+    if (isEdit) {
+      return <Redirect to="/Devpost">Publish</Redirect>;
+    }
     return (
       <div>
         <TabBlog></TabBlog>
@@ -70,7 +97,7 @@ class PlainPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            onChange={this.handleInputData('title')}
+            onChange={this.handleChange('title')}
             defaultValue={PropTitle}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
@@ -83,7 +110,7 @@ class PlainPostEdit extends Component {
           <div className="cl_Plain_Edit_Content ">
             <TextareaAutosize
               className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-              onChange={this.handleInputData('content')}
+              onChange={this.handleChange('content')}
               defaultValue={content}
             />
             <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -122,7 +149,7 @@ class PlainPostEdit extends Component {
             className="cl_Edit_Publish_Btn"
             onClick={this.handlePublishBtn}
           >
-            <Link to="/blog">Publish</Link>
+            Publish
           </Button>
           <div className="cl_post_Margin"></div>
         </div>
