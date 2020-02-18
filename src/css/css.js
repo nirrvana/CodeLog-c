@@ -7,6 +7,7 @@ import SignUpPage from './SignUpPage.css';
 import MainBlogPage from './MainBlogPage.css';
 import MyPage from './MyPage.css';
 import CompanyMyPage from './CompanyMyPage.css';
+import DevMyPage from './DevMyPage.css';
 import SignIn from './SignIn.css';
 import Plain from './Plain.css';
 
@@ -20,6 +21,7 @@ export default {
   MainBlogPage,
   MyPage,
   CompanyMyPage,
+  DevMyPage,
   SignIn,
   Plain,
 };
