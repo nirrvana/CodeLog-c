@@ -85,10 +85,10 @@ class DevPost extends Component {
   state = {
     post: {},
     isLike: false,
-    isDelete: false,
   };
 
   componentDidMount() {
+    // 현재 페이지 값 업데이트
     this.props.handlePage('Post');
     let id = this.props.PostState.currentPost.id;
     if (id) {
@@ -96,11 +96,12 @@ class DevPost extends Component {
     } else {
       id = JSON.parse(localStorage.getItem('post_id')).id;
     }
-
+    // 서버 요청
     getSelectPost(id).then((res) => {
       this.setState({ post: Object.assign(this.state.post, res.data) });
     });
   }
+  // ? 포스트 데이터 저장 메소드
   handlePostData = (title, content, tags) => () => {
     let currentPost = {
       title,
@@ -109,10 +110,13 @@ class DevPost extends Component {
     };
     localStorage.setItem('currentPost', JSON.stringify(currentPost));
   };
+
+  // ? 삭제 메소드
   handlDeletePost = async () => {
     await PostDeletePost(this.state.post.id);
-    this.setState({ isDelete: true });
+    this.props.history.push('/blog');
   };
+  // ? 좋아요 메소드
   handleIsLikeState = () => {
     let likesCount = this.state.post.likes;
 
@@ -128,8 +132,9 @@ class DevPost extends Component {
       });
     }
   };
+  // ! RENDER
   render() {
-    const { isLike, post, isDelete } = this.state;
+    const { isLike, post } = this.state;
     console.log('포스트', post);
     let tagView, color, title, content, Likes, userName, tags;
 
@@ -137,9 +142,7 @@ class DevPost extends Component {
     if (isLike) {
       color = 'red';
     }
-    if (isDelete) {
-      return <Redirect to="/blog" />;
-    }
+
     if (post.tags === undefined || !post.tags.length) {
       tagView = 'none';
     }
