@@ -13,7 +13,6 @@ import { PostEditPost, getSelectPost, getTags } from '../../redux/api';
 
 // * CSS
 import { Tag, Input, Button, Avatar, AutoComplete, List, message } from 'antd';
-
 class DevPostEdit extends Component {
   constructor(props) {
     super(props);
@@ -29,13 +28,14 @@ class DevPostEdit extends Component {
       selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
       dataSource: [],
     };
-    this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
+    this.handleEditDataSave = debounce(this.handleEditDataSave, 1000);
   }
 
   componentDidMount() {
     // 현재 페이지 값 업데이트
     this.props.handlePage('Edit');
     let id = this.props.PostState.currentPost.id;
+    let SaveData = JSON.parse(localStorage.getItem('PostSave'));
     if (id) {
       localStorage.setItem('post_id', JSON.stringify({ id: id }));
     } else {
@@ -43,10 +43,23 @@ class DevPostEdit extends Component {
     }
     // 서버 요청
     getSelectPost(id).then((res) => {
-      this.setState({
-        post: Object.assign(this.state.post, res.data),
-      });
+      if (SaveData) {
+        this.setState({
+          post: Object.assign(this.state.post, res.data),
+          title: SaveData.title,
+          concept: SaveData.content,
+          Strategy: SaveData.content,
+          handling: SaveData.content,
+          Referenece: SaveData.content,
+          Lesson: SaveData.content,
+        });
+      } else {
+        this.setState({
+          post: Object.assign(this.state.post, res.data),
+        });
+      }
     });
+
     getTags().then((res) => this.setState({ dataSource: res.data.tags }));
   }
 
@@ -72,13 +85,13 @@ class DevPostEdit extends Component {
   };
 
   // ? 포스트 자동저장 메소드
-  handleChange = (state) => (event) => {
+  handleInputData = (state) => (event) => {
     this.setState({
       [state]: event.target.value,
     });
-    this.debouncedHandleChange();
+    this.handleEditDataSave();
   };
-  debouncedHandleChange = () => {
+  handleEditDataSave = () => {
     const {
       title,
       concept,
@@ -123,18 +136,18 @@ class DevPostEdit extends Component {
   render() {
     const {
       value,
+      post,
+      title,
       concept,
       Strategy,
       handling,
       Referenece,
       Lesson,
-      post,
       dataSource,
       selected_tag,
     } = this.state;
 
-    let PropTitle, userName, tagView;
-    console.log('post:', post);
+    let userName, tagView;
 
     if (selected_tag === undefined || !selected_tag.length) {
       tagView = 'none';
@@ -143,7 +156,6 @@ class DevPostEdit extends Component {
     if (!Object.keys(post).length) {
       return <></>;
     } else {
-      PropTitle = post.title;
       userName = post.users.username;
     }
 
@@ -155,8 +167,8 @@ class DevPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            onChange={this.handleChange('title')}
-            defaultValue={PropTitle}
+            onChange={this.handleInputData('title')}
+            defaultValue={title}
           />
 
           <div className="cl_Post_author_Info cl_Post_set ">
@@ -172,7 +184,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('concept')}
+                onChange={this.handleInputData('concept')}
                 defaultValue={concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -189,7 +201,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('Strategy')}
+                onChange={this.handleInputData('Strategy')}
                 defaultValue={Strategy}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -205,7 +217,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('handling')}
+                onChange={this.handleInputData('handling')}
                 defaultValue={handling}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -222,7 +234,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('Referenece')}
+                onChange={this.handleInputData('Referenece')}
                 defaultValue={Referenece}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -238,7 +250,7 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('Lesson')}
+                onChange={this.handleInputData('Lesson')}
                 defaultValue={Lesson}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
