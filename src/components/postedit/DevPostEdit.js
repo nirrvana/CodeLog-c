@@ -13,7 +13,16 @@ import { getRandomInt, colorArray } from '../../TagColor';
 import { PostEditPost, getSelectPost, getTags } from '../../redux/api';
 
 // * CSS
-import { Tag, Input, Button, Avatar, AutoComplete, List, message } from 'antd';
+import {
+  Tag,
+  Input,
+  Button,
+  Avatar,
+  AutoComplete,
+  List,
+  message,
+  Modal,
+} from 'antd';
 
 class DevPostEdit extends Component {
   constructor(props) {
@@ -30,6 +39,7 @@ class DevPostEdit extends Component {
       selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
       dataSource: [],
       isEdit: false,
+      visible: false,
     };
     this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
   }
@@ -50,6 +60,10 @@ class DevPostEdit extends Component {
     });
     // 태그 값 서버에 요청 후 스테이트 값으로 업데이트
     getTags().then((res) => this.setState({ dataSource: res.data.tags }));
+    // 세이브 데이터 모달 뷰 관리
+    if (JSON.parse(localStorage.getItem('PostSave'))) {
+      this.setState({ visible: true });
+    }
   }
 
   // ? tag controll
@@ -72,7 +86,20 @@ class DevPostEdit extends Component {
       selected_tag: this.state.selected_tag.filter((tag) => tag !== item),
     });
   };
+  // ? 모달 뷰 관리
+  handleOk = (e) => {
+    let saveData = JSON.parse(localStorage.getItem('PostSave'));
+    this.setState({
+      visible: false,
+      post: Object.assign(this.state.post, saveData),
+    });
+  };
 
+  handleCancel = (e) => {
+    this.setState({
+      visible: false,
+    });
+  };
   // ? 텍스트 수정 관리
   // 디바운스 사용 reference: https://hyunseob.github.io/2018/06/24/debounce-react-synthetic-event/
   handleChange = (state) => (event) => {
@@ -102,6 +129,7 @@ class DevPostEdit extends Component {
   // ? publish
   handlePublishBtn = () => {
     localStorage.removeItem('currentPost');
+    localStorage.removeItem('PostSave');
     this.handlePublish();
   };
   // 서버에 업데이트 요청 메소드
@@ -138,6 +166,7 @@ class DevPostEdit extends Component {
     } = this.state;
 
     let PropTitle, userName, tagView;
+    console.log('post:', post);
 
     if (selected_tag === undefined || !selected_tag.length) {
       tagView = 'none';
@@ -155,6 +184,14 @@ class DevPostEdit extends Component {
     return (
       <div>
         <TabBlog></TabBlog>
+        <Modal
+          title="Save data"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          Are you sure you want to get the saved data?
+        </Modal>
         <div className="cl_Post">
           <Input
             className="cl_Edit_Title cl_Post_set "
@@ -170,6 +207,7 @@ class DevPostEdit extends Component {
             />
             <div className="cl_Post_author">{userName}</div>
           </div>
+
           <div className="cl_Post_Contents ">
             <div className="cl_Post_Edit_Subtitle ">Project concept</div>
             <div className="cl_Plain_Edit_Content ">
