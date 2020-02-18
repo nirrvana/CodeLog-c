@@ -123,7 +123,7 @@ class DevPostEdit extends Component {
     // 서버 요청
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = concept + Strategy + handling + Referenece + Lesson;
-    console.log('request body:', localData_id, title, content, selected_tag);
+
     await PostEditPost(localData_id, title, content, selected_tag);
     // 로컬 스토리지 아이템 제거
     localStorage.removeItem('currentPost');

@@ -145,8 +145,6 @@ export default class CompanyMyPageEdit extends Component {
       </Menu>
     );
 
-    console.log(this.state);
-
     return (
       <div>
         <Layout className="layout">

@@ -47,7 +47,7 @@ class TabBlog extends Component {
             <Menu.Item className="cl_Blog_Search" style={{ display: display }}>
               <Search
                 placeholder="input search text"
-                onSearch={(value) => console.log(value)}
+                onSearch={(value) => value}
                 style={{ width: 200 }}
               />
             </Menu.Item>
