@@ -45,29 +45,29 @@ class DevPostEdit extends Component {
     // 서버 요청
     getSelectPost(id).then((res) => {
       if (SaveData) {
-        for (const key in SaveData) {
-          const el = SaveData[key];
-          console.log(key);
-          console.log(id);
-          console.log(el);
-          if (!Number(key) === id) {
-            console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
-            this.setState({
-              post: Object.assign(this.state.post, res.data),
-            });
-          } else if (Number(key) === id) {
-            console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
-            this.setState({
-              post: Object.assign(this.state.post, res.data),
-              title: el.title,
-              concept: el.content,
-              Strategy: el.content,
-              handling: el.content,
-              Referenece: el.content,
-              Lesson: el.content,
-            });
-          }
+        let save = SaveData[id];
+        if (save) {
+          console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
+          this.setState({
+            post: Object.assign(this.state.post, res.data),
+            title: save.title,
+            concept: save.content,
+            Strategy: save.content,
+            handling: save.content,
+            Referenece: save.content,
+            Lesson: save.content,
+          });
+        } else {
+          console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
+          this.setState({
+            post: Object.assign(this.state.post, res.data),
+          });
         }
+      } else {
+        console.log('현재 포스트 로컬스토리지에 세이브가 없을때 !');
+        this.setState({
+          post: Object.assign(this.state.post, res.data),
+        });
       }
     });
 
