@@ -36,6 +36,7 @@ class DevPostEdit extends Component {
     this.props.handlePage('Edit');
     let id = this.props.PostState.currentPost.id;
     let SaveData = JSON.parse(localStorage.getItem('PostSave'));
+
     if (id) {
       localStorage.setItem('post_id', JSON.stringify({ id: id }));
     } else {
@@ -44,19 +45,29 @@ class DevPostEdit extends Component {
     // 서버 요청
     getSelectPost(id).then((res) => {
       if (SaveData) {
-        this.setState({
-          post: Object.assign(this.state.post, res.data),
-          title: SaveData.title,
-          concept: SaveData.content,
-          Strategy: SaveData.content,
-          handling: SaveData.content,
-          Referenece: SaveData.content,
-          Lesson: SaveData.content,
-        });
-      } else {
-        this.setState({
-          post: Object.assign(this.state.post, res.data),
-        });
+        for (const key in SaveData) {
+          const el = SaveData[key];
+          console.log(key);
+          console.log(id);
+          console.log(el);
+          if (!Number(key) === id) {
+            console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
+            this.setState({
+              post: Object.assign(this.state.post, res.data),
+            });
+          } else if (Number(key) === id) {
+            console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
+            this.setState({
+              post: Object.assign(this.state.post, res.data),
+              title: el.title,
+              concept: el.content,
+              Strategy: el.content,
+              handling: el.content,
+              Referenece: el.content,
+              Lesson: el.content,
+            });
+          }
+        }
       }
     });
 
@@ -100,13 +111,21 @@ class DevPostEdit extends Component {
       Referenece,
       Lesson,
     } = this.state;
-
+    let id = JSON.parse(localStorage.getItem('post_id')).id;
+    let PostSave = JSON.parse(localStorage.getItem('PostSave'));
     let content = concept + Strategy + handling + Referenece + Lesson;
     // 로컬 스토리지에 저장 데이터 저장
-    localStorage.setItem(
-      'PostSave',
-      JSON.stringify({ title: title, content: content }),
-    );
+    if (PostSave) {
+      let saveData = JSON.stringify(
+        Object.assign(PostSave, { [id]: { title, content } }),
+      );
+      localStorage.setItem('PostSave', saveData);
+    } else {
+      localStorage.setItem(
+        'PostSave',
+        JSON.stringify({ [id]: { title, content } }),
+      );
+    }
   };
 
   // ? 포스트 수정 메소드
@@ -122,12 +141,14 @@ class DevPostEdit extends Component {
     } = this.state;
     // 서버 요청
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
+    let deleteSave = JSON.parse(localStorage.getItem('PostSave'));
     let content = concept + Strategy + handling + Referenece + Lesson;
 
     await PostEditPost(localData_id, title, content, selected_tag);
     // 로컬 스토리지 아이템 제거
     localStorage.removeItem('currentPost');
-    localStorage.removeItem('PostSave');
+    delete deleteSave[localData_id];
+    localStorage.setItem('PostSave', JSON.stringify(deleteSave));
     // 페이지 이동
     this.props.history.push('/devpost');
   };

@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 // * File
@@ -137,24 +137,19 @@ class DevPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-    let tagView, color, title, content, Likes, userName, tags;
+
+    let tagView, color;
+
 
     // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
     }
-
     if (post.tags === undefined || !post.tags.length) {
       tagView = 'none';
     }
     if (!Object.keys(post).length) {
       return <></>;
-    } else {
-      title = post.title;
-      userName = post.users.username;
-      content = post.content;
-      tags = post.tags;
-      Likes = post.likes;
     }
 
     const menu = (
@@ -162,7 +157,7 @@ class DevPost extends Component {
         <Menu.Item key="0">
           <Link
             to="/DevpostEdit"
-            onClick={this.handlePostData(title, content, tags)}
+            onClick={this.handlePostData(post.title, post.content, post.tags)}
           >
             Edit
           </Link>
@@ -178,13 +173,13 @@ class DevPost extends Component {
         <TabBlog></TabBlog>
 
         <div className="cl_Post">
-          <div className="cl_Post_Title cl_Post_set ">{title}</div>
+          <div className="cl_Post_Title cl_Post_set ">{post.title}</div>
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}</div>
+            <div className="cl_Post_author">{post.userName}</div>
 
             <Tooltip
               className="cl_Post_Time"
@@ -203,7 +198,7 @@ class DevPost extends Component {
               Project concept
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={content}
+                source={post.content}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -213,7 +208,7 @@ class DevPost extends Component {
               Coding Strategy
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={content}
+                source={post.content}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -223,7 +218,7 @@ class DevPost extends Component {
               Error handling
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={content}
+                source={post.content}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -233,7 +228,7 @@ class DevPost extends Component {
               Referenece
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={content}
+                source={post.content}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -243,7 +238,7 @@ class DevPost extends Component {
               Lesson
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={content}
+                source={post.content}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -253,14 +248,14 @@ class DevPost extends Component {
           <div className="cl_Post_Tags cl_Post_set">
             <List
               style={{ display: tagView }}
-              dataSource={this.state.post.tags}
+              dataSource={post.tags}
               renderItem={(item) => (
                 <span>
                   <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>
                 </span>
               )}
             />
-            <Popover content={Likes + ' Likes'}>
+            <Popover content={post.Likes + ' Likes'}>
               <Icon
                 type="heart"
                 className="cl_PlainPost_Like"
