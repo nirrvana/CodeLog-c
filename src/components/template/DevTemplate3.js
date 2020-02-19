@@ -4,26 +4,34 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getTags, postDevPost } from '../../redux/api';
 import { currentPost } from '../../redux/action';
-//* parser
+//* library
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
 import CodeBlock from '../../components/postedit/CodeBlock';
+import debounce from 'lodash.debounce';
 //* css
 import { Tag, Input, Button, Avatar, List, message } from 'antd';
 
 class DevTemplate3 extends Component {
-  state = {
-    theme: 'dev',
-    title: '',
-    project_concept: '',
-    coding_strategy: '',
-    occurred_error: '',
-    reference: '',
-    lesson: '',
-    tags: [],
-    selected_tags: [],
-    isPosted: false,
-  };
+  constructor() {
+    super();
+    this.state = {
+      theme: 'dev',
+      title: '',
+      project_concept: '',
+      coding_strategy: '',
+      occurred_error: '',
+      reference: '',
+      lesson: '',
+      tags: [],
+      selected_tags: [],
+      isPosted: false,
+    };
+    this.handleDebounceInputChange = debounce(
+      this.handleDebounceInputChange,
+      1000,
+    );
+  }
 
   componentDidMount() {
     getTags()
@@ -33,30 +41,53 @@ class DevTemplate3 extends Component {
         }),
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
+
+    this.getPostData();
   }
+
+  getPostData = () => {
+    const saved = JSON.parse(localStorage.getItem('dev'));
+    if (saved) {
+      const { title, content, selected_tags } = saved;
+      this.setState({
+        title,
+        content,
+        selected_tags,
+      });
+    }
+  };
 
   handleInputChange = (state) => ({ target: { value: input } }) => {
     this.setState({
       [state]: input,
     });
+    this.handleDebounceInputChange();
+  };
+
+  handleDebounceInputChange = () => {
+    const { theme, title, content, selected_tags } = this.state;
+    localStorage.setItem(
+      theme,
+      JSON.stringify({ title, content, selected_tags }),
+    );
   };
 
   selectTag = (e) => {
     const { selected_tags } = this.state;
     const target = e.target.innerText;
+
     if (!selected_tags.includes(target)) {
-      e.target.style['background-color'] = 'blue';
+      e.target.className = 'ant-tag-blue';
       this.setState({
         selected_tags: [...selected_tags, target],
       });
-      console.log(selected_tags);
     } else {
-      e.target.style['background-color'] = 'gray';
+      e.target.className = '';
       this.setState({
         selected_tags: selected_tags.filter((tag) => tag !== target),
       });
-      console.log(selected_tags);
     }
+    this.handleDebounceInputChange('selected_tags');
   };
 
   handleSubmit = (e) => {
@@ -88,18 +119,21 @@ class DevTemplate3 extends Component {
         this.props.handlePost(id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
+        localStorage.removeItem('dev');
       })
       .catch((err) => message.error('Fail to post..'));
   };
 
   render() {
     const {
+      title,
       project_concept,
       coding_strategy,
       occurred_error,
       reference,
       lesson,
       tags,
+      selected_tags,
       isPosted,
     } = this.state;
     if (isPosted) {
@@ -112,7 +146,7 @@ class DevTemplate3 extends Component {
               className="cl_Edit_Title cl_Post_set "
               type="text"
               onChange={this.handleInputChange('title')}
-              defaultValue={'title'}
+              value={title === '' ? 'title' : title}
             />
             <div className="cl_Post_author_Info cl_Post_set ">
               <Avatar
@@ -128,7 +162,9 @@ class DevTemplate3 extends Component {
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('project_concept')}
                   defaultValue={
-                    '구현하고자 하는 기능/과제/프로젝트에 대한 설명'
+                    project_concept === ''
+                      ? '구현하고자 하는 기능/과제/프로젝트에 대한 설명'
+                      : project_concept
                   }
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -145,7 +181,11 @@ class DevTemplate3 extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('coding_strategy')}
-                  defaultValue={'구현을 위한 코딩 전략'}
+                  defaultValue={
+                    coding_strategy === ''
+                      ? '구현을 위한 코딩 전략'
+                      : coding_strategy
+                  }
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -161,7 +201,11 @@ class DevTemplate3 extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('occurred_error')}
-                  defaultValue={'진행 중 겪은 에러/에러코드/어려움'}
+                  defaultValue={
+                    occurred_error === ''
+                      ? '진행 중 겪은 에러/에러코드/어려움'
+                      : occurred_error
+                  }
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -178,7 +222,9 @@ class DevTemplate3 extends Component {
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('reference')}
                   defaultValue={
-                    '에러를 해결하기 위해 찾아본 키워드 및 레퍼런스'
+                    reference === ''
+                      ? '에러를 해결하기 위해 찾아본 키워드 및 레퍼런스'
+                      : reference
                   }
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -195,7 +241,11 @@ class DevTemplate3 extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('lesson')}
-                  defaultValue={'기능구현 및 에러해결을 통해 얻은 교훈'}
+                  defaultValue={
+                    lesson === ''
+                      ? '기능구현 및 에러해결을 통해 얻은 교훈'
+                      : lesson
+                  }
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -211,7 +261,10 @@ class DevTemplate3 extends Component {
                   dataSource={tags}
                   renderItem={(item) => (
                     <span>
-                      <Tag color="gray" onClick={this.selectTag}>
+                      <Tag
+                        color={selected_tags.includes(item) ? 'blue' : ''}
+                        onClick={this.selectTag}
+                      >
                         {item}
                       </Tag>
                     </span>
