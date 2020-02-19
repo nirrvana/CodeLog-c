@@ -15,8 +15,8 @@ class MyPage2 extends Component {
 
   componentDidMount() {
     getMyPageData()
-      .then(({ data: { post_count, tags } }) =>
-        this.setState({ post_count, tag_count: tags.length }),
+      .then(({ data: { post_count, tags, completion } }) =>
+        this.setState({ post_count, tag_count: tags.length, completion }),
       )
       .catch((err) =>
         this.setState({
@@ -44,7 +44,12 @@ class MyPage2 extends Component {
       },
     };
     const { Dragger } = Upload;
-    const { post_count, tag_count, recommended_companies } = this.state;
+    const {
+      post_count,
+      tag_count,
+      completion,
+      recommended_companies,
+    } = this.state;
     return (
       <div>
         <MypageTab />
@@ -53,25 +58,25 @@ class MyPage2 extends Component {
             <div className="cl_Count_Name">Tag and Post</div>
             <div className="cl_Count_element">{post_count}Posts</div>
             <div className="cl_Count_element">{tag_count}Tags</div>
+            <div className="cl_Count_element">{completion} 수료</div>
           </div>
         </div>
         <div className="cl_Document_Upload_Wrapper">
           <div className="cl_Document_Upload_Header">Resume and portfolio</div>
-          <div className="cl_Document_Upload_container" >
-          <Dragger {...props}>
-            <p className="ant-upload-drag-icon">
-              <Icon type="inbox" />
-            </p>
-            <p className="ant-upload-text">
-              Click or drag resume or portfolio to this area to upload
-            </p>
-            <p className="ant-upload-hint">
-              Support for a single or bulk upload. Strictly prohibit from
-              uploading company data or other band files
-            </p>
-          </Dragger>
+          <div className="cl_Document_Upload_container">
+            <Dragger {...props}>
+              <p className="ant-upload-drag-icon">
+                <Icon type="inbox" />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag resume or portfolio to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Support for a single or bulk upload. Strictly prohibit from
+                uploading company data or other band files
+              </p>
+            </Dragger>
           </div>
-          
         </div>
         <div className="cl_Company_Recommend cl_CompanyMyPage_Set">
           <div className="cl_Recommended_Header">
