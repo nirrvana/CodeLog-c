@@ -137,7 +137,9 @@ class DevPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
+
     let tagView, color;
+
 
     // ? 상황에 따른 변수 분기
     if (isLike) {

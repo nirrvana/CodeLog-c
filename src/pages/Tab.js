@@ -10,8 +10,8 @@ const { Header } = Layout;
 class Tab extends Component {
   render() {
     const { isLogin } = this.props;
-    const cookie = document.cookie.slice(6)
-    console.log('cookie', cookie)
+    const cookie = document.cookie.slice(6);
+    console.log('cookie', cookie);
     if (cookie) {
       return (
         <Layout className="layout">

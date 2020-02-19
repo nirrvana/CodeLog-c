@@ -32,9 +32,6 @@ class CompanySignUp extends Component {
     };
   }
 
-  error = () => {
-    message.error('exist email. please enter other email.');
-  };
   onChange = (e) => {
     this.setState({ isPartner: e.target.checked });
   };
@@ -42,7 +39,6 @@ class CompanySignUp extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const {
           coperate_name,
           business_name,
@@ -71,11 +67,9 @@ class CompanySignUp extends Component {
           isPartner,
           AccessCode,
         )
-          .then((res) => {
-            console.log(res);
-          })
+          .then((res) => {})
           .catch((err) => {
-            this.error();
+            message.error('exist email. please enter other email.');
           });
       }
     });
@@ -115,7 +109,7 @@ class CompanySignUp extends Component {
     this.setState({ autoCompleteResult });
   };
   callback = (key) => {
-    // console.log(key);
+    // (key);
   };
   render() {
     const { getFieldDecorator } = this.props.form;

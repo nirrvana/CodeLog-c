@@ -3,7 +3,7 @@ import DevPostListElement from './DevPostListElement';
 export default class DevPostList extends Component {
   render() {
     const { post } = this.props;
-    console.log(post);
+
     return (
       <div className="cl_PostList">
         {post.map((el, i) => (

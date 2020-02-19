@@ -71,6 +71,11 @@ export function postCompanySignInData(company_code, username, password) {
   });
 }
 
+// ? Sign out
+export function postSignOut() {
+  return axios.post(`${HOST}/signout`);
+}
+
 // ? Home
 export function getHomeData() {
   return axios.get(`${HOST}/home`);

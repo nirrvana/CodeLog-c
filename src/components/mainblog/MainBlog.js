@@ -22,7 +22,6 @@ class MainBlog extends Component {
   }
   render() {
     const { post } = this.state;
-    console.log(this.state.post);
     if (!Object.keys(this.state.post).length) {
       return (
         <div className="cl_MainBlog">
