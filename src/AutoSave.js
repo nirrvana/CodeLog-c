@@ -1,7 +1,6 @@
 import debounce from 'lodash.debounce';
 
 export const handleInputData = (state) => (event) => {
-  console.log(state, event.target.value);
   this.setState({
     [state]: event.target.value,
   });

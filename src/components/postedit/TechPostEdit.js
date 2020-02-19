@@ -13,9 +13,7 @@ import { PostEditPost, getSelectPost } from '../../redux/api';
 import { Tag, Input, Button, Avatar, AutoComplete } from 'antd';
 
 const dataSource = ['React', 'Redux', 'TypeScript'];
-function onSelect(value) {
-  console.log('onSelect', value);
-}
+function onSelect(value) {}
 
 class TechPostEdit extends Component {
   constructor(props) {
@@ -92,7 +90,7 @@ class TechPostEdit extends Component {
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content =
       concept + background + definition + example + precausions + recommand;
-    console.log('request body:', localData_id, title, content, selected_tag);
+
     await PostEditPost(localData_id, title, content, selected_tag);
     // 로컬 스토리지 아이템 제거
     localStorage.removeItem('currentPost');
@@ -113,7 +111,7 @@ class TechPostEdit extends Component {
       recommand,
       post,
     } = this.state;
-    console.log(post);
+
     let PropTitle, userName;
 
     if (!Object.keys(post).length) {

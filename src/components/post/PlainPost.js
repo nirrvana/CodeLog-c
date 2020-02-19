@@ -87,6 +87,7 @@ class PlainPost extends Component {
   };
   componentDidMount() {
     this.props.handlePage('Post');
+    window.scrollTo(0, 0);
     let id = this.props.PostState.currentPost.id;
     if (id) {
       localStorage.setItem('post_id', JSON.stringify({ id: id }));
@@ -129,7 +130,6 @@ class PlainPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-    console.log(post);
     let tagView, color, title, content, Likes, userName;
 
     if (isLike) {

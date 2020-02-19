@@ -13,9 +13,7 @@ import { PostEditPost, getSelectPost } from '../../redux/api';
 import { Tag, Input, Button, Avatar, AutoComplete } from 'antd';
 
 const dataSource = ['React', 'Redux', 'TypeScript'];
-function onSelect(value) {
-  console.log('onSelect', value);
-}
+function onSelect(value) {}
 
 class TILPostEdit extends Component {
   constructor(props) {
@@ -69,7 +67,7 @@ class TILPostEdit extends Component {
     const { title, Fact, Feeling, Finding, Future, selected_tag } = this.state;
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let content = Fact + Feeling + Finding + Future;
-    console.log('request body:', localData_id, title, content, selected_tag);
+
     await PostEditPost(localData_id, title, content, selected_tag);
     // 로컬 스토리지 아이템 제거
     localStorage.removeItem('currentPost');

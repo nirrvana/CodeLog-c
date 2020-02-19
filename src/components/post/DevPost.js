@@ -90,6 +90,8 @@ class DevPost extends Component {
   componentDidMount() {
     // 현재 페이지 값 업데이트
     this.props.handlePage('Post');
+    // 랜더 시 페이지 상단부터
+    window.scrollTo(0, 0);
     let id = this.props.PostState.currentPost.id;
     if (id) {
       localStorage.setItem('post_id', JSON.stringify({ id: id }));
@@ -135,7 +137,6 @@ class DevPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-    console.log('포스트', post);
     let tagView, color, title, content, Likes, userName, tags;
 
     // ? 상황에 따른 변수 분기

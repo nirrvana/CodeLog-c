@@ -13,9 +13,7 @@ import { PostEditPost, getSelectPost } from '../../redux/api';
 import { Tag, Input, Button, Avatar, AutoComplete } from 'antd';
 
 const dataSource = ['React', 'Redux', 'TypeScript'];
-function onSelect(value) {
-  console.log('onSelect', value);
-}
+function onSelect(value) {}
 
 class PlainPostEdit extends Component {
   constructor(props) {
@@ -64,7 +62,7 @@ class PlainPostEdit extends Component {
   handlePublishBtn = async () => {
     const { title, content } = this.state;
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
-    console.log('request body:', localData_id, title, content);
+
     await PostEditPost(localData_id, title, content);
     // 로컬 스토리지 아이템 제거
     localStorage.removeItem('currentPost');

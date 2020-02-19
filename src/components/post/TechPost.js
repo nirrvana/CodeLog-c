@@ -130,7 +130,7 @@ class TILPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-    console.log(post);
+    window.scrollTo(0, 0);
     let tagView, color, title, content, Likes, userName;
 
     if (isLike) {
