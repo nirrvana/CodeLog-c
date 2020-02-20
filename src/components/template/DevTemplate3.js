@@ -146,7 +146,8 @@ class DevTemplate3 extends Component {
               className="cl_Edit_Title cl_Post_set "
               type="text"
               onChange={this.handleInputChange('title')}
-              value={title === '' ? 'title' : title}
+              value={title}
+              placeholder="title"
             />
             <div className="cl_Post_author_Info cl_Post_set ">
               <Avatar
