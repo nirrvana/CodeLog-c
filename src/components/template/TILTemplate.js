@@ -10,7 +10,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import CodeBlock from '../../components/postedit/CodeBlock';
 import debounce from 'lodash.debounce';
 //* css
-import { Tag, Input, Button, Avatar, List, message } from 'antd';
+import { Tag, Input, Button, Avatar, List, message, Modal } from 'antd';
 class TILTemplate extends Component {
   constructor() {
     super();
@@ -23,6 +23,7 @@ class TILTemplate extends Component {
       future_action: '',
       tags: [],
       selected_tags: [],
+      visible: false,
       isPosted: false,
     };
     this.handleDebounceInputChange = debounce(
@@ -40,19 +41,32 @@ class TILTemplate extends Component {
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
 
-    this.getPostData();
+    this.checkData();
   }
 
-  getPostData = () => {
+  checkData = () => {
     const saved = JSON.parse(localStorage.getItem('til'));
     if (saved) {
-      const { title, content, selected_tags } = saved;
-      this.setState({
-        title,
-        content,
-        selected_tags,
-      });
+      this.setState({ visible: true });
     }
+  };
+
+  getData = (e) => {
+    const saved = JSON.parse(localStorage.getItem('til'));
+    const { title, content, selected_tags } = saved;
+    this.setState({
+      visible: false,
+      title,
+      content,
+      selected_tags,
+    });
+  };
+
+  dropData = (e) => {
+    this.setState({
+      visible: false,
+    });
+    localStorage.removeItem('til');
   };
 
   handleInputChange = (state) => ({ target: { value: input } }) => {
@@ -98,18 +112,6 @@ class TILTemplate extends Component {
       future_action,
       selected_tags,
     } = this.state;
-    console.log(
-      111,
-      theme,
-      title,
-      theme,
-      title,
-      fact,
-      feeling,
-      finding,
-      future_action,
-      selected_tags,
-    );
 
     const content = `${fact}${feeling}${finding}${future_action}`;
     postTILPost(theme, title, content, selected_tags)
@@ -131,6 +133,7 @@ class TILTemplate extends Component {
       future_action,
       tags,
       selected_tags,
+      visible,
       isPosted,
     } = this.state;
     if (isPosted) {
@@ -138,6 +141,14 @@ class TILTemplate extends Component {
     } else {
       return (
         <div>
+          <Modal
+            title="confirm"
+            visible={visible}
+            onOk={this.getData}
+            onCancel={this.dropData}
+          >
+            <p>Would you like to go to what you were working on?</p>
+          </Modal>
           <div className="cl_Post">
             <Input
               className="cl_Edit_Title cl_Post_set "
@@ -159,7 +170,8 @@ class TILTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('fact')}
-                  defaultValue={'hello'}
+                  defaultValue={fact}
+                  placeholder="사실"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -175,7 +187,8 @@ class TILTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('feeling')}
-                  defaultValue={'hello'}
+                  defaultValue={feeling}
+                  placeholder="느낌"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -191,7 +204,8 @@ class TILTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('finding')}
-                  defaultValue={'hello'}
+                  defaultValue={finding}
+                  placeholder="교훈"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -207,7 +221,8 @@ class TILTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('future_action')}
-                  defaultValue={'hello'}
+                  defaultValue={future_action}
+                  placeholder="행동"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
