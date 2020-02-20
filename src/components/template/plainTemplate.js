@@ -43,9 +43,30 @@ class PlainTemplate extends Component {
 
   checkData = () => {
     const saved = JSON.parse(localStorage.getItem('plain'));
+  
     if (saved) {
-      this.setState({ visible: true });
+      const { title, content, selected_tags } = saved;
+      if (!this.isEmpty(title, content, selected_tags)) {
+        this.setState({ visible: true });
+      }
     }
+  };
+
+  isEmpty = (...data) => {
+    let empty_count = 0;
+
+    for (const datum of data) {
+      if (typeof datum === 'string') {
+        if (!/\S/.test(datum)) {
+          empty_count++;
+        }
+      } else {
+        if (datum.length === 0) {
+          empty_count++;
+        }
+      }
+    }
+    return empty_count === data.length;
   };
 
   getData = (e) => {
