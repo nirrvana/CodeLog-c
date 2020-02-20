@@ -10,7 +10,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import CodeBlock from '../../components/postedit/CodeBlock';
 import debounce from 'lodash.debounce';
 //* css
-import { Tag, Input, Button, Avatar, List, message } from 'antd';
+import { Tag, Input, Button, Avatar, List, message, Modal } from 'antd';
 
 class DevTemplate3 extends Component {
   constructor() {
@@ -25,6 +25,7 @@ class DevTemplate3 extends Component {
       lesson: '',
       tags: [],
       selected_tags: [],
+      visible: false,
       isPosted: false,
     };
     this.handleDebounceInputChange = debounce(
@@ -42,19 +43,34 @@ class DevTemplate3 extends Component {
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
 
-    this.getPostData();
+    this.checkData();
   }
 
-  getPostData = () => {
+  checkData = () => {
+    const saved = JSON.parse(localStorage.getItem('dev'));
+    if (saved) {
+      this.setState({ visible: true });
+    }
+  };
+
+  getData = (e) => {
     const saved = JSON.parse(localStorage.getItem('dev'));
     if (saved) {
       const { title, content, selected_tags } = saved;
       this.setState({
+        visible: false,
         title,
         content,
         selected_tags,
       });
     }
+  };
+
+  dropData = (e) => {
+    this.setState({
+      visible: false,
+    });
+    localStorage.removeItem('dev');
   };
 
   handleInputChange = (state) => ({ target: { value: input } }) => {
@@ -101,17 +117,6 @@ class DevTemplate3 extends Component {
       lesson,
       selected_tags,
     } = this.state;
-    console.log(
-      111,
-      theme,
-      title,
-      project_concept,
-      coding_strategy,
-      occurred_error,
-      reference,
-      lesson,
-      selected_tags,
-    );
 
     const content = `${project_concept}${coding_strategy}${occurred_error}${reference}${lesson}`;
     postDevPost(theme, title, content, selected_tags)
@@ -134,6 +139,7 @@ class DevTemplate3 extends Component {
       lesson,
       tags,
       selected_tags,
+      visible,
       isPosted,
     } = this.state;
     if (isPosted) {
@@ -141,6 +147,14 @@ class DevTemplate3 extends Component {
     } else {
       return (
         <div>
+          <Modal
+            title="confirm"
+            visible={visible}
+            onOk={this.getData}
+            onCancel={this.dropData}
+          >
+            <p>Would you like to go to what you were working on?</p>
+          </Modal>
           <div className="cl_Post">
             <Input
               className="cl_Edit_Title cl_Post_set "
@@ -162,11 +176,8 @@ class DevTemplate3 extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('project_concept')}
-                  defaultValue={
-                    project_concept === ''
-                      ? '구현하고자 하는 기능/과제/프로젝트에 대한 설명'
-                      : project_concept
-                  }
+                  defaultValue={project_concept}
+                  placeholder="구현하고자 하는 기능/과제/프로젝트에 대한 설명"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -182,11 +193,8 @@ class DevTemplate3 extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('coding_strategy')}
-                  defaultValue={
-                    coding_strategy === ''
-                      ? '구현을 위한 코딩 전략'
-                      : coding_strategy
-                  }
+                  defaultValue={coding_strategy}
+                  placeholder="구현을 위한 코딩 전략"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -202,11 +210,8 @@ class DevTemplate3 extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('occurred_error')}
-                  defaultValue={
-                    occurred_error === ''
-                      ? '진행 중 겪은 에러/에러코드/어려움'
-                      : occurred_error
-                  }
+                  defaultValue={occurred_error}
+                  placeholder="진행 중 겪은 에러/에러코드/어려움"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -222,11 +227,8 @@ class DevTemplate3 extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('reference')}
-                  defaultValue={
-                    reference === ''
-                      ? '에러를 해결하기 위해 찾아본 키워드 및 레퍼런스'
-                      : reference
-                  }
+                  defaultValue={reference}
+                  placeholder="에러를 해결하기 위해 찾아본 키워드 및 레퍼런스"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -242,11 +244,8 @@ class DevTemplate3 extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('lesson')}
-                  defaultValue={
-                    lesson === ''
-                      ? '기능구현 및 에러해결을 통해 얻은 교훈'
-                      : lesson
-                  }
+                  defaultValue={lesson}
+                  placeholder="기능구현 및 에러해결을 통해 얻은 교훈"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
