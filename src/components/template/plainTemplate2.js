@@ -10,7 +10,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import CodeBlock from '../../components/postedit/CodeBlock';
 import debounce from 'lodash.debounce';
 //* css
-import { Tag, Input, Button, Avatar, List, message } from 'antd';
+import { Tag, Input, Button, Avatar, List, message, Modal } from 'antd';
 class PlainTemplate2 extends Component {
   constructor() {
     super();
@@ -20,6 +20,7 @@ class PlainTemplate2 extends Component {
       content: '',
       tags: [],
       selected_tags: [],
+      visible: false,
       isPosted: false,
     };
     this.handleDebounceInputChange = debounce(
@@ -37,19 +38,32 @@ class PlainTemplate2 extends Component {
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
 
-    this.getPostData();
+    this.checkData();
   }
 
-  getPostData = () => {
+  checkData = () => {
     const saved = JSON.parse(localStorage.getItem('plain'));
     if (saved) {
-      const { title, content, selected_tags } = saved;
-      this.setState({
-        title,
-        content,
-        selected_tags,
-      });
+      this.setState({ visible: true });
     }
+  };
+
+  getData = (e) => {
+    const saved = JSON.parse(localStorage.getItem('plain'));
+    const { title, content, selected_tags } = saved;
+    this.setState({
+      visible: false,
+      title,
+      content,
+      selected_tags,
+    });
+  };
+
+  dropData = (e) => {
+    this.setState({
+      visible: false,
+    });
+    localStorage.removeItem('plain');
   };
 
   handleInputChange = (state) => ({ target: { value: input } }) => {
@@ -87,7 +101,6 @@ class PlainTemplate2 extends Component {
 
   handleSubmit = (e) => {
     const { theme, title, content, selected_tags } = this.state;
-    console.log(111, theme, title, content, selected_tags);
 
     postPlainPost(theme, title, content, selected_tags)
       .then(({ data: { id } }) => {
@@ -100,12 +113,27 @@ class PlainTemplate2 extends Component {
   };
 
   render() {
-    const { title, content, tags, selected_tags, isPosted } = this.state;
+    const {
+      title,
+      content,
+      tags,
+      selected_tags,
+      visible,
+      isPosted,
+    } = this.state;
     if (isPosted) {
       return <Redirect to="PlainPost" />;
     } else {
       return (
         <div>
+          <Modal
+            title="confirm"
+            visible={visible}
+            onOk={this.getData}
+            onCancel={this.dropData}
+          >
+            <p>Would you like to go to what you were working on?</p>
+          </Modal>
           <div className="cl_Post">
             <Input
               className="cl_Edit_Title cl_Post_set "
