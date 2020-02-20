@@ -7,12 +7,12 @@ import { currentPost } from '../../redux/action';
 //* library
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
-import CodeBlock from '../../components/postedit/CodeBlock';
+import CodeBlock from '../postedit/CodeBlock';
 import debounce from 'lodash.debounce';
 //* css
 import { Tag, Input, Button, Avatar, List, message, Modal } from 'antd';
 
-class DevTemplate3 extends Component {
+class DevTemplate extends Component {
   constructor() {
     super();
     this.state = {
@@ -291,4 +291,4 @@ const mapDispatchToProps = (dispatch) => ({
   handlePost: (id) => dispatch(currentPost(id)),
 });
 
-export default connect(null, mapDispatchToProps)(DevTemplate3);
+export default connect(null, mapDispatchToProps)(DevTemplate);
