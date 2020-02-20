@@ -10,7 +10,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import CodeBlock from '../../components/postedit/CodeBlock';
 import debounce from 'lodash.debounce';
 //* css
-import { Tag, Input, Button, Avatar, List, message } from 'antd';
+import { Tag, Input, Button, Avatar, List, message, Modal } from 'antd';
 
 class TechTemplate extends Component {
   constructor() {
@@ -26,14 +26,13 @@ class TechTemplate extends Component {
       tech_recommended_concept: '',
       tags: [],
       selected_tags: [],
+      visible: false,
       isPosted: false,
     };
     this.handleDebounceInputChange = debounce(
       this.handleDebounceInputChange,
       1000,
     );
-
-    this.getPostData();
   }
 
   componentDidMount() {
@@ -45,19 +44,32 @@ class TechTemplate extends Component {
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
 
-    this.getPostData();
+    this.checkData();
   }
 
-  getPostData = () => {
+  checkData = () => {
     const saved = JSON.parse(localStorage.getItem('tech'));
     if (saved) {
-      const { title, content, selected_tags } = saved;
-      this.setState({
-        title,
-        content,
-        selected_tags,
-      });
+      this.setState({ visible: true });
     }
+  };
+
+  getData = (e) => {
+    const saved = JSON.parse(localStorage.getItem('tech'));
+    const { title, content, selected_tags } = saved;
+    this.setState({
+      visible: false,
+      title,
+      content,
+      selected_tags,
+    });
+  };
+
+  dropData = (e) => {
+    this.setState({
+      visible: false,
+    });
+    localStorage.removeItem('tech');
   };
 
   handleInputChange = (state) => ({ target: { value: input } }) => {
@@ -78,6 +90,7 @@ class TechTemplate extends Component {
   selectTag = (e) => {
     const { selected_tags } = this.state;
     const target = e.target.innerText;
+
     if (!selected_tags.includes(target)) {
       e.target.className = 'ant-tag-blue';
       this.setState({
@@ -104,18 +117,6 @@ class TechTemplate extends Component {
       tech_recommended_concept,
       selected_tags,
     } = this.state;
-    console.log(
-      111,
-      theme,
-      title,
-      tech_concept,
-      tech_background,
-      tech_definition,
-      tech_example,
-      tech_precaution,
-      tech_recommended_concept,
-      selected_tags,
-    );
 
     const content = `${tech_concept}${tech_background}${tech_definition}${tech_example}${tech_precaution}${tech_recommended_concept}`;
     postTechPost(theme, title, content, selected_tags)
@@ -139,6 +140,7 @@ class TechTemplate extends Component {
       tech_recommended_concept,
       tags,
       selected_tags,
+      visible,
       isPosted,
     } = this.state;
     if (isPosted) {
@@ -146,12 +148,21 @@ class TechTemplate extends Component {
     } else {
       return (
         <div>
+          <Modal
+            title="confirm"
+            visible={visible}
+            onOk={this.getData}
+            onCancel={this.dropData}
+          >
+            <p>Would you like to go to what you were working on?</p>
+          </Modal>
           <div className="cl_Post">
             <Input
               className="cl_Edit_Title cl_Post_set "
               type="text"
               onChange={this.handleInputChange('title')}
-              value={title === '' ? 'title' : title}
+              value={title}
+              placeholder="title"
             />
             <div className="cl_Post_author_Info cl_Post_set ">
               <Avatar
@@ -166,7 +177,8 @@ class TechTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('tech_concept')}
-                  defaultValue={'hello'}
+                  defaultValue={tech_concept}
+                  placeholder="블로깅 할 개념"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -182,7 +194,8 @@ class TechTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('tech_background')}
-                  defaultValue={'hello'}
+                  defaultValue={tech_background}
+                  placeholder="해당 개념을 블로깅 하게 된 배경"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -198,7 +211,8 @@ class TechTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('tech_definition')}
-                  defaultValue={'hello'}
+                  defaultValue={tech_definition}
+                  placeholder="해당 개념에 대한 정의"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -214,7 +228,8 @@ class TechTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('tech_example')}
-                  defaultValue={'hello'}
+                  defaultValue={tech_example}
+                  placeholder="해당 개념을 설명하기 위한 예시 코드"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -230,7 +245,8 @@ class TechTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('tech_precaution')}
-                  defaultValue={'hello'}
+                  defaultValue={tech_precaution}
+                  placeholder="해당 개념 사용 시 주의사항"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
@@ -248,7 +264,8 @@ class TechTemplate extends Component {
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
                   onChange={this.handleInputChange('tech_recommended_concept')}
-                  defaultValue={'hello'}
+                  defaultValue={tech_recommended_concept}
+                  placeholder="해당 개념과 함께보면 좋은 개념"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
