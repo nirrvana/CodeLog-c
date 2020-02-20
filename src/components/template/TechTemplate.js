@@ -8,23 +8,33 @@ import { currentPost } from '../../redux/action';
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
 import CodeBlock from '../../components/postedit/CodeBlock';
+import debounce from 'lodash.debounce';
 //* css
 import { Tag, Input, Button, Avatar, List, message } from 'antd';
 
 class TechTemplate extends Component {
-  state = {
-    theme: 'tech',
-    title: '',
-    tech_concept: '',
-    tech_background: '',
-    tech_definition: '',
-    tech_example: '',
-    tech_precaution: '',
-    tech_recommended_concept: '',
-    tags: [],
-    selected_tags: [],
-    isPosted: false,
-  };
+  constructor() {
+    super();
+    this.state = {
+      theme: 'tech',
+      title: '',
+      tech_concept: '',
+      tech_background: '',
+      tech_definition: '',
+      tech_example: '',
+      tech_precaution: '',
+      tech_recommended_concept: '',
+      tags: [],
+      selected_tags: [],
+      isPosted: false,
+    };
+    this.handleDebounceInputChange = debounce(
+      this.handleDebounceInputChange,
+      1000,
+    );
+
+    this.getPostData();
+  }
 
   componentDidMount() {
     getTags()
@@ -34,30 +44,52 @@ class TechTemplate extends Component {
         }),
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
+
+    this.getPostData();
   }
+
+  getPostData = () => {
+    const saved = JSON.parse(localStorage.getItem('tech'));
+    if (saved) {
+      const { title, content, selected_tags } = saved;
+      this.setState({
+        title,
+        content,
+        selected_tags,
+      });
+    }
+  };
 
   handleInputChange = (state) => ({ target: { value: input } }) => {
     this.setState({
       [state]: input,
     });
+    this.handleDebounceInputChange();
+  };
+
+  handleDebounceInputChange = () => {
+    const { theme, title, content, selected_tags } = this.state;
+    localStorage.setItem(
+      theme,
+      JSON.stringify({ title, content, selected_tags }),
+    );
   };
 
   selectTag = (e) => {
     const { selected_tags } = this.state;
     const target = e.target.innerText;
     if (!selected_tags.includes(target)) {
-      e.target.style['background-color'] = 'blue';
+      e.target.className = 'ant-tag-blue';
       this.setState({
         selected_tags: [...selected_tags, target],
       });
-      console.log(selected_tags);
     } else {
-      e.target.style['background-color'] = 'gray';
+      e.target.className = '';
       this.setState({
         selected_tags: selected_tags.filter((tag) => tag !== target),
       });
-      console.log(selected_tags);
     }
+    this.handleDebounceInputChange('selected_tags');
   };
 
   handleSubmit = (e) => {
@@ -91,12 +123,14 @@ class TechTemplate extends Component {
         this.props.handlePost(id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
+        localStorage.removeItem('tech');
       })
       .catch((err) => message.error('Fail to post..'));
   };
 
   render() {
     const {
+      title,
       tech_concept,
       tech_background,
       tech_definition,
@@ -104,6 +138,7 @@ class TechTemplate extends Component {
       tech_precaution,
       tech_recommended_concept,
       tags,
+      selected_tags,
       isPosted,
     } = this.state;
     if (isPosted) {
@@ -116,7 +151,7 @@ class TechTemplate extends Component {
               className="cl_Edit_Title cl_Post_set "
               type="text"
               onChange={this.handleInputChange('title')}
-              defaultValue={'title'}
+              value={title === '' ? 'title' : title}
             />
             <div className="cl_Post_author_Info cl_Post_set ">
               <Avatar
@@ -229,7 +264,10 @@ class TechTemplate extends Component {
                   dataSource={tags}
                   renderItem={(item) => (
                     <span>
-                      <Tag color="gray" onClick={this.selectTag}>
+                      <Tag
+                        color={selected_tags.includes(item) ? 'blue' : ''}
+                        onClick={this.selectTag}
+                      >
                         {item}
                       </Tag>
                     </span>

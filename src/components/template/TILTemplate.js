@@ -4,24 +4,32 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getTags, postTILPost } from '../../redux/api';
 import { currentPost } from '../../redux/action';
-//* parser
+//* library
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
 import CodeBlock from '../../components/postedit/CodeBlock';
+import debounce from 'lodash.debounce';
 //* css
 import { Tag, Input, Button, Avatar, List, message } from 'antd';
 class TILTemplate extends Component {
-  state = {
-    theme: 'til',
-    title: '',
-    fact: '',
-    feeling: '',
-    finding: '',
-    future_action: '',
-    tags: [],
-    selected_tags: [],
-    isPosted: false,
-  };
+  constructor() {
+    super();
+    this.state = {
+      theme: 'til',
+      title: '',
+      fact: '',
+      feeling: '',
+      finding: '',
+      future_action: '',
+      tags: [],
+      selected_tags: [],
+      isPosted: false,
+    };
+    this.handleDebounceInputChange = debounce(
+      this.handleDebounceInputChange,
+      1000,
+    );
+  }
 
   componentDidMount() {
     getTags()
@@ -31,30 +39,53 @@ class TILTemplate extends Component {
         }),
       )
       .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
+
+    this.getPostData();
   }
+
+  getPostData = () => {
+    const saved = JSON.parse(localStorage.getItem('til'));
+    if (saved) {
+      const { title, content, selected_tags } = saved;
+      this.setState({
+        title,
+        content,
+        selected_tags,
+      });
+    }
+  };
 
   handleInputChange = (state) => ({ target: { value: input } }) => {
     this.setState({
       [state]: input,
     });
+    this.handleDebounceInputChange();
+  };
+
+  handleDebounceInputChange = () => {
+    const { theme, title, content, selected_tags } = this.state;
+    localStorage.setItem(
+      theme,
+      JSON.stringify({ title, content, selected_tags }),
+    );
   };
 
   selectTag = (e) => {
     const { selected_tags } = this.state;
     const target = e.target.innerText;
+
     if (!selected_tags.includes(target)) {
-      e.target.style['background-color'] = 'blue';
+      e.target.className = 'ant-tag-blue';
       this.setState({
         selected_tags: [...selected_tags, target],
       });
-      console.log(selected_tags);
     } else {
-      e.target.style['background-color'] = 'gray';
+      e.target.className = '';
       this.setState({
         selected_tags: selected_tags.filter((tag) => tag !== target),
       });
-      console.log(selected_tags);
     }
+    this.handleDebounceInputChange('selected_tags');
   };
 
   handleSubmit = (e) => {
@@ -86,17 +117,20 @@ class TILTemplate extends Component {
         this.props.handlePost(id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
+        localStorage.removeItem('til');
       })
       .catch((err) => message.error('Fail to post..'));
   };
 
   render() {
     const {
+      title,
       fact,
       feeling,
       finding,
       future_action,
       tags,
+      selected_tags,
       isPosted,
     } = this.state;
     if (isPosted) {
@@ -109,7 +143,7 @@ class TILTemplate extends Component {
               className="cl_Edit_Title cl_Post_set "
               type="text"
               onChange={this.handleInputChange('title')}
-              defaultValue={'title'}
+              value={title === '' ? 'title' : title}
             />
             <div className="cl_Post_author_Info cl_Post_set ">
               <Avatar
@@ -188,7 +222,10 @@ class TILTemplate extends Component {
                   dataSource={tags}
                   renderItem={(item) => (
                     <span>
-                      <Tag color="gray" onClick={this.selectTag}>
+                      <Tag
+                        color={selected_tags.includes(item) ? 'blue' : ''}
+                        onClick={this.selectTag}
+                      >
                         {item}
                       </Tag>
                     </span>
