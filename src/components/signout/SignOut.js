@@ -6,6 +6,7 @@ import { signout } from '../../redux/action';
 
 class SignOut extends Component {
   componentDidMount() {
+    localStorage.clear();
     this.props.handleSignOut();
   }
 
@@ -18,13 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSignOut: () => {
     postSignOut()
       .then((res) => dispatch(signout()))
-      .catch((err) => {
-        const token = document.cookie.slice(0, 5);
-        let date = new Date();
-        date.setDate(date.getDate() - 1);
-        document.cookie = `${token} =; expires=${date}`;
-        dispatch(signout());
-      });
+      .catch((err) => dispatch(signout()));
   },
 });
 
