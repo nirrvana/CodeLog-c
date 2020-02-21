@@ -154,19 +154,22 @@ class PlainPostEdit extends Component {
       post.content,
       post.plain_selected_tags,
     );
-
-    await PostEditPost(
-      localData_id,
-      post.title,
-      post.content,
-      post.plain_selected_tags,
-    );
-    // 로컬 스토리지 아이템 제거
-    localStorage.removeItem('currentPost');
-    delete deleteSave[localData_id];
-    localStorage.setItem('PostSave', JSON.stringify(deleteSave));
-    // 페이지 이동
-    this.props.history.push('/plainpost');
+    if (!post.title.length) {
+      message.error('Please input a title!');
+    } else {
+      await PostEditPost(
+        localData_id,
+        post.title,
+        post.content,
+        post.plain_selected_tags,
+      );
+      // 로컬 스토리지 아이템 제거
+      localStorage.removeItem('currentPost');
+      delete deleteSave[localData_id];
+      localStorage.setItem('PostSave', JSON.stringify(deleteSave));
+      // 페이지 이동
+      this.props.history.push('/plainpost');
+    }
   };
 
   // ! Render

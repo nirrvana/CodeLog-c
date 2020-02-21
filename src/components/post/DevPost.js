@@ -23,6 +23,7 @@ import {
   Avatar,
   Dropdown,
   Menu,
+  Modal,
 } from 'antd';
 import moment from 'moment';
 const { TextArea } = Input;
@@ -85,6 +86,7 @@ class DevPost extends Component {
   state = {
     post: {},
     isLike: false,
+    delete_alert: false,
   };
 
   componentDidMount() {
@@ -134,6 +136,28 @@ class DevPost extends Component {
       });
     }
   };
+  // ? 삭제 경고 메소드
+  showModal = () => {
+    this.setState({
+      delete_alert: true,
+    });
+  };
+
+  handleOk = (e) => {
+    console.log(e);
+    this.setState({
+      delete_alert: false,
+    });
+    this.handlDeletePost();
+  };
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.setState({
+      delete_alert: false,
+    });
+  };
+
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
@@ -162,7 +186,7 @@ class DevPost extends Component {
           </Link>
         </Menu.Item>
 
-        <Menu.Item key="1" onClick={this.handlDeletePost}>
+        <Menu.Item key="1" onClick={this.showModal}>
           Delete
         </Menu.Item>
       </Menu>
@@ -170,7 +194,14 @@ class DevPost extends Component {
     return (
       <div>
         <TabBlog></TabBlog>
-
+        <Modal
+          title="Delete"
+          visible={this.state.delete_alert}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <h3>Are you sure delete this post?</h3>
+        </Modal>
         <div className="cl_Post">
           <div className="cl_Post_Title cl_Post_set ">{post.title}</div>
           <div className="cl_Post_author_Info cl_Post_set ">
