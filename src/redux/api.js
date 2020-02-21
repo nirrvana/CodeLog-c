@@ -8,39 +8,39 @@ export function postSignUpData(
   email,
   password,
   username,
-  companyid,
-  rank,
-  completion,
-  website,
+  company_id,
+  position,
+  certificate,
+  personal_homepage,
 ) {
   return axios.post(`${HOST}/signup`, {
     email,
     password,
     username,
-    companyid,
-    rank,
-    completion,
-    website,
+    company_id,
+    position,
+    certificate,
+    personal_homepage,
   });
 }
 
 export function postCompanySignUpData(
-  name,
-  bname,
+  company_name,
+  business_name,
   eid,
-  homepage,
+  company_homepage,
   member,
-  ispartner,
-  code,
+  partner,
+  company_code,
 ) {
   return axios.post(`${HOST}/signup/company`, {
-    name,
-    bname,
+    company_name,
+    business_name,
     eid,
-    homepage,
+    company_homepage,
     member,
-    ispartner,
-    code,
+    partner,
+    company_code,
   });
 }
 export function postEmailDuplicate(email) {
@@ -67,7 +67,7 @@ export function postCompanySignInData(company_code, username, password) {
   return axios.post(`${HOST}/signin/company`, {
     company_code,
     username,
-    password
+    password,
   });
 }
 
@@ -93,7 +93,12 @@ export function getTags() {
 }
 
 export function getMyPageCompany() {
-  return axios.get(`${HOST}/mypage/company`)
+  return axios.get(`${HOST}/mypage/company`);
+}
+
+// ? Company my page
+export function getCompanyMyPageData() {
+  return axios.get(`${HOST}/mypage`);
 }
 
 // ? Write post

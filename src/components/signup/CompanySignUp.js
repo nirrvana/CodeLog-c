@@ -52,10 +52,10 @@ class CompanySignUp extends Component {
           AccessCode,
         } = values;
         const member = {
-          username: username,
-          password: password,
-          position: position,
-          email: email,
+          username,
+          password,
+          position,
+          email,
         };
 
         postCompanySignUpData(
@@ -67,7 +67,9 @@ class CompanySignUp extends Component {
           isPartner,
           AccessCode,
         )
-          .then((res) => {})
+          .then((res) => {
+            message.success('Welcome to the membership !');
+          })
           .catch((err) => {
             message.error('exist email. please enter other email.');
           });

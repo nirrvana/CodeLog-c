@@ -26,7 +26,6 @@ class DeveloperSignUp extends Component {
     this.state = {
       confirmDirty: false,
       autoCompleteResult: [],
-      isSignUp: false,
     };
   }
 
@@ -49,7 +48,7 @@ class DeveloperSignUp extends Component {
         postSignUpData(
           values.email,
           values.password,
-          values.nickname,
+          values.username,
           undefined,
           undefined,
           undefined,
@@ -57,7 +56,7 @@ class DeveloperSignUp extends Component {
         )
           .then((res) => {
             if (res.status === 200) {
-              this.setState({ isSignUp: true });
+              message.success('Welcome to the membership !');
             }
           })
           .catch((err) => {
@@ -154,7 +153,7 @@ class DeveloperSignUp extends Component {
                   </span>
                 }
               >
-                {getFieldDecorator('nickname', {
+                {getFieldDecorator('username', {
                   rules: [
                     {
                       required: true,
