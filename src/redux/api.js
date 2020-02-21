@@ -84,18 +84,15 @@ export function getMyPageData(token) {
   });
 }
 
+export function getCompanyMyPageData() {
+  return axios.get(`${HOST}/mypage/company`);
+}
+
 export function getTags() {
   return axios.get(`${HOST}/tags`);
 }
 
-export function getMyPageCompany() {
-  return axios.get(`${HOST}/mypage/company`);
-}
 
-// ? Company my page
-export function getCompanyMyPageData() {
-  return axios.get(`${HOST}/mypage`);
-}
 
 // ? Write post
 export function postPlainPost(theme, title, content, selected_tags) {
