@@ -17,12 +17,12 @@ class TILTemplate extends Component {
     this.state = {
       theme: 'til',
       title: '',
-      fact: '',
-      feeling: '',
-      finding: '',
-      future_action: '',
-      tags: [],
+      til_fact: '',
+      til_feeling: '',
+      til_finding: '',
+      til_future_action: '',
       selected_tags: [],
+      tags: [],
       visible: false,
       isPosted: false,
     };
@@ -53,11 +53,21 @@ class TILTemplate extends Component {
 
   getData = (e) => {
     const saved = JSON.parse(localStorage.getItem('til'));
-    const { title, content, selected_tags } = saved;
+    const {
+      title,
+      til_fact,
+      til_feeling,
+      til_finding,
+      til_future_action,
+      selected_tags,
+    } = saved;
     this.setState({
       visible: false,
       title,
-      content,
+      til_fact,
+      til_feeling,
+      til_finding,
+      til_future_action,
       selected_tags,
     });
   };
@@ -77,10 +87,25 @@ class TILTemplate extends Component {
   };
 
   handleDebounceInputChange = () => {
-    const { theme, title, content, selected_tags } = this.state;
+    const {
+      theme,
+      title,
+      til_fact,
+      til_feeling,
+      til_finding,
+      til_future_action,
+      selected_tags,
+    } = this.state;
     localStorage.setItem(
       theme,
-      JSON.stringify({ title, content, selected_tags }),
+      JSON.stringify({
+        title,
+        til_fact,
+        til_feeling,
+        til_finding,
+        til_future_action,
+        selected_tags,
+      }),
     );
   };
 
@@ -106,17 +131,22 @@ class TILTemplate extends Component {
     const {
       theme,
       title,
-      fact,
-      feeling,
-      finding,
-      future_action,
+      til_fact,
+      til_feeling,
+      til_finding,
+      til_future_action,
       selected_tags,
     } = this.state;
 
-    const content = `${fact}${feeling}${finding}${future_action}`;
+    const content = {
+      til_fact,
+      til_feeling,
+      til_finding,
+      til_future_action,
+    };
     postTILPost(theme, title, content, selected_tags)
-      .then(({ data: { id } }) => {
-        this.props.handlePost(id);
+      .then(({ data: { post_id } }) => {
+        this.props.handlePost(post_id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
         localStorage.removeItem('til');
@@ -127,12 +157,12 @@ class TILTemplate extends Component {
   render() {
     const {
       title,
-      fact,
-      feeling,
-      finding,
-      future_action,
-      tags,
+      til_fact,
+      til_feeling,
+      til_finding,
+      til_future_action,
       selected_tags,
+      tags,
       visible,
       isPosted,
     } = this.state;
@@ -169,13 +199,13 @@ class TILTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('fact')}
-                  defaultValue={fact}
+                  onChange={this.handleInputChange('til_fact')}
+                  defaultValue={til_fact}
                   placeholder="사실"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={fact}
+                    source={til_fact}
                     renderers={{
                       code: CodeBlock,
                     }}
@@ -186,13 +216,13 @@ class TILTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('feeling')}
-                  defaultValue={feeling}
+                  onChange={this.handleInputChange('til_feeling')}
+                  defaultValue={til_feeling}
                   placeholder="느낌"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={feeling}
+                    source={til_feeling}
                     renderers={{
                       code: CodeBlock,
                     }}
@@ -203,13 +233,13 @@ class TILTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('finding')}
-                  defaultValue={finding}
+                  onChange={this.handleInputChange('til_finding')}
+                  defaultValue={til_finding}
                   placeholder="교훈"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={finding}
+                    source={til_finding}
                     renderers={{
                       code: CodeBlock,
                     }}
@@ -220,13 +250,13 @@ class TILTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('future_action')}
-                  defaultValue={future_action}
+                  onChange={this.handleInputChange('til_future_action')}
+                  defaultValue={til_future_action}
                   placeholder="행동"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={future_action}
+                    source={til_future_action}
                     renderers={{
                       code: CodeBlock,
                     }}

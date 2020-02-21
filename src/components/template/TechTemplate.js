@@ -24,8 +24,8 @@ class TechTemplate extends Component {
       tech_example: '',
       tech_precaution: '',
       tech_recommended_concept: '',
-      tags: [],
       selected_tags: [],
+      tags: [],
       visible: false,
       isPosted: false,
     };
@@ -56,11 +56,25 @@ class TechTemplate extends Component {
 
   getData = (e) => {
     const saved = JSON.parse(localStorage.getItem('tech'));
-    const { title, content, selected_tags } = saved;
+    const {
+      title,
+      tech_concept,
+      tech_background,
+      tech_definition,
+      tech_example,
+      tech_precaution,
+      tech_recommended_concept,
+      selected_tags,
+    } = saved;
     this.setState({
       visible: false,
       title,
-      content,
+      tech_concept,
+      tech_background,
+      tech_definition,
+      tech_example,
+      tech_precaution,
+      tech_recommended_concept,
       selected_tags,
     });
   };
@@ -80,10 +94,29 @@ class TechTemplate extends Component {
   };
 
   handleDebounceInputChange = () => {
-    const { theme, title, content, selected_tags } = this.state;
+    const {
+      theme,
+      title,
+      tech_concept,
+      tech_background,
+      tech_definition,
+      tech_example,
+      tech_precaution,
+      tech_recommended_concept,
+      selected_tags,
+    } = this.state;
     localStorage.setItem(
       theme,
-      JSON.stringify({ title, content, selected_tags }),
+      JSON.stringify({
+        title,
+        tech_concept,
+        tech_background,
+        tech_definition,
+        tech_example,
+        tech_precaution,
+        tech_recommended_concept,
+        selected_tags,
+      }),
     );
   };
 
@@ -118,10 +151,17 @@ class TechTemplate extends Component {
       selected_tags,
     } = this.state;
 
-    const content = `${tech_concept}${tech_background}${tech_definition}${tech_example}${tech_precaution}${tech_recommended_concept}`;
+    const content = {
+      tech_concept,
+      tech_background,
+      tech_definition,
+      tech_example,
+      tech_precaution,
+      tech_recommended_concept,
+    };
     postTechPost(theme, title, content, selected_tags)
-      .then(({ data: { id } }) => {
-        this.props.handlePost(id);
+      .then(({ data: { post_id } }) => {
+        this.props.handlePost(post_id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
         localStorage.removeItem('tech');
@@ -138,8 +178,8 @@ class TechTemplate extends Component {
       tech_example,
       tech_precaution,
       tech_recommended_concept,
-      tags,
       selected_tags,
+      tags,
       visible,
       isPosted,
     } = this.state;
