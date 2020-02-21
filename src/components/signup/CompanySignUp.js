@@ -69,7 +69,10 @@ class CompanySignUp extends Component {
           company_code,
         )
           .then((res) => {
-            message.success('Welcome to the membership !');
+            if (res.status === 200) {
+              message.success('Welcome to the membership !');
+              this.props.history.push('/');
+            }
           })
           .catch((err) => {
             message.error('exist email. please enter other email.');
