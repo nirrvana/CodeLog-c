@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 // * File
@@ -85,8 +85,11 @@ class PlainPost extends Component {
     post: {},
     isLike: false,
   };
+
   componentDidMount() {
+    // 현재 페이지 값 업데이트
     this.props.handlePage('Post');
+    // 랜더 시 페이지 상단부터
     window.scrollTo(0, 0);
     let id = this.props.PostState.currentPost.id;
     if (id) {
@@ -94,6 +97,7 @@ class PlainPost extends Component {
     } else {
       id = JSON.parse(localStorage.getItem('post_id')).id;
     }
+    // 서버 요청
     getSelectPost(id).then((res) => {
       this.setState({ post: Object.assign({}, this.state.post, res.data) });
     });
@@ -130,32 +134,24 @@ class PlainPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-    let tagView, color, title, content, Likes, userName;
+    let tagView, color;
 
+    // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
     }
-
     if (post.tags === undefined || !post.tags.length) {
       tagView = 'none';
     }
     if (!Object.keys(post).length) {
-      title = '';
-      userName = '';
-      content = '';
-      Likes = 0;
-    } else {
-      title = post.title;
-      userName = post.users.username;
-      content = post.content;
-      Likes = post.likes;
+      return <></>;
     }
     const menu = (
       <Menu>
         <Menu.Item key="0">
           <Link
             to="/PlainpostEdit"
-            onClick={this.handlePostData(title, content)}
+            onClick={this.handlePostData(post.title, post.content, post.tags)}
           >
             Edit
           </Link>
@@ -170,19 +166,19 @@ class PlainPost extends Component {
       <div>
         <TabBlog></TabBlog>
         <div className="cl_Post">
-          <div className="cl_Post_Title cl_Post_set ">{title}</div>
+          <div className="cl_Post_Title cl_Post_set ">{post.title}</div>
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}</div>
+            <div className="cl_Post_author">{post.users.username}</div>
 
             <Tooltip
               className="cl_Post_Time"
               title={moment().format('YYYY-MM-DD HH:mm:ss')}
             >
-              <div>{moment(this.state.post.updatedAt).fromNow()}</div>
+              <div>{moment(post.updatedAt).fromNow()}</div>
             </Tooltip>
 
             <Dropdown overlay={menu} trigger={['click']}>
@@ -191,7 +187,7 @@ class PlainPost extends Component {
           </div>
           <div className="cl_Post_Contents ">
             <ReactMarkdown
-              source={content}
+              source={post.content.plain_content}
               renderers={{
                 code: CodeBlock,
               }}
@@ -201,7 +197,7 @@ class PlainPost extends Component {
             <List
               style={{ display: tagView }}
               itemLayout="horizontal"
-              dataSource={this.state.post.tags}
+              dataSource={post.tags}
               renderItem={(item) => (
                 <span>
                   <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>
@@ -209,7 +205,7 @@ class PlainPost extends Component {
               )}
             />
 
-            <Popover content={Likes + ' Likes'}>
+            <Popover content={post.Likes + ' Likes'}>
               <Icon
                 type="heart"
                 className="cl_PlainPost_Like"

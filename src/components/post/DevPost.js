@@ -140,7 +140,6 @@ class DevPost extends Component {
 
     let tagView, color;
 
-
     // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
@@ -179,13 +178,13 @@ class DevPost extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{post.userName}</div>
+            <div className="cl_Post_author">{post.users.username}</div>
 
             <Tooltip
               className="cl_Post_Time"
               title={moment().format('YYYY-MM-DD HH:mm:ss')}
             >
-              <div>{moment(this.state.post.updatedAt).fromNow()}</div>
+              <div>{moment(post.updatedAt).fromNow()}</div>
             </Tooltip>
 
             <Dropdown overlay={menu} trigger={['click']}>
@@ -198,7 +197,7 @@ class DevPost extends Component {
               Project concept
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={post.content}
+                source={post.content.dev_project_concept}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -208,7 +207,7 @@ class DevPost extends Component {
               Coding Strategy
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={post.content}
+                source={post.content.dev_coding_strategy}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -218,7 +217,7 @@ class DevPost extends Component {
               Error handling
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={post.content}
+                source={post.content.dev_occurred_error}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -228,7 +227,7 @@ class DevPost extends Component {
               Referenece
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={post.content}
+                source={post.content.dev_reference}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -238,7 +237,7 @@ class DevPost extends Component {
               Lesson
               <ReactMarkdown
                 className="cl_Post_Contents"
-                source={post.content}
+                source={post.content.dev_lesson}
                 renderers={{
                   code: CodeBlock,
                 }}

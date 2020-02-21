@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 // * File
@@ -131,7 +131,7 @@ class TILPost extends Component {
   render() {
     const { isLike, post } = this.state;
     window.scrollTo(0, 0);
-    let tagView, color, title, content, Likes, userName;
+    let tagView, color;
 
     if (isLike) {
       color = 'red';
@@ -141,22 +141,14 @@ class TILPost extends Component {
       tagView = 'none';
     }
     if (!Object.keys(post).length) {
-      title = '';
-      userName = '';
-      content = '';
-      Likes = 0;
-    } else {
-      title = post.title;
-      userName = post.users.username;
-      content = post.content;
-      Likes = post.likes;
+      return <></>;
     }
     const menu = (
       <Menu>
         <Menu.Item key="0">
           <Link
             to="/TechpostEdit"
-            onClick={this.handlePostData(title, content)}
+            onClick={this.handlePostData(post.title, post.content, post.tags)}
           >
             Edit
           </Link>
@@ -171,19 +163,19 @@ class TILPost extends Component {
       <div>
         <TabBlog></TabBlog>
         <div className="cl_Post">
-          <div className="cl_Post_Title cl_Post_set ">{title}</div>
+          <div className="cl_Post_Title cl_Post_set ">{post.title}</div>
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}</div>
+            <div className="cl_Post_author">{post.users.username}</div>
 
             <Tooltip
               className="cl_Post_Time"
               title={moment().format('YYYY-MM-DD HH:mm:ss')}
             >
-              <div>{moment(this.state.post.updatedAt).fromNow()}</div>
+              <div>{moment(post.updatedAt).fromNow()}</div>
             </Tooltip>
             <Dropdown overlay={menu} trigger={['click']}>
               <Icon type="setting" className="cl_Post_Edit_Btn" />
@@ -194,7 +186,7 @@ class TILPost extends Component {
               Tech concept
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.tech_concept}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -205,7 +197,7 @@ class TILPost extends Component {
               Tech background
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.tech_background}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -216,7 +208,7 @@ class TILPost extends Component {
               Tech definition
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.tech_definition}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -227,7 +219,7 @@ class TILPost extends Component {
               Tech example
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.tech_example}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -238,7 +230,7 @@ class TILPost extends Component {
               Tech precausions
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.tech_precaution}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -249,7 +241,7 @@ class TILPost extends Component {
               Tech recommand concept
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.tech_recommended_concept}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -261,14 +253,14 @@ class TILPost extends Component {
             <List
               style={{ display: tagView }}
               itemLayout="horizontal"
-              dataSource={this.state.post.tags}
+              dataSource={post.tags}
               renderItem={(item) => (
                 <span>
                   <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>
                 </span>
               )}
             />
-            <Popover content={Likes + ' Likes'}>
+            <Popover content={post.Likes + ' Likes'}>
               <Icon
                 type="heart"
                 className="cl_PlainPost_Like"
