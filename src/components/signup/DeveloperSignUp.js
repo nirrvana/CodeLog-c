@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // * Library
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 // * Import file
 import TabNoBtn from '../../pages/TabNoBtn';
 import { postSignUpData, postEmailDuplicate } from '../../redux/api';
@@ -26,7 +25,6 @@ class DeveloperSignUp extends Component {
     this.state = {
       confirmDirty: false,
       autoCompleteResult: [],
-      isSignUp: false,
     };
   }
 
@@ -50,19 +48,17 @@ class DeveloperSignUp extends Component {
         postSignUpData(
           values.email,
           values.password,
-          values.nickname,
-          undefined,
-          undefined,
-          undefined,
-          values.website,
+          values.username,
+          values.personal_homepage,
         )
           .then((res) => {
             if (res.status === 200) {
-              this.setState({ isSignUp: true });
+              message.success('Welcome to the membership !');
+              this.props.history.push('/');
             }
           })
           .catch((err) => {
-            throw err;
+            message.error('exist email. please enter other email.');
           });
       }
     });
@@ -133,144 +129,144 @@ class DeveloperSignUp extends Component {
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
 
-    if (!this.state.isSignUp) {
-      return (
-        <div>
-          <TabNoBtn></TabNoBtn>
-          <div className="cl_SignUpComponent">
-            <Form
-              className="cl_SignUpForm"
-              {...formItemLayout}
-              onSubmit={this.handleSubmit}
+    return (
+      <div>
+        <TabNoBtn></TabNoBtn>
+        <div className="cl_SignUpComponent">
+          <Form
+            className="cl_SignUpForm"
+            {...formItemLayout}
+            onSubmit={this.handleSubmit}
+          >
+            <div className="cl_SignUp_header">Sign up</div>
+
+            <Form.Item
+              label={
+                <span>
+                  User name&nbsp;
+                  <Tooltip title="What do you want others to call you?">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              }
             >
-              <div className="cl_SignUp_header">Sign up</div>
+              {getFieldDecorator('username', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input your user name!',
+                    whitespace: true,
+                  },
+                ],
+              })(<Input className="cl_SignUp_DevInput" />)}
+            </Form.Item>
 
-              <Form.Item
-                label={
-                  <span>
-                    User name&nbsp;
-                    <Tooltip title="What do you want others to call you?">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </span>
-                }
-              >
-                {getFieldDecorator('nickname', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input your user name!',
-                      whitespace: true,
-                    },
-                  ],
-                })(<Input className="cl_SignUp_DevInput" />)}
-              </Form.Item>
+            <Form.Item
+              className="cl_Email_Form"
+              label="E-mail"
+              onChange={this.handleEmail}
+            >
+              {getFieldDecorator('email', {
+                rules: [
+                  {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your E-mail!',
+                  },
+                ],
+              })(<Input className="cl_SignUp_DevInput" />)}
+            </Form.Item>
+            <Button
+              className="cl_Email_Duplicate"
+              onClick={this.handleEmailValid}
+            >
+              Check email
+            </Button>
+            <Form.Item label="Password" hasFeedback>
+              {getFieldDecorator('password', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input your password!',
+                  },
+                  {
+                    validator: this.validateToNextPassword,
+                  },
+                ],
+              })(<Input.Password className="cl_SignUp_DevInput" />)}
+            </Form.Item>
+            <Form.Item label="Confirm Password" hasFeedback>
+              {getFieldDecorator('confirm', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please confirm your password!',
+                  },
+                  {
+                    validator: this.compareToFirstPassword,
+                  },
+                ],
+              })(
+                <Input.Password
+                  onBlur={this.handleConfirmBlur}
+                  className="cl_SignUp_DevInput"
+                />,
+              )}
+            </Form.Item>
 
-              <Form.Item
-                className="cl_Email_Form"
-                label="E-mail"
-                onChange={this.handleEmail}
-              >
-                {getFieldDecorator('email', {
-                  rules: [
-                    {
-                      type: 'email',
-                      message: 'The input is not valid E-mail!',
-                    },
-                    {
-                      required: true,
-                      message: 'Please input your E-mail!',
-                    },
-                  ],
-                })(<Input className="cl_SignUp_DevInput" />)}
-              </Form.Item>
-              <Button
-                className="cl_Email_Duplicate"
-                onClick={this.handleEmailValid}
-              >
-                Check email
+            <Form.Item label="Personal homepage">
+              {getFieldDecorator('personal_homepage', {
+                rules: [
+                  {
+                    required: false,
+                    message: 'Please input personal homepage!',
+                  },
+                ],
+              })(
+                <AutoComplete
+                  dataSource={websiteOptions}
+                  onChange={this.handleWebsiteChange}
+                  placeholder="website"
+                >
+                  <Input className="cl_SignUp_DevInput" />
+                </AutoComplete>,
+              )}
+            </Form.Item>
+            <Form.Item label="Completion">
+              {getFieldDecorator('upload', {
+                valuePropName: 'fileList',
+                getValueFromEvent: this.normFile,
+              })(
+                <Upload name="logo" action="/upload.do" listType="picture">
+                  <Button>
+                    <Icon type="upload" /> Click to upload
+                  </Button>
+                </Upload>,
+              )}
+            </Form.Item>
+
+            <Form.Item {...tailFormItemLayout}>
+              {getFieldDecorator('agreement', {
+                valuePropName: 'checked',
+              })(
+                <Checkbox>
+                  I have read the <a href="">agreement</a>
+                </Checkbox>,
+              )}
+            </Form.Item>
+            <Form.Item {...tailFormItemLayout}>
+              <Button type="primary" htmlType="submit">
+                Register
               </Button>
-              <Form.Item label="Password" hasFeedback>
-                {getFieldDecorator('password', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input your password!',
-                    },
-                    {
-                      validator: this.validateToNextPassword,
-                    },
-                  ],
-                })(<Input.Password className="cl_SignUp_DevInput" />)}
-              </Form.Item>
-              <Form.Item label="Confirm Password" hasFeedback>
-                {getFieldDecorator('confirm', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please confirm your password!',
-                    },
-                    {
-                      validator: this.compareToFirstPassword,
-                    },
-                  ],
-                })(
-                  <Input.Password
-                    onBlur={this.handleConfirmBlur}
-                    className="cl_SignUp_DevInput"
-                  />,
-                )}
-              </Form.Item>
-
-              <Form.Item label="Website">
-                {getFieldDecorator('website', {
-                  rules: [
-                    { required: false, message: 'Please input website!' },
-                  ],
-                })(
-                  <AutoComplete
-                    dataSource={websiteOptions}
-                    onChange={this.handleWebsiteChange}
-                    placeholder="website"
-                  >
-                    <Input className="cl_SignUp_DevInput" />
-                  </AutoComplete>,
-                )}
-              </Form.Item>
-              <Form.Item label="Completion">
-                {getFieldDecorator('upload', {
-                  valuePropName: 'fileList',
-                  getValueFromEvent: this.normFile,
-                })(
-                  <Upload name="logo" action="/upload.do" listType="picture">
-                    <Button>
-                      <Icon type="upload" /> Click to upload
-                    </Button>
-                  </Upload>,
-                )}
-              </Form.Item>
-
-              <Form.Item {...tailFormItemLayout}>
-                {getFieldDecorator('agreement', {
-                  valuePropName: 'checked',
-                })(
-                  <Checkbox>
-                    I have read the <a href="">agreement</a>
-                  </Checkbox>,
-                )}
-              </Form.Item>
-              <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
-                  Register
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
+            </Form.Item>
+          </Form>
         </div>
-      );
-    } else {
-      return <Redirect to="/"></Redirect>;
-    }
+      </div>
+    );
   }
 }
+
 export default Form.create({ name: 'register' })(DeveloperSignUp);

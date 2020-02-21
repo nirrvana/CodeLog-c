@@ -28,46 +28,49 @@ class CompanySignUp extends Component {
       confirmDirty: false,
       autoCompleteResult: [],
       isSignUp: false,
-      isPartner: false,
+      partner: false,
     };
   }
 
   onChange = (e) => {
-    this.setState({ isPartner: e.target.checked });
+    this.setState({ partner: e.target.checked });
   };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values);
       if (!err) {
         const {
-          coperate_name,
+          company_name,
           business_name,
           eid,
-          website,
+          company_homepage,
           username,
           position,
           email,
           password,
-          isPartner,
-          AccessCode,
+          partner,
+          company_code,
         } = values;
         const member = {
-          username: username,
-          password: password,
-          position: position,
-          email: email,
+          username,
+          password,
+          position,
+          email,
         };
 
         postCompanySignUpData(
-          coperate_name,
+          company_name,
           business_name,
           eid,
-          website,
+          company_homepage,
           member,
-          isPartner,
-          AccessCode,
+          partner,
+          company_code,
         )
-          .then((res) => {})
+          .then((res) => {
+            message.success('Welcome to the membership !');
+          })
           .catch((err) => {
             message.error('exist email. please enter other email.');
           });
@@ -113,7 +116,7 @@ class CompanySignUp extends Component {
   };
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult, isPartner } = this.state;
+    const { autoCompleteResult, partner } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -143,7 +146,7 @@ class CompanySignUp extends Component {
     ));
 
     let AccessDisplay = 'none';
-    if (isPartner) {
+    if (partner) {
       AccessDisplay = '';
     }
     if (!this.state.isSignUp) {
@@ -157,12 +160,12 @@ class CompanySignUp extends Component {
               onSubmit={this.handleSubmit}
             >
               <div className="cl_SignUp_header">Company Sign up</div>
-              <Form.Item label={<span>Corporate name&nbsp;</span>}>
-                {getFieldDecorator('coperate_name', {
+              <Form.Item label={<span>Company name&nbsp;</span>}>
+                {getFieldDecorator('company_name', {
                   rules: [
                     {
                       required: true,
-                      message: 'Please input corporate name!',
+                      message: 'Please input company name!',
                       whitespace: true,
                     },
                   ],
@@ -173,7 +176,7 @@ class CompanySignUp extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'Please input company name!',
+                      message: 'Please input business name!',
                       whitespace: true,
                     },
                   ],
@@ -190,9 +193,11 @@ class CompanySignUp extends Component {
                   ],
                 })(<Input className="cl_SignUp_Input" />)}
               </Form.Item>
-              <Form.Item label="Corp Website">
-                {getFieldDecorator('website', {
-                  rules: [{ required: true, message: 'Please input website!' }],
+              <Form.Item label="Company homepage">
+                {getFieldDecorator('company_homepage', {
+                  rules: [
+                    { required: true, message: 'Please input homepage!' },
+                  ],
                 })(
                   <AutoComplete
                     dataSource={websiteOptions}
@@ -231,7 +236,7 @@ class CompanySignUp extends Component {
                             rules: [
                               {
                                 required: true,
-                                message: 'Please input your name!',
+                                message: 'Please input your user name!',
                                 whitespace: true,
                               },
                             ],
@@ -315,7 +320,7 @@ class CompanySignUp extends Component {
               </Form.Item>
 
               <Form.Item {...tailFormItemLayout}>
-                {getFieldDecorator('isPartner', {
+                {getFieldDecorator('partner', {
                   valuePropName: 'checked',
                 })(
                   <Checkbox onChange={this.onChange}>
@@ -327,7 +332,7 @@ class CompanySignUp extends Component {
                 label={<span>Access code&nbsp;</span>}
                 style={{ display: AccessDisplay }}
               >
-                {getFieldDecorator('AccessCode', {
+                {getFieldDecorator('company_code', {
                   rules: [
                     {
                       required: !AccessDisplay,
