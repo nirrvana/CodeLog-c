@@ -154,14 +154,19 @@ class DevTemplate extends Component {
       dev_reference,
       dev_lesson,
     };
-    postDevPost(theme, title, content, selected_tags)
-      .then(({ data: { post_id } }) => {
-        this.props.handlePost(post_id);
-        message.success('Post successfully!');
-        this.setState({ isPosted: true });
-        localStorage.removeItem('dev');
-      })
-      .catch((err) => message.error('Fail to post..'));
+
+    if (/\S/.test(title)) {
+      postDevPost(theme, title, content, selected_tags)
+        .then(({ data: { post_id } }) => {
+          this.props.handlePost(post_id);
+          message.success('Post successfully!');
+          this.setState({ isPosted: true });
+          localStorage.removeItem('dev');
+        })
+        .catch((err) => message.error('Fail to post..'));
+    } else {
+      message.error('Please input title value');
+    }
   };
 
   render() {

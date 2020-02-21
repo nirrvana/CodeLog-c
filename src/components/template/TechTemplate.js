@@ -159,14 +159,19 @@ class TechTemplate extends Component {
       tech_precaution,
       tech_recommended_concept,
     };
-    postTechPost(theme, title, content, selected_tags)
-      .then(({ data: { post_id } }) => {
-        this.props.handlePost(post_id);
-        message.success('Post successfully!');
-        this.setState({ isPosted: true });
-        localStorage.removeItem('tech');
-      })
-      .catch((err) => message.error('Fail to post..'));
+
+    if (/\S/.test(title)) {
+      postTechPost(theme, title, content, selected_tags)
+        .then(({ data: { post_id } }) => {
+          this.props.handlePost(post_id);
+          message.success('Post successfully!');
+          this.setState({ isPosted: true });
+          localStorage.removeItem('tech');
+        })
+        .catch((err) => message.error('Fail to post..'));
+    } else {
+      message.error('Please input title value');
+    }
   };
 
   render() {
