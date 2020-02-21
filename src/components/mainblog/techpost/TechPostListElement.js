@@ -10,6 +10,7 @@ import { currentPost } from '../../../redux/action';
 class TechPostListElement extends Component {
   render() {
     const { data, handlePostId } = this.props;
+    const contentFirstKey = Object.keys(data.content)[0];
     return (
       <Link to="/TechPost">
         <div
@@ -19,7 +20,7 @@ class TechPostListElement extends Component {
           <div className="cl_PostListElement_Title"> {data.title}</div>
           <ReactMarkdown
             className="cl_PostListElement_Contents"
-            source={data.content.slice(0, 100)}
+            source={data.content[contentFirstKey].slice(0, 50) + '...'}
             renderers={{
               code: CodeBlock,
             }}

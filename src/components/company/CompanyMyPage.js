@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // * File
 import fakedata from '../../fakedata';
-import { getMyPageCompany } from '../../redux/api';
+import { getCompanyMyPageData } from '../../redux/api';
 import CompanyRecommentList from './CompanyRecommentList';
 // * CSS
 import { Layout, Menu, List, Avatar, Tag } from 'antd';
@@ -22,7 +22,7 @@ export default class CompanyMyPage extends Component {
     ],
   };
   componentDidMount() {
-    getMyPageCompany().then((res) => {
+    getCompanyMyPageData().then((res) => {
       this.setState({
         company_data: Object.assign(this.state.company_data, res.data),
       });

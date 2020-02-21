@@ -28,7 +28,7 @@
 .cl_Post_Contents {
   margin-bottom: 5%;
   margin-top: 2%;
-  font-size: large;
+  font-size: initial;
   font-weight: normal;
 }
 .cl_Post_Tags {

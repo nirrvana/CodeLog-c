@@ -11,6 +11,7 @@ import moment from 'moment';
 class RecentPostListElement extends Component {
   render() {
     const { data, handlePostId } = this.props;
+    const contentFirstKey = Object.keys(data.content)[0];
 
     return (
       <div>
@@ -26,7 +27,7 @@ class RecentPostListElement extends Component {
               <div className="cl_ListElement_Content cl_ListElement_Set">
                 <ReactMarkdown
                   className="cl_Post_Contents"
-                  source={data.content.slice(0, 50)}
+                  source={data.content[contentFirstKey]}
                   renderers={{
                     code: CodeBlock,
                   }}

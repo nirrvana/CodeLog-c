@@ -11,17 +11,17 @@ import RecommandedPostList from './recommandedpost/RecommandedPostList';
 
 export default class Home extends Component {
   state = {
-    contents: {},
+    content: {},
   };
   componentDidMount() {
     getHomeData().then((res) => {
-      this.setState({ contents: Object.assign(this.state.contents, res.data) });
+      this.setState({ content: Object.assign(this.state.content, res.data) });
     });
   }
   render() {
-    const { contents } = this.state;
+    const { content } = this.state;
 
-    if (!Object.keys(contents).length) {
+    if (!Object.keys(content).length) {
       return <div></div>;
     } else {
       return (
@@ -30,18 +30,18 @@ export default class Home extends Component {
           <div className="cl_AD_Image_Frame">
             <img className="cl_AD_Image" src="https://ifh.cc/g/NYA0w.jpg" />
           </div>
-          <div className="cl_Home_Contents_Frame">
+          <div className="cl_Home_content_Frame">
             <div className="cl_Home_Themes">
               <span className="cl_Home_Theme1">New Post</span>
               <span className="cl_Home_Theme2">Recommend Post</span>
               <span className="cl_Home_Theme3">New Company</span>
             </div>
             <div className="cl_Home_Contents">
-              <RecentPostList data={contents.new_post}></RecentPostList>
+              <RecentPostList data={content.new_post}></RecentPostList>
               <RecommandedPostList
-                data={contents.recommended_post}
+                data={content.recommended_post}
               ></RecommandedPostList>
-              <Newcompany data={contents.new_company}></Newcompany>
+              {/* <Newcompany data={content.new_company}></Newcompany> */}
             </div>
           </div>
         </div>
