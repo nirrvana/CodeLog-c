@@ -114,9 +114,7 @@ class PlainTemplate extends Component {
     } else {
       e.target.className = '';
       this.setState({
-        selected_tags: selected_tags.filter(
-          (tag) => tag !== target,
-        ),
+        selected_tags: selected_tags.filter((tag) => tag !== target),
       });
     }
     this.handleDebounceInputChange('selected_tags');
@@ -125,14 +123,18 @@ class PlainTemplate extends Component {
   handleSubmit = (e) => {
     const { theme, title, plain_content, selected_tags } = this.state;
 
-    postPlainPost(theme, title, { plain_content }, selected_tags)
-      .then(({ data: { post_id } }) => {
-        this.props.handlePost(post_id);
-        message.success('Post successfully!');
-        this.setState({ isPosted: true });
-        localStorage.removeItem('plain');
-      })
-      .catch((err) => message.error('Fail to post..'));
+    if (/\S/.test(title)) {
+      postPlainPost(theme, title, { plain_content }, selected_tags)
+        .then(({ data: { post_id } }) => {
+          this.props.handlePost(post_id);
+          message.success('Post successfully!');
+          this.setState({ isPosted: true });
+          localStorage.removeItem('plain');
+        })
+        .catch((err) => message.error('Fail to post..'));
+    } else {
+      message.error('Please input title value');
+    }
   };
 
   render() {
