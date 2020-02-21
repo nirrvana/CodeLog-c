@@ -42,7 +42,7 @@ class DevPostEdit extends Component {
         if (save) {
           console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
           this.setState({
-            post: Object.assign(this.state.post, SaveData),
+            post: Object.assign(res.data, save),
           });
         } else {
           console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
@@ -94,13 +94,26 @@ class DevPostEdit extends Component {
 
   // ? 포스트 자동저장 메소드
   handleInputData = (state) => (event) => {
-    this.setState({
-      ...this.state,
-      post: {
-        ...this.state.post,
-        [state]: event.target.value,
-      },
-    });
+    if (state === 'title') {
+      this.setState({
+        ...this.state,
+        post: {
+          ...this.state.post,
+          title: event.target.value,
+        },
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        post: {
+          ...this.state.post,
+          content: {
+            ...this.state.post.content,
+            [state]: event.target.value,
+          },
+        },
+      });
+    }
     this.handleEditDataSave();
   };
 
@@ -109,13 +122,12 @@ class DevPostEdit extends Component {
     let id = JSON.parse(localStorage.getItem('post_id')).id;
     let PostSave = JSON.parse(localStorage.getItem('PostSave'));
     let content = {
-      dev_project_concept: post.dev_project_concept,
-      dev_coding_strategy: post.dev_coding_strategy,
-      dev_occurred_error: post.dev_occurred_error,
-      dev_reference: post.dev_reference,
-      dev_lesson: post.dev_lesson,
+      dev_project_concept: post.content.dev_project_concept,
+      dev_coding_strategy: post.content.dev_coding_strategy,
+      dev_occurred_error: post.content.dev_occurred_error,
+      dev_reference: post.content.dev_reference,
+      dev_lesson: post.content.dev_lesson,
     };
-    console.log('Save_content:', content);
 
     // 로컬 스토리지에 저장 데이터 저장
     if (PostSave) {
@@ -138,13 +150,13 @@ class DevPostEdit extends Component {
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let deleteSave = JSON.parse(localStorage.getItem('PostSave'));
     let content = {
-      dev_project_concept: post.dev_project_concept,
-      dev_coding_strategy: post.dev_coding_strategy,
-      dev_occurred_error: post.dev_occurred_error,
-      dev_reference: post.dev_reference,
-      dev_lesson: post.dev_lesson,
+      dev_project_concept: post.content.dev_project_concept,
+      dev_coding_strategy: post.content.dev_coding_strategy,
+      dev_occurred_error: post.content.dev_occurred_error,
+      dev_reference: post.content.dev_reference,
+      dev_lesson: post.content.dev_lesson,
     };
-    console.log('Edit_content:', content);
+
     await PostEditPost(
       localData_id,
       post.title,
@@ -163,7 +175,7 @@ class DevPostEdit extends Component {
   render() {
     const { tagValue, post, tagSource } = this.state;
     let tagView;
-
+    console.log('POST_STATE:', post);
     if (
       post.dev_selected_tags === undefined ||
       !post.dev_selected_tags.length

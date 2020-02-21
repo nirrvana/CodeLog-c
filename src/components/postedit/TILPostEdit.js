@@ -21,7 +21,7 @@ class TILPostEdit extends Component {
       tagValue: '',
       tagSource: [],
     };
-    this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
+    this.handleEditDataSave = debounce(this.handleEditDataSave, 1000);
   }
   componentDidMount() {
     // 현재 페이지 값 업데이트
@@ -41,7 +41,7 @@ class TILPostEdit extends Component {
         if (save) {
           console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
           this.setState({
-            post: Object.assign(this.state.post, SaveData),
+            post: Object.assign(res.data, save),
           });
         } else {
           console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
@@ -92,24 +92,38 @@ class TILPostEdit extends Component {
 
   // ? 포스트 자동저장 메소드
   handleInputData = (state) => (event) => {
-    this.setState({
-      ...this.state,
-      post: {
-        ...this.state.post,
-        [state]: event.target.value,
-      },
-    });
+    if (state === 'title') {
+      this.setState({
+        ...this.state,
+        post: {
+          ...this.state.post,
+          title: event.target.value,
+        },
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        post: {
+          ...this.state.post,
+          content: {
+            ...this.state.post.content,
+            [state]: event.target.value,
+          },
+        },
+      });
+    }
     this.handleEditDataSave();
   };
-  debouncedHandleChange = () => {
+
+  handleEditDataSave = () => {
     const { post } = this.state;
     let id = JSON.parse(localStorage.getItem('post_id')).id;
     let PostSave = JSON.parse(localStorage.getItem('PostSave'));
     let content = {
-      til_fact: post.til_fact,
-      til_feeling: post.til_feeling,
-      til_finding: post.til_finding,
-      til_future_action: post.til_future_action,
+      til_fact: post.content.til_fact,
+      til_feeling: post.content.til_feeling,
+      til_finding: post.content.til_finding,
+      til_future_action: post.content.til_future_action,
     };
 
     // 로컬 스토리지에 저장 데이터 저장
@@ -134,10 +148,10 @@ class TILPostEdit extends Component {
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let deleteSave = JSON.parse(localStorage.getItem('PostSave'));
     let content = {
-      til_fact: post.til_fact,
-      til_feeling: post.til_feeling,
-      til_finding: post.til_finding,
-      til_future_action: post.til_future_action,
+      til_fact: post.content.til_fact,
+      til_feeling: post.content.til_feeling,
+      til_finding: post.content.til_finding,
+      til_future_action: post.content.til_future_action,
     };
 
     await PostEditPost(
@@ -177,7 +191,7 @@ class TILPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            onChange={this.handleChange('title')}
+            onChange={this.handleInputData('title')}
             defaultValue={post.title}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
@@ -192,7 +206,7 @@ class TILPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('til_fact')}
+                onChange={this.handleInputData('til_fact')}
                 defaultValue={post.content.til_fact}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -209,7 +223,7 @@ class TILPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('til_feeling')}
+                onChange={this.handleInputData('til_feeling')}
                 defaultValue={post.content.til_feeling}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -225,7 +239,7 @@ class TILPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('til_finding')}
+                onChange={this.handleInputData('til_finding')}
                 defaultValue={post.content.til_finding}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -242,7 +256,7 @@ class TILPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('til_future_action')}
+                onChange={this.handleInputData('til_future_action')}
                 defaultValue={post.content.til_future_action}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">

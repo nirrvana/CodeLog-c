@@ -21,7 +21,7 @@ class TechPostEdit extends Component {
       tagValue: '',
       tagSource: [],
     };
-    this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
+    this.handleEditDataSave = debounce(this.handleEditDataSave, 1000);
   }
   componentDidMount() {
     // 현재 페이지 값 업데이트
@@ -41,7 +41,7 @@ class TechPostEdit extends Component {
         if (save) {
           console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
           this.setState({
-            post: Object.assign(this.state.post, SaveData),
+            post: Object.assign(res.data, save),
           });
         } else {
           console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
@@ -91,28 +91,42 @@ class TechPostEdit extends Component {
   };
 
   // ? 포스트 자동저장 메소드
-  handleChange = (state) => (event) => {
-    this.setState({
-      ...this.state,
-      post: {
-        ...this.state.post,
-        [state]: event.target.value,
-      },
-    });
-    this.debouncedHandleChange();
+  handleInputData = (state) => (event) => {
+    if (state === 'title') {
+      this.setState({
+        ...this.state,
+        post: {
+          ...this.state.post,
+          title: event.target.value,
+        },
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        post: {
+          ...this.state.post,
+          content: {
+            ...this.state.post.content,
+            [state]: event.target.value,
+          },
+        },
+      });
+    }
+    this.handleEditDataSave();
   };
-  debouncedHandleChange = () => {
+
+  handleEditDataSave = () => {
     const { post } = this.state;
 
     let id = JSON.parse(localStorage.getItem('post_id')).id;
     let PostSave = JSON.parse(localStorage.getItem('PostSave'));
     let content = {
-      tech_concept: post.tech_concept,
-      tech_background: post.tech_background,
-      tech_definition: post.tech_definition,
-      tech_example: post.tech_example,
-      tech_precaution: post.tech_precaution,
-      tech_recommended_concept: post.tech_recommended_concept,
+      tech_concept: post.content.tech_concept,
+      tech_background: post.content.tech_background,
+      tech_definition: post.content.tech_definition,
+      tech_example: post.content.tech_example,
+      tech_precaution: post.content.tech_precaution,
+      tech_recommended_concept: post.content.tech_recommended_concept,
     };
     // 로컬 스토리지에 저장 데이터 저장
     if (PostSave) {
@@ -137,12 +151,12 @@ class TechPostEdit extends Component {
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let deleteSave = JSON.parse(localStorage.getItem('PostSave'));
     let content = {
-      tech_concept: post.tech_concept,
-      tech_background: post.tech_background,
-      tech_definition: post.tech_definition,
-      tech_example: post.tech_example,
-      tech_precaution: post.tech_precaution,
-      tech_recommended_concept: post.tech_recommended_concept,
+      tech_concept: post.content.tech_concept,
+      tech_background: post.content.tech_background,
+      tech_definition: post.content.tech_definition,
+      tech_example: post.content.tech_example,
+      tech_precaution: post.content.tech_precaution,
+      tech_recommended_concept: post.content.tech_recommended_concept,
     };
 
     await PostEditPost(
@@ -182,7 +196,7 @@ class TechPostEdit extends Component {
           <Input
             className="cl_Edit_Title cl_Post_set "
             type="text"
-            onChange={this.handleChange('title')}
+            onChange={this.handleInputData('title')}
             defaultValue={post.title}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
@@ -197,7 +211,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('tech_concept')}
+                onChange={this.handleInputData('tech_concept')}
                 defaultValue={post.content.tech_concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -214,7 +228,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('tech_background')}
+                onChange={this.handleInputData('tech_background')}
                 defaultValue={post.content.tech_background}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -230,7 +244,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('tech_definition')}
+                onChange={this.handleInputData('tech_definition')}
                 defaultValue={post.content.tech_definition}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -247,7 +261,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('tech_example')}
+                onChange={this.handleInputData('tech_example')}
                 defaultValue={post.content.tech_example}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -264,7 +278,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('tech_precaution')}
+                onChange={this.handleInputData('tech_precaution')}
                 defaultValue={post.content.tech_precaution}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
@@ -281,7 +295,7 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('tech_recommended_concept')}
+                onChange={this.handleInputData('tech_recommended_concept')}
                 defaultValue={post.content.tech_recommended_concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
