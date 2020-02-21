@@ -36,12 +36,13 @@ class PlainPostEdit extends Component {
 
     // 서버 요청
     getSelectPost(id).then((res) => {
+      console.log('SaveData:', SaveData);
       if (SaveData) {
         let save = SaveData[id];
         if (save) {
           console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
           this.setState({
-            post: Object.assign(this.state.post, SaveData),
+            post: Object.assign(res.data, save),
           });
         } else {
           console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
@@ -92,13 +93,26 @@ class PlainPostEdit extends Component {
 
   // ? 포스트 자동저장 메소드
   handleInputData = (state) => (event) => {
-    this.setState({
-      ...this.state,
-      post: {
-        ...this.state.post,
-        [state]: event.target.value,
-      },
-    });
+    if (state === 'title') {
+      this.setState({
+        ...this.state,
+        post: {
+          ...this.state.post,
+          title: event.target.value,
+        },
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        post: {
+          ...this.state.post,
+          content: {
+            [state]: event.target.value,
+          },
+        },
+      });
+    }
+
     this.handleEditDataSave();
   };
   handleEditDataSave = () => {
@@ -111,7 +125,7 @@ class PlainPostEdit extends Component {
     if (PostSave) {
       let saveData = JSON.stringify(
         Object.assign(PostSave, {
-          [id]: { title: post.title, content: post.content.plain_content },
+          [id]: { title: post.title, content: post.content },
         }),
       );
       localStorage.setItem('PostSave', saveData);
@@ -119,7 +133,7 @@ class PlainPostEdit extends Component {
       localStorage.setItem(
         'PostSave',
         JSON.stringify({
-          [id]: { title: post.title, content: post.content.plain_content },
+          [id]: { title: post.title, content: post.content },
         }),
       );
     }
@@ -132,11 +146,18 @@ class PlainPostEdit extends Component {
     // 서버 요청
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let deleteSave = JSON.parse(localStorage.getItem('PostSave'));
+    console.log(
+      'REQUEST_DATA:',
+      localData_id,
+      post.title,
+      post.content,
+      post.plain_selected_tags,
+    );
 
     await PostEditPost(
       localData_id,
       post.title,
-      post.content.plain_content,
+      post.content,
       post.plain_selected_tags,
     );
     // 로컬 스토리지 아이템 제거
@@ -151,7 +172,7 @@ class PlainPostEdit extends Component {
   render() {
     const { tagValue, post, tagSource } = this.state;
     let tagView;
-
+    console.log('POST_STATE:', post);
     if (
       post.plain_selected_tags === undefined ||
       !post.plain_selected_tags.length
@@ -179,7 +200,7 @@ class PlainPostEdit extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{post.users.username}</div>
+            <div className="cl_Post_author">{post.user.username}</div>
           </div>
           <div className="cl_Plain_Edit_Content ">
             <TextareaAutosize

@@ -115,6 +115,8 @@ class DevPostEdit extends Component {
       dev_reference: post.dev_reference,
       dev_lesson: post.dev_lesson,
     };
+    console.log('Save_content:', content);
+
     // 로컬 스토리지에 저장 데이터 저장
     if (PostSave) {
       let saveData = JSON.stringify(
@@ -142,7 +144,7 @@ class DevPostEdit extends Component {
       dev_reference: post.dev_reference,
       dev_lesson: post.dev_lesson,
     };
-
+    console.log('Edit_content:', content);
     await PostEditPost(
       localData_id,
       post.title,
@@ -190,7 +192,7 @@ class DevPostEdit extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{post.users.username}</div>
+            <div className="cl_Post_author">{post.user.username}</div>
           </div>
 
           <div className="cl_Post_Contents ">

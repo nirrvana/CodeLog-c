@@ -15,7 +15,6 @@ export default class Home extends Component {
   };
   componentDidMount() {
     getHomeData().then((res) => {
-      console.log('HOME:', res);
       this.setState({ content: Object.assign(this.state.content, res.data) });
     });
   }

@@ -185,7 +185,7 @@ class TILPostEdit extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{post.users.username}</div>
+            <div className="cl_Post_author">{post.user.username}</div>
           </div>
           <div className="cl_Post_Contents ">
             <div className="cl_Post_Edit_Subtitle ">Fact</div>
