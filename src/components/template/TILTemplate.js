@@ -145,8 +145,8 @@ class TILTemplate extends Component {
       til_future_action,
     };
     postTILPost(theme, title, content, selected_tags)
-      .then(({ data: { id } }) => {
-        this.props.handlePost(id);
+      .then(({ data: { post_id } }) => {
+        this.props.handlePost(post_id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
         localStorage.removeItem('til');

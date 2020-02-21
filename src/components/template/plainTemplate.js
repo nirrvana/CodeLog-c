@@ -126,8 +126,8 @@ class PlainTemplate extends Component {
     const { theme, title, plain_content, selected_tags } = this.state;
 
     postPlainPost(theme, title, { plain_content }, selected_tags)
-      .then(({ data: { id } }) => {
-        this.props.handlePost(id);
+      .then(({ data: { post_id } }) => {
+        this.props.handlePost(post_id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
         localStorage.removeItem('plain');

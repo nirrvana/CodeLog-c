@@ -160,8 +160,8 @@ class TechTemplate extends Component {
       tech_recommended_concept,
     };
     postTechPost(theme, title, content, selected_tags)
-      .then(({ data: { id } }) => {
-        this.props.handlePost(id);
+      .then(({ data: { post_id } }) => {
+        this.props.handlePost(post_id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
         localStorage.removeItem('tech');

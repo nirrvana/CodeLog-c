@@ -155,9 +155,8 @@ class DevTemplate extends Component {
       dev_lesson,
     };
     postDevPost(theme, title, content, selected_tags)
-      .then(({ data: { id } }) => {
-        this.props.handlePost(id);
-        console.log(111111111, this.props.id)
+      .then(({ data: { post_id } }) => {
+        this.props.handlePost(post_id);
         message.success('Post successfully!');
         this.setState({ isPosted: true });
         localStorage.removeItem('dev');
