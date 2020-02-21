@@ -8,8 +8,6 @@ export function postSignUpData(
   email,
   password,
   username,
-  company_id,
-  position,
   certificate,
   personal_homepage,
 ) {
@@ -17,8 +15,6 @@ export function postSignUpData(
     email,
     password,
     username,
-    company_id,
-    position,
     certificate,
     personal_homepage,
   });

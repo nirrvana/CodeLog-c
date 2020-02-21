@@ -48,10 +48,7 @@ class DeveloperSignUp extends Component {
           values.email,
           values.password,
           values.username,
-          undefined,
-          undefined,
-          undefined,
-          values.website,
+          values.personal_homepage,
         )
           .then((res) => {
             if (res.status === 200) {
@@ -219,9 +216,14 @@ class DeveloperSignUp extends Component {
               )}
             </Form.Item>
 
-            <Form.Item label="Website">
-              {getFieldDecorator('website', {
-                rules: [{ required: false, message: 'Please input website!' }],
+            <Form.Item label="Personal homepage">
+              {getFieldDecorator('personal_homepage', {
+                rules: [
+                  {
+                    required: false,
+                    message: 'Please input personal homepage!',
+                  },
+                ],
               })(
                 <AutoComplete
                   dataSource={websiteOptions}
