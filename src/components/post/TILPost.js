@@ -184,6 +184,7 @@ class TILPost extends Component {
           </div>
           <div className="cl_Post_Contents cl_PlainPost_Contents ">
             <div className="cl_Post_Content">
+              Fact
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
                   source={post.content.til_fact}
