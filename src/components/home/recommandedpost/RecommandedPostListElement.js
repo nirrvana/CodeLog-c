@@ -11,7 +11,12 @@ import moment from 'moment';
 class RecommandedPostListElement extends Component {
   render() {
     const { data, handlePostId } = this.props;
-    const contentFirstKey = Object.keys(data.content)[0];
+    let source;
+    if (Object.keys(data.content)[0]) {
+      source = data.content[Object.keys(data.content)[0]].slice(0, 50) + '...';
+    } else {
+      source = '';
+    }
     return (
       <div>
         <ul>
@@ -27,7 +32,7 @@ class RecommandedPostListElement extends Component {
               <div className="cl_ListElement_Content cl_ListElement_Set">
                 <ReactMarkdown
                   className="cl_Post_Contents"
-                  source={data.content[contentFirstKey]}
+                  source={source}
                   renderers={{
                     code: CodeBlock,
                   }}
