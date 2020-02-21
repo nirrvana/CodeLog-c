@@ -15,7 +15,7 @@ import WriteTILPost from './pages/WriteTILPost';
 import DeveloperSignIn from './components/signin/DeveloperSignIn';
 import CompanySignIn from './components/company/CompanySignIn';
 import Callback from './components/signin/Callback';
-import SignOut from './components/signout/SignOut'
+import SignOut from './components/signout/SignOut';
 import pages from './pages';
 import components from './components';
 
@@ -30,51 +30,51 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={pages.HomePage} />
-            <Route path="/WriteDevPost" component={WriteDevPost}></Route>
-            <Route path="/WritePlainPost" component={WritePlainPost}></Route>
-            <Route path="/WriteTechPost" component={WriteTechPost}></Route>
-            <Route path="/WriteTILPost" component={WriteTILPost}></Route>
-            <Route path="/SignOut" component={SignOut}></Route>
-            <Route path="/SignIn" component={pages.SignIn}></Route>
-            <Route path="/DeveloperSignIn" component={DeveloperSignIn}></Route>
-            <Route path="/CompanySignIn" component={CompanySignIn}></Route>
-            <Route path="/SignUp" component={pages.SignUpPage} />
-            <Route path="/MyPage" component={pages.developer.MyPage} />
+            <Route path="/writedevpost" component={WriteDevPost}></Route>
+            <Route path="/writeplainpost" component={WritePlainPost}></Route>
+            <Route path="/writetechpost" component={WriteTechPost}></Route>
+            <Route path="/writetilpost" component={WriteTILPost}></Route>
+            <Route path="/signout" component={SignOut}></Route>
+            <Route path="/signin" component={pages.SignIn}></Route>
+            <Route path="/developersignin" component={DeveloperSignIn}></Route>
+            <Route path="/companysignin" component={CompanySignIn}></Route>
+            <Route path="/signup" component={pages.SignUpPage} />
+            <Route path="/mypage" component={pages.developer.MyPage} />
             <Route
-              path="/CompanyMyPage"
+              path="/companymypage"
               component={pages.company.CompanyMyPagePage}
             />
             <Route
-              path="/CompanyEdit"
+              path="/companyedit"
               component={components.company.CompanyMyPageEdit}
             />
-            <Route path="/Blog" component={pages.developer.MainBlogPage} />
+            <Route path="/blog" component={pages.developer.MainBlogPage} />
             <Route
-              path="/DeveloperSignUp"
+              path="/developersignup"
               component={components.signup.DeveloperSignUp}
             />
             <Route
-              path="/CompanySignUp"
+              path="/companysignup"
               component={components.signup.CompanySignUp}
             />
-            <Route path="/PlainPost" component={components.post.PlainPost} />
-            <Route path="/TILPost" component={components.post.TILPost} />
-            <Route path="/TechPost" component={components.post.TechPost} />
-            <Route path="/DevPost" component={components.post.DevPost} />
+            <Route path="/plainpost" component={components.post.PlainPost} />
+            <Route path="/tilpost" component={components.post.TILPost} />
+            <Route path="/techpost" component={components.post.TechPost} />
+            <Route path="/devpost" component={components.post.DevPost} />
             <Route
-              path="/PlainPostEdit"
+              path="/plainpostedit"
               component={components.postedit.PlainPostEdit}
             ></Route>
             <Route
-              path="/TILPostEdit"
+              path="/tilpostedit"
               component={components.postedit.TILPostEdit}
             ></Route>
             <Route
-              path="/TechPostEdit"
+              path="/techpostedit"
               component={components.postedit.TechPostEdit}
             ></Route>
             <Route
-              path="/DevPostEdit"
+              path="/devpostedit"
               component={components.postedit.DevPostEdit}
             ></Route>
             <Route path="/:Callback" component={Callback}></Route>
