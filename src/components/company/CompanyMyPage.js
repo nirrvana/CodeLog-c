@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // * File
-import CompanyRecommentList from './CompanyRecommentList';
 import fakedata from '../../fakedata';
+import { getMyPageCompany } from '../../redux/api';
+import CompanyRecommentList from './CompanyRecommentList';
 // * CSS
 import { Layout, Menu, List, Avatar, Tag } from 'antd';
 
@@ -11,6 +12,7 @@ const { Header } = Layout;
 
 export default class CompanyMyPage extends Component {
   state = {
+    company_data: {},
     data: [
       { id: 1, name: 'elsa', email: 'elsa@frozen.com' },
       { id: 2, name: 'anna', email: 'anna@frozen.com' },
@@ -19,8 +21,16 @@ export default class CompanyMyPage extends Component {
       { id: 5, name: 'lion', email: 'loin@example.com' },
     ],
   };
-
+  componentDidMount() {
+    getMyPageCompany().then((res) => {
+      this.setState({
+        company_data: Object.assign(this.state.company_data, res.data),
+      });
+    });
+  }
   render() {
+    const { company_data } = this.state;
+    console.log(company_data);
     return (
       <div>
         <Layout className="layout">

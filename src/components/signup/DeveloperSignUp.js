@@ -35,6 +35,7 @@ class DeveloperSignUp extends Component {
   };
   handleEmailValid = () => {
     postEmailDuplicate(String(this.state.email)).then((res) => {
+      console.log(res);
       if (res.data === 'This email has already joined') {
         message.error('This email has already joined');
       } else if (res.data === 'This email is usable!') {
