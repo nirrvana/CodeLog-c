@@ -156,19 +156,22 @@ class DevPostEdit extends Component {
       dev_reference: post.content.dev_reference,
       dev_lesson: post.content.dev_lesson,
     };
-
-    await PostEditPost(
-      localData_id,
-      post.title,
-      content,
-      post.dev_selected_tags,
-    );
-    // 로컬 스토리지 아이템 제거
-    localStorage.removeItem('currentPost');
-    delete deleteSave[localData_id];
-    localStorage.setItem('PostSave', JSON.stringify(deleteSave));
-    // 페이지 이동
-    this.props.history.push('/devpost');
+    if (!post.title.length) {
+      message.error('Please input a title!');
+    } else {
+      await PostEditPost(
+        localData_id,
+        post.title,
+        content,
+        post.dev_selected_tags,
+      );
+      // 로컬 스토리지 아이템 제거
+      localStorage.removeItem('currentPost');
+      delete deleteSave[localData_id];
+      localStorage.setItem('PostSave', JSON.stringify(deleteSave));
+      // 페이지 이동
+      this.props.history.push('/devpost');
+    }
   };
 
   // ! Render

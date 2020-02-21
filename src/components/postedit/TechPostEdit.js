@@ -158,19 +158,22 @@ class TechPostEdit extends Component {
       tech_precaution: post.content.tech_precaution,
       tech_recommended_concept: post.content.tech_recommended_concept,
     };
-
-    await PostEditPost(
-      localData_id,
-      post.title,
-      content,
-      post.tech_selected_tags,
-    );
-    // 로컬 스토리지 아이템 제거
-    localStorage.removeItem('currentPost');
-    delete deleteSave[localData_id];
-    localStorage.setItem('PostSave', JSON.stringify(deleteSave));
-    // 페이지 이동
-    this.props.history.push('/techpost');
+    if (!post.title.length) {
+      message.error('Please input a title!');
+    } else {
+      await PostEditPost(
+        localData_id,
+        post.title,
+        content,
+        post.tech_selected_tags,
+      );
+      // 로컬 스토리지 아이템 제거
+      localStorage.removeItem('currentPost');
+      delete deleteSave[localData_id];
+      localStorage.setItem('PostSave', JSON.stringify(deleteSave));
+      // 페이지 이동
+      this.props.history.push('/techpost');
+    }
   };
 
   // ! Render

@@ -153,21 +153,23 @@ class TILPostEdit extends Component {
       til_finding: post.content.til_finding,
       til_future_action: post.content.til_future_action,
     };
-
-    await PostEditPost(
-      localData_id,
-      post.title,
-      content,
-      post.til_selected_tags,
-    );
-    // 로컬 스토리지 아이템 제거
-    localStorage.removeItem('currentPost');
-    delete deleteSave[localData_id];
-    localStorage.setItem('PostSave', JSON.stringify(deleteSave));
-    // 페이지 이동
-    this.props.history.push('/tilpost');
+    if (!post.title.length) {
+      message.error('Please input a title!');
+    } else {
+      await PostEditPost(
+        localData_id,
+        post.title,
+        content,
+        post.til_selected_tags,
+      );
+      // 로컬 스토리지 아이템 제거
+      localStorage.removeItem('currentPost');
+      delete deleteSave[localData_id];
+      localStorage.setItem('PostSave', JSON.stringify(deleteSave));
+      // 페이지 이동
+      this.props.history.push('/tilpost');
+    }
   };
-
   // ! Render
   render() {
     const { tagValue, post, tagSource } = this.state;
