@@ -107,6 +107,7 @@ class PlainPostEdit extends Component {
         post: {
           ...this.state.post,
           content: {
+            ...this.state.post.content,
             [state]: event.target.value,
           },
         },
