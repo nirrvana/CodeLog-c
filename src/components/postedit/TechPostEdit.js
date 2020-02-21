@@ -17,17 +17,9 @@ class TechPostEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
       post: {},
-      title: JSON.parse(localStorage.getItem('currentPost')).title,
-      concept: JSON.parse(localStorage.getItem('currentPost')).content,
-      background: JSON.parse(localStorage.getItem('currentPost')).content,
-      definition: JSON.parse(localStorage.getItem('currentPost')).content,
-      example: JSON.parse(localStorage.getItem('currentPost')).content,
-      precausions: JSON.parse(localStorage.getItem('currentPost')).content,
-      recommand: JSON.parse(localStorage.getItem('currentPost')).content,
-      selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
-      dataSource: [],
+      tagValue: '',
+      tagSource: [],
     };
     this.debouncedHandleChange = debounce(this.debouncedHandleChange, 1000);
   }
@@ -49,14 +41,7 @@ class TechPostEdit extends Component {
         if (save) {
           console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
           this.setState({
-            post: Object.assign(this.state.post, res.data),
-            title: save.title,
-            concept: save.content,
-            background: save.content,
-            definition: save.content,
-            example: save.content,
-            precausions: save.content,
-            recommand: save.content,
+            post: Object.assign(this.state.post, SaveData),
           });
         } else {
           console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
@@ -71,62 +56,74 @@ class TechPostEdit extends Component {
         });
       }
     });
-    getTags().then((res) => this.setState({ dataSource: res.data.tags }));
+    getTags().then((res) => this.setState({ tagSource: res.data.tags }));
   }
 
   // ? 태그 메소드
-  onSelect = (value) => {
-    if (this.state.selected_tag.includes(value)) {
-      message.warning(`${value} is already added`);
+  onSelect = (tagValue) => {
+    if (this.state.post.tech_selected_tags.includes(tagValue)) {
+      message.warning(`${tagValue} is already added`);
     } else {
       this.setState({
-        selected_tag: this.state.selected_tag.concat([value]),
+        post: {
+          ...this.state.post,
+          tech_selected_tags: this.state.post.tech_selected_tags.concat([
+            tagValue,
+          ]),
+        },
       });
     }
   };
 
-  onChange = (value) => {
-    this.setState({ value });
+  onChange = (tagValue) => {
+    this.setState({ tagValue });
   };
 
   onClose = (item) => {
     this.setState({
-      selected_tag: this.state.selected_tag.filter((tag) => tag !== item),
+      post: {
+        ...this.state.post,
+        tech_selected_tags: this.state.post.tech_selected_tags.filter(
+          (tag) => tag !== item,
+        ),
+      },
     });
   };
 
   // ? 포스트 자동저장 메소드
   handleChange = (state) => (event) => {
     this.setState({
-      [state]: event.target.value,
+      ...this.state,
+      post: {
+        ...this.state.post,
+        [state]: event.target.value,
+      },
     });
     this.debouncedHandleChange();
   };
   debouncedHandleChange = () => {
-    const {
-      title,
-      concept,
-      background,
-      definition,
-      example,
-      precausions,
-      recommand,
-    } = this.state;
+    const { post } = this.state;
 
     let id = JSON.parse(localStorage.getItem('post_id')).id;
     let PostSave = JSON.parse(localStorage.getItem('PostSave'));
-    let content =
-      concept + background + definition + example + precausions + recommand;
+    let content = {
+      tech_concept: post.tech_concept,
+      tech_background: post.tech_background,
+      tech_definition: post.tech_definition,
+      tech_example: post.tech_example,
+      tech_precaution: post.tech_precaution,
+      tech_recommended_concept: post.tech_recommended_concept,
+    };
     // 로컬 스토리지에 저장 데이터 저장
     if (PostSave) {
       let saveData = JSON.stringify(
-        Object.assign(PostSave, { [id]: { title, content } }),
+        Object.assign(PostSave, { [id]: { title: post.title, content } }),
       );
       localStorage.setItem('PostSave', saveData);
     } else {
       localStorage.setItem(
         'PostSave',
-        JSON.stringify({ [id]: { title, content } }),
+        JSON.stringify({ [id]: { title: post.title, content } }),
       );
     }
   };
@@ -134,24 +131,26 @@ class TechPostEdit extends Component {
   // ? 포스트 수정 메소드
   handlePublishBtn = async () => {
     localStorage.removeItem('currentPost');
-    const {
-      title,
-      concept,
-      background,
-      definition,
-      example,
-      precausions,
-      recommand,
-      selected_tag,
-    } = this.state;
+    const { post } = this.state;
 
     // 서버 요청
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let deleteSave = JSON.parse(localStorage.getItem('PostSave'));
-    let content =
-      concept + background + definition + example + precausions + recommand;
+    let content = {
+      tech_concept: post.tech_concept,
+      tech_background: post.tech_background,
+      tech_definition: post.tech_definition,
+      tech_example: post.tech_example,
+      tech_precaution: post.tech_precaution,
+      tech_recommended_concept: post.tech_recommended_concept,
+    };
 
-    await PostEditPost(localData_id, title, content, selected_tag);
+    await PostEditPost(
+      localData_id,
+      post.title,
+      content,
+      post.tech_selected_tags,
+    );
     // 로컬 스토리지 아이템 제거
     localStorage.removeItem('currentPost');
     delete deleteSave[localData_id];
@@ -162,30 +161,18 @@ class TechPostEdit extends Component {
 
   // ! Render
   render() {
-    const {
-      value,
-      concept,
-      background,
-      definition,
-      example,
-      precausions,
-      recommand,
-      post,
-      title,
-      dataSource,
-      selected_tag,
-    } = this.state;
+    const { tagValue, post, tagSource } = this.state;
+    let tagView;
 
-    let userName, tagView;
-
-    if (selected_tag === undefined || !selected_tag.length) {
+    if (
+      post.tech_selected_tags === undefined ||
+      !post.tech_selected_tags.length
+    ) {
       tagView = 'none';
     }
 
     if (!Object.keys(post).length) {
       return <></>;
-    } else {
-      userName = post.users.username;
     }
 
     return (
@@ -196,26 +183,26 @@ class TechPostEdit extends Component {
             className="cl_Edit_Title cl_Post_set "
             type="text"
             onChange={this.handleChange('title')}
-            defaultValue={title}
+            defaultValue={post.title}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}</div>
+            <div className="cl_Post_author">{post.users.username}</div>
           </div>
           <div className="cl_Post_Contents ">
             <div className="cl_Post_Edit_Subtitle ">Tech concept</div>
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('concept')}
-                defaultValue={concept}
+                onChange={this.handleChange('tech_concept')}
+                defaultValue={post.content.tech_concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={concept}
+                  source={post.content.tech_concept}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -227,12 +214,12 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('background')}
-                defaultValue={background}
+                onChange={this.handleChange('tech_background')}
+                defaultValue={post.content.tech_background}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={background}
+                  source={post.content.tech_background}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -243,12 +230,12 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('definition')}
-                defaultValue={definition}
+                onChange={this.handleChange('tech_definition')}
+                defaultValue={post.content.tech_definition}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={definition}
+                  source={post.content.tech_definition}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -260,12 +247,12 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('example')}
-                defaultValue={example}
+                onChange={this.handleChange('tech_example')}
+                defaultValue={post.content.tech_example}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={example}
+                  source={post.content.tech_example}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -277,12 +264,12 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('precausions')}
-                defaultValue={precausions}
+                onChange={this.handleChange('tech_precaution')}
+                defaultValue={post.content.tech_precaution}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={precausions}
+                  source={post.content.tech_precaution}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -294,12 +281,12 @@ class TechPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleChange('recommand')}
-                defaultValue={recommand}
+                onChange={this.handleChange('tech_recommended_concept')}
+                defaultValue={post.content.tech_recommended_concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={recommand}
+                  source={post.content.tech_recommended_concept}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -309,11 +296,11 @@ class TechPostEdit extends Component {
           </div>
           <AutoComplete
             className="cl_Post_Tags cl_Post_set"
-            value={value}
+            value={tagValue}
             onSelect={this.onSelect}
             onChange={this.onChange}
             style={{ width: 200 }}
-            dataSource={dataSource}
+            dataSource={tagSource}
             placeholder="Find a tag"
             filterOption={(inputValue, option) =>
               option.props.children
@@ -324,7 +311,7 @@ class TechPostEdit extends Component {
           <div>
             <List
               style={{ display: tagView }}
-              dataSource={this.state.selected_tag}
+              dataSource={post.tech_selected_tags}
               renderItem={(item) => (
                 <span>
                   <Tag

@@ -17,16 +17,9 @@ class DevPostEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
       post: {},
-      title: JSON.parse(localStorage.getItem('currentPost')).title,
-      concept: JSON.parse(localStorage.getItem('currentPost')).content,
-      Strategy: JSON.parse(localStorage.getItem('currentPost')).content,
-      handling: JSON.parse(localStorage.getItem('currentPost')).content,
-      Referenece: JSON.parse(localStorage.getItem('currentPost')).content,
-      Lesson: JSON.parse(localStorage.getItem('currentPost')).content,
-      selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
-      dataSource: [],
+      tagValue: '',
+      tagSource: [],
     };
     this.handleEditDataSave = debounce(this.handleEditDataSave, 1000);
   }
@@ -49,13 +42,7 @@ class DevPostEdit extends Component {
         if (save) {
           console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
           this.setState({
-            post: Object.assign(this.state.post, res.data),
-            title: save.title,
-            concept: save.content,
-            Strategy: save.content,
-            handling: save.content,
-            Referenece: save.content,
-            Lesson: save.content,
+            post: Object.assign(this.state.post, SaveData),
           });
         } else {
           console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
@@ -71,80 +58,97 @@ class DevPostEdit extends Component {
       }
     });
 
-    getTags().then((res) => this.setState({ dataSource: res.data.tags }));
+    getTags().then((res) => this.setState({ tagSource: res.data.tags }));
   }
 
   // ? 태그 메소드
-  onSelect = (value) => {
-    if (this.state.selected_tag.includes(value)) {
-      message.warning(`${value} is already added`);
+  onSelect = (tagValue) => {
+    if (this.state.post.dev_selected_tags.includes(tagValue)) {
+      message.warning(`${tagValue} is already added`);
     } else {
       this.setState({
-        selected_tag: this.state.selected_tag.concat([value]),
+        post: {
+          ...this.state.post,
+          dev_selected_tags: this.state.post.dev_selected_tags.concat([
+            tagValue,
+          ]),
+        },
       });
     }
   };
 
-  onChange = (value) => {
-    this.setState({ value });
+  onChange = (tagValue) => {
+    this.setState({ tagValue });
   };
 
   onClose = (item) => {
     this.setState({
-      selected_tag: this.state.selected_tag.filter((tag) => tag !== item),
+      post: {
+        ...this.state.post,
+        dev_selected_tags: this.state.post.dev_selected_tags.filter(
+          (tag) => tag !== item,
+        ),
+      },
     });
   };
 
   // ? 포스트 자동저장 메소드
   handleInputData = (state) => (event) => {
     this.setState({
-      [state]: event.target.value,
+      ...this.state,
+      post: {
+        ...this.state.post,
+        [state]: event.target.value,
+      },
     });
     this.handleEditDataSave();
   };
+
   handleEditDataSave = () => {
-    const {
-      title,
-      concept,
-      Strategy,
-      handling,
-      Referenece,
-      Lesson,
-    } = this.state;
+    const { post } = this.state;
     let id = JSON.parse(localStorage.getItem('post_id')).id;
     let PostSave = JSON.parse(localStorage.getItem('PostSave'));
-    let content = concept + Strategy + handling + Referenece + Lesson;
+    let content = {
+      dev_project_concept: post.dev_project_concept,
+      dev_coding_strategy: post.dev_coding_strategy,
+      dev_occurred_error: post.dev_occurred_error,
+      dev_reference: post.dev_reference,
+      dev_lesson: post.dev_lesson,
+    };
     // 로컬 스토리지에 저장 데이터 저장
     if (PostSave) {
       let saveData = JSON.stringify(
-        Object.assign(PostSave, { [id]: { title, content } }),
+        Object.assign(PostSave, { [id]: { title: post.title, content } }),
       );
       localStorage.setItem('PostSave', saveData);
     } else {
       localStorage.setItem(
         'PostSave',
-        JSON.stringify({ [id]: { title, content } }),
+        JSON.stringify({ [id]: { title: post.title, content } }),
       );
     }
   };
 
   // ? 포스트 수정 메소드
   handlePublishBtn = async () => {
-    const {
-      title,
-      concept,
-      Strategy,
-      handling,
-      Referenece,
-      Lesson,
-      selected_tag,
-    } = this.state;
+    const { post } = this.state;
     // 서버 요청
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let deleteSave = JSON.parse(localStorage.getItem('PostSave'));
-    let content = concept + Strategy + handling + Referenece + Lesson;
+    let content = {
+      dev_project_concept: post.dev_project_concept,
+      dev_coding_strategy: post.dev_coding_strategy,
+      dev_occurred_error: post.dev_occurred_error,
+      dev_reference: post.dev_reference,
+      dev_lesson: post.dev_lesson,
+    };
 
-    await PostEditPost(localData_id, title, content, selected_tag);
+    await PostEditPost(
+      localData_id,
+      post.title,
+      content,
+      post.dev_selected_tags,
+    );
     // 로컬 스토리지 아이템 제거
     localStorage.removeItem('currentPost');
     delete deleteSave[localData_id];
@@ -155,29 +159,18 @@ class DevPostEdit extends Component {
 
   // ! Render
   render() {
-    const {
-      value,
-      post,
-      title,
-      concept,
-      Strategy,
-      handling,
-      Referenece,
-      Lesson,
-      dataSource,
-      selected_tag,
-    } = this.state;
+    const { tagValue, post, tagSource } = this.state;
+    let tagView;
 
-    let userName, tagView;
-
-    if (selected_tag === undefined || !selected_tag.length) {
+    if (
+      post.dev_selected_tags === undefined ||
+      !post.dev_selected_tags.length
+    ) {
       tagView = 'none';
     }
 
     if (!Object.keys(post).length) {
       return <></>;
-    } else {
-      userName = post.users.username;
     }
 
     return (
@@ -189,7 +182,7 @@ class DevPostEdit extends Component {
             className="cl_Edit_Title cl_Post_set "
             type="text"
             onChange={this.handleInputData('title')}
-            defaultValue={title}
+            defaultValue={post.title}
           />
 
           <div className="cl_Post_author_Info cl_Post_set ">
@@ -197,7 +190,7 @@ class DevPostEdit extends Component {
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}</div>
+            <div className="cl_Post_author">{post.users.username}</div>
           </div>
 
           <div className="cl_Post_Contents ">
@@ -205,12 +198,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('concept')}
-                defaultValue={concept}
+                onChange={this.handleInputData('dev_project_concept')}
+                defaultValue={post.content.dev_project_concept}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={concept}
+                  source={post.content.dev_project_concept}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -222,12 +215,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('Strategy')}
-                defaultValue={Strategy}
+                onChange={this.handleInputData('dev_coding_strategy')}
+                defaultValue={post.content.dev_coding_strategy}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={Strategy}
+                  source={post.content.dev_coding_strategy}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -238,12 +231,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('handling')}
-                defaultValue={handling}
+                onChange={this.handleInputData('dev_occurred_error')}
+                defaultValue={post.content.dev_occurred_error}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={handling}
+                  source={post.content.dev_occurred_error}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -255,12 +248,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('Referenece')}
-                defaultValue={Referenece}
+                onChange={this.handleInputData('dev_reference')}
+                defaultValue={post.content.dev_reference}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={Referenece}
+                  source={post.content.dev_reference}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -271,12 +264,12 @@ class DevPostEdit extends Component {
             <div className="cl_Plain_Edit_Content ">
               <TextareaAutosize
                 className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                onChange={this.handleInputData('Lesson')}
-                defaultValue={Lesson}
+                onChange={this.handleInputData('dev_lesson')}
+                defaultValue={post.content.dev_lesson}
               />
               <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                 <ReactMarkdown
-                  source={Lesson}
+                  source={post.content.dev_lesson}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -286,11 +279,11 @@ class DevPostEdit extends Component {
           </div>
           <AutoComplete
             className="cl_Post_Tags cl_Post_set"
-            value={value}
+            value={tagValue}
             onSelect={this.onSelect}
             onChange={this.onChange}
             style={{ width: 200 }}
-            dataSource={dataSource}
+            dataSource={tagSource}
             placeholder="Find a tag"
             filterOption={(inputValue, option) =>
               option.props.children
@@ -301,7 +294,7 @@ class DevPostEdit extends Component {
           <div>
             <List
               style={{ display: tagView }}
-              dataSource={this.state.selected_tag}
+              dataSource={post.dev_selected_tags}
               renderItem={(item) => (
                 <span>
                   <Tag

@@ -17,12 +17,9 @@ class PlainPostEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
       post: {},
-      title: JSON.parse(localStorage.getItem('currentPost')).title,
-      content: JSON.parse(localStorage.getItem('currentPost')).content,
-      selected_tag: JSON.parse(localStorage.getItem('currentPost')).tags,
-      dataSource: [],
+      tagValue: '',
+      tagSource: [],
     };
     this.handleEditDataSave = debounce(this.handleEditDataSave, 1000);
   }
@@ -44,9 +41,7 @@ class PlainPostEdit extends Component {
         if (save) {
           console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
           this.setState({
-            post: Object.assign(this.state.post, res.data),
-            title: save.title,
-            content: save.content,
+            post: Object.assign(this.state.post, SaveData),
           });
         } else {
           console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
@@ -61,39 +56,53 @@ class PlainPostEdit extends Component {
         });
       }
     });
-    getTags().then((res) => this.setState({ dataSource: res.data.tags }));
+    getTags().then((res) => this.setState({ tagSource: res.data.tags }));
   }
 
   // ? 태그 메소드
-  onSelect = (value) => {
-    if (this.state.selected_tag.includes(value)) {
-      message.warning(`${value} is already added`);
+  onSelect = (tagValue) => {
+    if (this.state.post.plain_selected_tags.includes(tagValue)) {
+      message.warning(`${tagValue} is already added`);
     } else {
       this.setState({
-        selected_tag: this.state.selected_tag.concat([value]),
+        post: {
+          ...this.state.post,
+          plain_selected_tags: this.state.post.plain_selected_tags.concat([
+            tagValue,
+          ]),
+        },
       });
     }
   };
 
-  onChange = (value) => {
-    this.setState({ value });
+  onChange = (tagValue) => {
+    this.setState({ tagValue });
   };
 
   onClose = (item) => {
     this.setState({
-      selected_tag: this.state.selected_tag.filter((tag) => tag !== item),
+      post: {
+        ...this.state.post,
+        plain_selected_tags: this.state.post.plain_selected_tags.filter(
+          (tag) => tag !== item,
+        ),
+      },
     });
   };
 
   // ? 포스트 자동저장 메소드
   handleInputData = (state) => (event) => {
     this.setState({
-      [state]: event.target.value,
+      ...this.state,
+      post: {
+        ...this.state.post,
+        [state]: event.target.value,
+      },
     });
     this.handleEditDataSave();
   };
   handleEditDataSave = () => {
-    const { title, content } = this.state;
+    const { post } = this.state;
 
     let id = JSON.parse(localStorage.getItem('post_id')).id;
     let PostSave = JSON.parse(localStorage.getItem('PostSave'));
@@ -101,26 +110,35 @@ class PlainPostEdit extends Component {
     // 로컬 스토리지에 저장 데이터 저장
     if (PostSave) {
       let saveData = JSON.stringify(
-        Object.assign(PostSave, { [id]: { title, content } }),
+        Object.assign(PostSave, {
+          [id]: { title: post.title, content: post.content.plain_content },
+        }),
       );
       localStorage.setItem('PostSave', saveData);
     } else {
       localStorage.setItem(
         'PostSave',
-        JSON.stringify({ [id]: { title, content } }),
+        JSON.stringify({
+          [id]: { title: post.title, content: post.content.plain_content },
+        }),
       );
     }
   };
 
   // ? 포스트 수정 메소드
   handlePublishBtn = async () => {
-    const { title, content } = this.state;
+    const { post } = this.state;
 
     // 서버 요청
     let localData_id = JSON.parse(localStorage.getItem('post_id')).id;
     let deleteSave = JSON.parse(localStorage.getItem('PostSave'));
 
-    await PostEditPost(localData_id, title, content);
+    await PostEditPost(
+      localData_id,
+      post.title,
+      post.content.plain_content,
+      post.plain_selected_tags,
+    );
     // 로컬 스토리지 아이템 제거
     localStorage.removeItem('currentPost');
     delete deleteSave[localData_id];
@@ -131,24 +149,18 @@ class PlainPostEdit extends Component {
 
   // ! Render
   render() {
-    const {
-      value,
-      title,
-      post,
-      content,
-      dataSource,
-      selected_tag,
-    } = this.state;
-    let userName, tagView;
+    const { tagValue, post, tagSource } = this.state;
+    let tagView;
 
-    if (selected_tag === undefined || !selected_tag.length) {
+    if (
+      post.plain_selected_tags === undefined ||
+      !post.plain_selected_tags.length
+    ) {
       tagView = 'none';
     }
 
     if (!Object.keys(post).length) {
       return <></>;
-    } else {
-      userName = post.users.username;
     }
 
     return (
@@ -160,24 +172,24 @@ class PlainPostEdit extends Component {
             className="cl_Edit_Title cl_Post_set "
             type="text"
             onChange={this.handleInputData('title')}
-            defaultValue={title}
+            defaultValue={post.title}
           />
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}</div>
+            <div className="cl_Post_author">{post.users.username}</div>
           </div>
           <div className="cl_Plain_Edit_Content ">
             <TextareaAutosize
               className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-              onChange={this.handleInputData('content')}
-              defaultValue={content}
+              onChange={this.handleInputData('plain_content')}
+              defaultValue={post.content.plain_content}
             />
             <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
               <ReactMarkdown
-                source={content}
+                source={post.content.plain_content}
                 renderers={{
                   code: CodeBlock,
                 }}
@@ -187,11 +199,11 @@ class PlainPostEdit extends Component {
 
           <AutoComplete
             className="cl_Post_Tags cl_Post_set"
-            value={value}
+            value={tagValue}
             onSelect={this.onSelect}
             onChange={this.onChange}
             style={{ width: 200 }}
-            dataSource={dataSource}
+            dataSource={tagSource}
             placeholder="Find a tag"
             filterOption={(inputValue, option) =>
               option.props.children
@@ -202,7 +214,7 @@ class PlainPostEdit extends Component {
           <div>
             <List
               style={{ display: tagView }}
-              dataSource={this.state.selected_tag}
+              dataSource={post.plain_selected_tags}
               renderItem={(item) => (
                 <span>
                   <Tag

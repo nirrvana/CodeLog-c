@@ -1,6 +1,6 @@
 // * Library
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 // * File
@@ -131,8 +131,7 @@ class TILPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-
-    let tagView, color, title, content, Likes, userName;
+    let tagView, color;
 
     if (isLike) {
       color = 'red';
@@ -142,20 +141,15 @@ class TILPost extends Component {
       tagView = 'none';
     }
     if (!Object.keys(post).length) {
-      title = '';
-      userName = '';
-      content = '';
-      Likes = 0;
-    } else {
-      title = post.title;
-      userName = post.users.username;
-      content = post.content;
-      Likes = post.likes;
+      return <></>;
     }
     const menu = (
       <Menu>
         <Menu.Item key="0">
-          <Link to="/TILpostEdit" onClick={this.handlePostData(title, content)}>
+          <Link
+            to="/TILpostEdit"
+            onClick={this.handlePostData(post.title, post.content, post.tags)}
+          >
             Edit
           </Link>
         </Menu.Item>
@@ -169,19 +163,19 @@ class TILPost extends Component {
       <div>
         <TabBlog></TabBlog>
         <div className="cl_Post">
-          <div className="cl_Post_Title cl_Post_set ">{title}</div>
+          <div className="cl_Post_Title cl_Post_set ">{post.title}</div>
           <div className="cl_Post_author_Info cl_Post_set ">
             <Avatar
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               alt="Han Solo"
             />
-            <div className="cl_Post_author">{userName}</div>
+            <div className="cl_Post_author">{post.users.username}</div>
 
             <Tooltip
               className="cl_Post_Time"
               title={moment().format('YYYY-MM-DD HH:mm:ss')}
             >
-              <div>{moment(this.state.post.updatedAt).fromNow()}</div>
+              <div>{moment(post.updatedAt).fromNow()}</div>
             </Tooltip>
 
             <Dropdown overlay={menu} trigger={['click']}>
@@ -190,10 +184,9 @@ class TILPost extends Component {
           </div>
           <div className="cl_Post_Contents cl_PlainPost_Contents ">
             <div className="cl_Post_Content">
-              Fact
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.til_fact}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -204,7 +197,7 @@ class TILPost extends Component {
               Feeling
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.til_feeling}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -215,7 +208,7 @@ class TILPost extends Component {
               Finding
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.til_finding}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -226,7 +219,7 @@ class TILPost extends Component {
               Future Action
               <div className="cl_Post_Contents ">
                 <ReactMarkdown
-                  source={content}
+                  source={post.content.til_future_action}
                   renderers={{
                     code: CodeBlock,
                   }}
@@ -238,14 +231,14 @@ class TILPost extends Component {
             <List
               style={{ display: tagView }}
               itemLayout="horizontal"
-              dataSource={this.state.post.tags}
+              dataSource={post.tags}
               renderItem={(item) => (
                 <span>
                   <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>
                 </span>
               )}
             />
-            <Popover content={Likes + ' Likes'}>
+            <Popover content={post.Likes + ' Likes'}>
               <Icon
                 type="heart"
                 className="cl_PlainPost_Like"
