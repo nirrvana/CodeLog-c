@@ -18,13 +18,13 @@ class DevTemplate extends Component {
     this.state = {
       theme: 'dev',
       title: '',
-      project_concept: '',
-      coding_strategy: '',
-      occurred_error: '',
-      reference: '',
-      lesson: '',
-      tags: [],
+      dev_project_concept: '',
+      dev_coding_strategy: '',
+      dev_occurred_error: '',
+      dev_reference: '',
+      dev_lesson: '',
       selected_tags: [],
+      tags: [],
       visible: false,
       isPosted: false,
     };
@@ -56,11 +56,23 @@ class DevTemplate extends Component {
   getData = (e) => {
     const saved = JSON.parse(localStorage.getItem('dev'));
     if (saved) {
-      const { title, content, selected_tags } = saved;
+      const {
+        title,
+        dev_project_concept,
+        dev_coding_strategy,
+        dev_occurred_error,
+        dev_reference,
+        dev_lesson,
+        selected_tags,
+      } = saved;
       this.setState({
         visible: false,
         title,
-        content,
+        dev_project_concept,
+        dev_coding_strategy,
+        dev_occurred_error,
+        dev_reference,
+        dev_lesson,
         selected_tags,
       });
     }
@@ -81,10 +93,27 @@ class DevTemplate extends Component {
   };
 
   handleDebounceInputChange = () => {
-    const { theme, title, content, selected_tags } = this.state;
+    const {
+      theme,
+      title,
+      dev_project_concept,
+      dev_coding_strategy,
+      dev_occurred_error,
+      dev_reference,
+      dev_lesson,
+      selected_tags,
+    } = this.state;
     localStorage.setItem(
       theme,
-      JSON.stringify({ title, content, selected_tags }),
+      JSON.stringify({
+        title,
+        dev_project_concept,
+        dev_coding_strategy,
+        dev_occurred_error,
+        dev_reference,
+        dev_lesson,
+        selected_tags,
+      }),
     );
   };
 
@@ -110,18 +139,25 @@ class DevTemplate extends Component {
     const {
       theme,
       title,
-      project_concept,
-      coding_strategy,
-      occurred_error,
-      reference,
-      lesson,
+      dev_project_concept,
+      dev_coding_strategy,
+      dev_occurred_error,
+      dev_reference,
+      dev_lesson,
       selected_tags,
     } = this.state;
 
-    const content = `${project_concept}${coding_strategy}${occurred_error}${reference}${lesson}`;
+    const content = {
+      dev_project_concept,
+      dev_coding_strategy,
+      dev_occurred_error,
+      dev_reference,
+      dev_lesson,
+    };
     postDevPost(theme, title, content, selected_tags)
       .then(({ data: { id } }) => {
         this.props.handlePost(id);
+        console.log(111111111, this.props.id)
         message.success('Post successfully!');
         this.setState({ isPosted: true });
         localStorage.removeItem('dev');
@@ -132,13 +168,13 @@ class DevTemplate extends Component {
   render() {
     const {
       title,
-      project_concept,
-      coding_strategy,
-      occurred_error,
-      reference,
-      lesson,
-      tags,
+      dev_project_concept,
+      dev_coding_strategy,
+      dev_occurred_error,
+      dev_reference,
+      dev_lesson,
       selected_tags,
+      tags,
       visible,
       isPosted,
     } = this.state;
@@ -175,13 +211,13 @@ class DevTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('project_concept')}
-                  defaultValue={project_concept}
+                  onChange={this.handleInputChange('dev_project_concept')}
+                  defaultValue={dev_project_concept}
                   placeholder="구현하고자 하는 기능/과제/프로젝트에 대한 설명"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={project_concept}
+                    source={dev_project_concept}
                     renderers={{
                       code: CodeBlock,
                     }}
@@ -192,13 +228,13 @@ class DevTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('coding_strategy')}
-                  defaultValue={coding_strategy}
+                  onChange={this.handleInputChange('dev_coding_strategy')}
+                  defaultValue={dev_coding_strategy}
                   placeholder="구현을 위한 코딩 전략"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={coding_strategy}
+                    source={dev_coding_strategy}
                     renderers={{
                       code: CodeBlock,
                     }}
@@ -209,13 +245,13 @@ class DevTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('occurred_error')}
-                  defaultValue={occurred_error}
+                  onChange={this.handleInputChange('dev_occurred_error')}
+                  defaultValue={dev_occurred_error}
                   placeholder="진행 중 겪은 에러/에러코드/어려움"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={occurred_error}
+                    source={dev_occurred_error}
                     renderers={{
                       code: CodeBlock,
                     }}
@@ -226,13 +262,13 @@ class DevTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('reference')}
-                  defaultValue={reference}
+                  onChange={this.handleInputChange('dev_reference')}
+                  defaultValue={dev_reference}
                   placeholder="에러를 해결하기 위해 찾아본 키워드 및 레퍼런스"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={reference}
+                    source={dev_reference}
                     renderers={{
                       code: CodeBlock,
                     }}
@@ -243,13 +279,13 @@ class DevTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('lesson')}
-                  defaultValue={lesson}
+                  onChange={this.handleInputChange('dev_lesson')}
+                  defaultValue={dev_lesson}
                   placeholder="기능구현 및 에러해결을 통해 얻은 교훈"
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={lesson}
+                    source={dev_lesson}
                     renderers={{
                       code: CodeBlock,
                     }}

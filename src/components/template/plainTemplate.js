@@ -17,9 +17,9 @@ class PlainTemplate extends Component {
     this.state = {
       theme: 'plain',
       title: '',
-      content: '',
-      tags: [],
+      plain_content: '',
       selected_tags: [],
+      tags: [],
       visible: false,
       isPosted: false,
     };
@@ -43,10 +43,10 @@ class PlainTemplate extends Component {
 
   checkData = () => {
     const saved = JSON.parse(localStorage.getItem('plain'));
-  
+
     if (saved) {
-      const { title, content, selected_tags } = saved;
-      if (!this.isEmpty(title, content, selected_tags)) {
+      const { title, plain_content, selected_tags } = saved;
+      if (!this.isEmpty(title, plain_content, selected_tags)) {
         this.setState({ visible: true });
       }
     }
@@ -71,11 +71,11 @@ class PlainTemplate extends Component {
 
   getData = (e) => {
     const saved = JSON.parse(localStorage.getItem('plain'));
-    const { title, content, selected_tags } = saved;
+    const { title, plain_content, selected_tags } = saved;
     this.setState({
       visible: false,
       title,
-      content,
+      plain_content,
       selected_tags,
     });
   };
@@ -95,10 +95,10 @@ class PlainTemplate extends Component {
   };
 
   handleDebounceInputChange = () => {
-    const { theme, title, content, selected_tags } = this.state;
+    const { theme, title, plain_content, selected_tags } = this.state;
     localStorage.setItem(
       theme,
-      JSON.stringify({ title, content, selected_tags }),
+      JSON.stringify({ title, plain_content, selected_tags }),
     );
   };
 
@@ -114,16 +114,18 @@ class PlainTemplate extends Component {
     } else {
       e.target.className = '';
       this.setState({
-        selected_tags: selected_tags.filter((tag) => tag !== target),
+        selected_tags: selected_tags.filter(
+          (tag) => tag !== target,
+        ),
       });
     }
     this.handleDebounceInputChange('selected_tags');
   };
 
   handleSubmit = (e) => {
-    const { theme, title, content, selected_tags } = this.state;
+    const { theme, title, plain_content, selected_tags } = this.state;
 
-    postPlainPost(theme, title, content, selected_tags)
+    postPlainPost(theme, title, { plain_content }, selected_tags)
       .then(({ data: { id } }) => {
         this.props.handlePost(id);
         message.success('Post successfully!');
@@ -136,9 +138,9 @@ class PlainTemplate extends Component {
   render() {
     const {
       title,
-      content,
-      tags,
+      plain_content,
       selected_tags,
+      tags,
       visible,
       isPosted,
     } = this.state;
@@ -175,12 +177,12 @@ class PlainTemplate extends Component {
               <div className="cl_Plain_Edit_Content ">
                 <TextareaAutosize
                   className="cl_Plain_Edit_Text cl_Plain_Edit_Set"
-                  onChange={this.handleInputChange('content')}
-                  defaultValue={content}
+                  onChange={this.handleInputChange('plain_content')}
+                  defaultValue={plain_content}
                 />
                 <div className="cl_Plain_Edit_Markdown cl_Plain_Edit_Set">
                   <ReactMarkdown
-                    source={content}
+                    source={plain_content}
                     renderers={{
                       code: CodeBlock,
                     }}
