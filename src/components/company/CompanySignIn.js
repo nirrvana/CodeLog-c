@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { postCompanySignInData } from '../../redux/api';
-import { signin } from '../../redux/action';
+import { signin, isCompanyUser } from '../../redux/action';
 import { Redirect } from 'react-router-dom';
 import {
   Form,
@@ -37,6 +37,7 @@ class CompanySignIn extends Component {
             .then((res) => {
               if (res.status === 200) {
                 this.props.handleSignin();
+                this.props.handleisCompanyUser();
               }
             })
             .catch((err) => this.error());
@@ -155,6 +156,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleSignin: () => {
     dispatch(signin());
+  },
+  handleisCompanyUser: () => {
+    dispatch(isCompanyUser());
   },
 });
 
