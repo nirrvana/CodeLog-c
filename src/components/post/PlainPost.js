@@ -163,12 +163,14 @@ class PlainPost extends Component {
   render() {
     const { isLike, post } = this.state;
     console.log('POST:', post);
-
-    let tagView, color;
+    let tagView, color, settingView;
 
     // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
+    }
+    if (!post.isAuthor) {
+      settingView = 'none';
     }
     if (post.selected_tags === undefined || !post.selected_tags.length) {
       tagView = 'none';
@@ -224,7 +226,11 @@ class PlainPost extends Component {
             </Tooltip>
 
             <Dropdown overlay={menu} trigger={['click']}>
-              <Icon type="setting" className="cl_Post_Edit_Btn" />
+              <Icon
+                style={{ display: settingView }}
+                type="setting"
+                className="cl_Post_Edit_Btn"
+              />
             </Dropdown>
           </div>
           <div className="cl_Post_Contents ">

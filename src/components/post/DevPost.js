@@ -169,6 +169,7 @@ class DevPost extends Component {
   render() {
     const { isLike, post } = this.state;
     console.log('POST:', post);
+
     let tagView, color, settingView;
 
     // ? 상황에 따른 변수 분기
@@ -233,7 +234,11 @@ class DevPost extends Component {
             </Tooltip>
 
             <Dropdown overlay={menu} trigger={['click']}>
-              <Icon type="setting" className="cl_Post_Edit_Btn" />
+              <Icon
+                style={{ display: settingView }}
+                type="setting"
+                className="cl_Post_Edit_Btn"
+              />
             </Dropdown>
           </div>
 

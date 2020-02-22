@@ -161,12 +161,14 @@ class TILPost extends Component {
   render() {
     const { isLike, post } = this.state;
     console.log('POST:', post);
-    let tagView, color;
+    let tagView, color, settingView;
 
     if (isLike) {
       color = 'red';
     }
-
+    if (!post.isAuthor) {
+      settingView = 'none';
+    }
     if (post.selected_tags === undefined || !post.selected_tags.length) {
       tagView = 'none';
     }
@@ -221,7 +223,11 @@ class TILPost extends Component {
             </Tooltip>
 
             <Dropdown overlay={menu} trigger={['click']}>
-              <Icon type="setting" className="cl_Post_Edit_Btn" />
+              <Icon
+                style={{ display: settingView }}
+                type="setting"
+                className="cl_Post_Edit_Btn"
+              />
             </Dropdown>
           </div>
           <div className="cl_Post_Contents cl_PlainPost_Contents ">
