@@ -85,7 +85,7 @@ export function getMyPageData(token) {
 }
 
 export function getCompanyMyPageData() {
-  return axios.get(`${HOST}/mypage/company`);
+  return axios.get(`${HOST}/company`);
 }
 
 export function getTags() {
