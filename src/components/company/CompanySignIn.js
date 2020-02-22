@@ -57,7 +57,9 @@ class CompanySignIn extends Component {
             onSubmit={this.handleSubmit}
             className="cl_SignInForm"
           >
-            <div className="cl_SignIn_header cl_SignIn_Company_header">Company Sign in</div>
+            <div className="cl_SignIn_header cl_SignIn_Company_header">
+              Company Sign in
+            </div>
             <Form.Item
               label={
                 <span>
@@ -71,7 +73,7 @@ class CompanySignIn extends Component {
               {getFieldDecorator('company_code', {
                 rules: [
                   {
-                    required: true,
+                    required: false,
                     message: 'Please input your company code!',
                     whitespace: true,
                   },
