@@ -40,7 +40,7 @@ class CompanySignUp extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       console.log(values);
       if (!err) {
-        const {
+        var {
           company_name,
           business_name,
           eid,
@@ -51,6 +51,7 @@ class CompanySignUp extends Component {
           password,
           partner,
           company_code,
+          agreement,
         } = values;
         const member = {
           username,
@@ -59,24 +60,28 @@ class CompanySignUp extends Component {
           email,
         };
 
-        postCompanySignUpData(
-          company_name,
-          business_name,
-          eid,
-          company_homepage,
-          member,
-          partner,
-          company_code,
-        )
-          .then((res) => {
-            if (res.status === 200) {
-              message.success('Welcome to the membership !');
-              this.props.history.push('/');
-            }
-          })
-          .catch((err) => {
-            message.error('exist email. please enter other email.');
-          });
+        if (!agreement) {
+          message.error('Please check to the agreement.');
+        } else {
+          postCompanySignUpData(
+            company_name,
+            business_name,
+            eid,
+            company_homepage,
+            member,
+            partner,
+            company_code,
+          )
+            .then((res) => {
+              if (res.status === 200) {
+                message.success('Welcome to the membership !');
+                this.props.history.push('/');
+              }
+            })
+            .catch((err) => {
+              message.error('exist email. please enter other email.');
+            });
+        }
       }
     });
   };
@@ -325,6 +330,7 @@ class CompanySignUp extends Component {
               <Form.Item {...tailFormItemLayout}>
                 {getFieldDecorator('partner', {
                   valuePropName: 'checked',
+                  initialValue: false,
                 })(
                   <Checkbox onChange={this.onChange}>
                     Are you a partner company?
@@ -348,6 +354,7 @@ class CompanySignUp extends Component {
               <Form.Item {...tailFormItemLayout}>
                 {getFieldDecorator('agreement', {
                   valuePropName: 'checked',
+                  initialValue: false,
                 })(
                   <Checkbox>
                     I have read the <a href="">agreement</a>
