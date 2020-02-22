@@ -319,7 +319,6 @@ class TechPostEdit extends Component {
               renderItem={(item) => (
                 <span>
                   <Tag
-                    closable
                     color={post.selected_tags.includes(item) ? 'blue' : ''}
                     onClick={this.handleInputData('selected_tags')}
                   >
