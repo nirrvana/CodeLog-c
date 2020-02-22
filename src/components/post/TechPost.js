@@ -8,7 +8,12 @@ import TabBlog from '../../pages/TabBlog';
 import CodeBlock from '../postedit/CodeBlock';
 import { getRandomInt, colorArray } from '../../TagColor';
 import { currentPost, currentPage } from '../../redux/action';
-import { getSelectPost, PostDeletePost } from '../../redux/api';
+import {
+  getSelectPost,
+  PostDeletePost,
+  PostLikesPost,
+  PostDislikesPost,
+} from '../../redux/api';
 
 // * CSS
 import {
@@ -88,6 +93,8 @@ class TILPost extends Component {
   };
   componentDidMount() {
     this.props.handlePage('Post');
+    // 랜더 시 페이지 상단부터
+    window.scrollTo(0, 0);
     let id = this.props.PostState.currentPost.id;
     if (id) {
       localStorage.setItem('post_id', JSON.stringify({ id: id }));
@@ -114,17 +121,18 @@ class TILPost extends Component {
   };
   // ? 좋아요 메소드
   handleIsLikeState = () => {
-    let likesCount = this.state.post.likes;
-
+    let id = JSON.parse(localStorage.getItem('post_id')).id;
     if (!this.state.isLike) {
-      this.setState({
-        isLike: true,
-        post: { ...this.state.post, likes: likesCount + 1 },
+      PostLikesPost(id).then((res) => {
+        this.setState({
+          isLike: true,
+        });
       });
     } else {
-      this.setState({
-        isLike: false,
-        post: { ...this.state.post, likes: likesCount - 1 },
+      PostLikesPost(id).then((res) => {
+        this.setState({
+          isLike: false,
+        });
       });
     }
   };
@@ -152,14 +160,15 @@ class TILPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-    window.scrollTo(0, 0);
+    console.log('POST:', post);
+
     let tagView, color;
 
     if (isLike) {
       color = 'red';
     }
 
-    if (post.tags === undefined || !post.tags.length) {
+    if (post.selected_tags === undefined || !post.selected_tags.length) {
       tagView = 'none';
     }
     if (!Object.keys(post).length) {
@@ -170,7 +179,11 @@ class TILPost extends Component {
         <Menu.Item key="0">
           <Link
             to="/TechpostEdit"
-            onClick={this.handlePostData(post.title, post.content, post.tags)}
+            onClick={this.handlePostData(
+              post.title,
+              post.content,
+              post.selected_tags,
+            )}
           >
             Edit
           </Link>
@@ -283,14 +296,14 @@ class TILPost extends Component {
             <List
               style={{ display: tagView }}
               itemLayout="horizontal"
-              dataSource={post.tags}
+              dataSource={post.selected_tags}
               renderItem={(item) => (
                 <span>
                   <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>
                 </span>
               )}
             />
-            <Popover content={post.Likes + ' Likes'}>
+            <Popover content={post.likes + ' Likes'}>
               <Icon
                 type="heart"
                 className="cl_PlainPost_Like"

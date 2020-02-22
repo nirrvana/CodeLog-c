@@ -137,6 +137,13 @@ export function getSelectPost(id) {
   return axios.get(`${HOST}/post/${id}`);
 }
 
+// ? post likes
+export function PostLikesPost(id) {
+  return axios.post(`${HOST}/post/like/${id}`);
+}
+export function PostDislikesPost(id) {
+  return axios.post(`${HOST}/post/dislike/${id}`);
+}
 // ? Edit post
 export function PostEditPost(id, title, content, tags) {
   return axios.post(`${HOST}/post/update`, { id, title, content, tags });
