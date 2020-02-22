@@ -169,17 +169,20 @@ class DevPost extends Component {
   render() {
     const { isLike, post } = this.state;
     console.log('POST:', post);
-    let tagView, color;
+    let tagView, color, settingView;
 
     // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
     }
-    if (post.selected_tags === undefined || !post.selected_tags.length) {
-      tagView = 'none';
+    if (!post.isAuthor) {
+      settingView = 'none';
     }
     if (!Object.keys(post).length) {
       return <></>;
+    }
+    if (post.selected_tags === undefined || !post.selected_tags.length) {
+      tagView = 'none';
     }
 
     const menu = (
