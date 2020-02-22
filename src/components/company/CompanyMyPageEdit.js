@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // * File
-import CompanyRecommentList from './CompanyRecommentList';
-import fakedata from '../../fakedata';
+import { getCompanyMyPageData } from '../../redux/api';
+
 // * CSS
 import {
   Layout,
@@ -18,7 +18,8 @@ import {
   message,
 } from 'antd';
 const { Header } = Layout;
-// ? 글자수 제한
+
+// ? 글자 수 제한 메소드
 function fnChkByte(str, maxByte) {
   var str_len = str.length;
 
@@ -55,23 +56,21 @@ export default class CompanyMyPageEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        { id: 1, name: 'elsa', email: 'elsa@frozen.com' },
-        { id: 2, name: 'anna', email: 'anna@frozen.com' },
-        { id: 3, name: 'olaf', email: 'olaf@frozen.com' },
-        { id: 4, name: 'root', email: 'root@example.com' },
-        { id: 5, name: 'lion', email: 'loin@example.com' },
-      ],
-      CompanyInfoValue: null,
+      company_data: {},
       visible: false,
       TagVisible: false,
       isEdit: 'none',
       isDelete: 'none',
     };
-    this.handleCompanyInfoValue = this.handleCompanyInfoValue.bind(this);
-    this.handleDeleteCompanyMember = this.handleDeleteCompanyMember.bind(this);
-    this.handleInputValue = this.handleInputValue.bind(this);
   }
+  componentDidMount() {
+    getCompanyMyPageData().then((res) => {
+      this.setState({
+        company_data: Object.assign(this.state.company_data, res.data),
+      });
+    });
+  }
+  // ? 멤버 CRUD 메소드
   handleInputValue = (key) => (e) => {
     if (key === 'isEdit') {
       this.setState({ [key]: '', isDelete: 'none' });
@@ -81,16 +80,12 @@ export default class CompanyMyPageEdit extends Component {
       this.setState({ [key]: '', isEdit: 'none' });
     }
   };
-  handleCompanyInfoValue(e) {
-    this.setState({ CompanyInfoValue: e.target.value });
-  }
-
-  handleDeleteCompanyMember(item) {
+  handleDeleteCompanyMember = (item) => {
     this.setState({
       data: this.state.data.filter((el) => el.id !== item.id),
     });
-  }
-  // ? modal
+  };
+  // ? 멤버 CRUD modal 메소드
   showModal = (part) => (e) => {
     if (part === 'member') {
       this.setState({
@@ -117,22 +112,34 @@ export default class CompanyMyPageEdit extends Component {
     });
   };
 
+  // ? 기업 정보 메소드
+  handleCompanyInfoValue = (e) => {
+    this.setState({
+      ...this.state,
+      company_data: {
+        ...this.state.company_data,
+        info: e.target.value,
+      },
+    });
+  };
+
   // ! RENDER
   render() {
-    const { data } = this.state;
+    const { company_data } = this.state;
+    console.log('company_data:', company_data);
+
     const menu = (
       <Menu onClick={this.handleMenuClick}>
         <Menu.Item key="1" onClick={this.handleInputValue('member')}>
-          Member view
+          Member
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item
-          onClick={
-            data.length === 5
-              ? () =>
-                  message.error('기업 유저는 최대 5명까지 추가할 수 있습니다.')
-              : this.showModal('member')
-          }
+          onClick={() => {
+            company_data.Users.length === 5
+              ? message.error('기업 유저는 최대 5명까지 추가할 수 있습니다.')
+              : this.showModal('member');
+          }}
         >
           Add member
         </Menu.Item>
@@ -165,9 +172,10 @@ export default class CompanyMyPageEdit extends Component {
             Update
           </Link>
           <div className="cl_Company_Name cl_CompanyMyPage_Set">
-            <Input
+            <input
+              defaultValue={company_data.company_name}
               className="cl_Company_Name_Input"
-              defaultValue={'WARR MANTION'}
+              placeholder="Company name"
             />
           </div>
 
@@ -177,9 +185,10 @@ export default class CompanyMyPageEdit extends Component {
               rows="10"
               cols="16"
               name="contents"
+              placeholder="Company information"
               onChange={this.handleCompanyInfoValue}
-              onKeyUp={() => fnChkByte(this.state.CompanyInfoValue, '250')}
-              defaultValue={'hello'}
+              onKeyUp={() => fnChkByte(company_data.info, '250')}
+              defaultValue={company_data.info}
             />
             <span id="byteInfo">0 </span> <span> / </span> 250 bytes
           </div>
@@ -215,7 +224,7 @@ export default class CompanyMyPageEdit extends Component {
 
             <List
               className="cl_Company_Member"
-              dataSource={this.state.data}
+              dataSource={company_data.Users}
               renderItem={(item) => (
                 <List.Item key={item.id}>
                   <div
@@ -258,9 +267,8 @@ export default class CompanyMyPageEdit extends Component {
           </div>
           <div className="cl_Company_Tags cl_CompanyMyPage_Set">
             <div className="cl_Tags_Header">
-              WARR MATION's Tag{' '}
+              {company_data.company_name}'s Tag
               <span>
-                {' '}
                 <Icon
                   type="plus-circle"
                   className="cl_Company_Tag_Plus"
@@ -313,12 +321,6 @@ export default class CompanyMyPageEdit extends Component {
                 purple
               </Tag>
             </div>
-          </div>
-          <div className="cl_Company_Recommend cl_CompanyMyPage_Set">
-            <div className="cl_Company_Recommend_Header">
-              Developer for WARR MANTION
-            </div>
-            <CompanyRecommentList data={fakedata}></CompanyRecommentList>
           </div>
         </div>
       </div>

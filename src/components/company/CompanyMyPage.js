@@ -30,7 +30,8 @@ export default class CompanyMyPage extends Component {
   }
   render() {
     const { company_data } = this.state;
-    console.log(company_data);
+    console.log('DATA:', company_data);
+
     return (
       <div>
         <Layout className="layout">
@@ -50,39 +51,25 @@ export default class CompanyMyPage extends Component {
             Edit
           </Link>
           <div className="cl_Company_Name cl_CompanyMyPage_Set">
-            WARR MANTION
+            {company_data.company_name}
           </div>
 
           <div className="cl_Company_Info cl_CompanyMyPage_Set">
-            We supply a series of design principles, practical patterns and high
-            quality design resources (Sketch and Axure), to help people create
-            their product prototypes beautifully and efficiently. We supply a
-            series of design principles, practical patterns and high quality
-            design resources (Sketch and Axure), to help people create their
-            product prototypes beautifully and efficiently.We supply a series of
-            design principles, practical patterns and high quality design
-            resources (Sketch and Axure), to help people create their product
-            prototypes beautifully and efficiently.We supply a series of design
-            principles, practical patterns and high quality design resources
-            (Sketch and Axure), to help people create their product prototypes
-            beautifully and efficiently.We supply a series of design principles,
-            practical patterns and high quality design resources (Sketch and
-            Axure), to help people create their product prototypes beautifully
-            and efficiently.
+            {company_data.info}
           </div>
           <div className="cl_Company_Members cl_CompanyMyPage_Set">
             <div className="cl_Company_Member_Header">Member</div>
 
             <List
               className="cl_Company_Member"
-              dataSource={this.state.data}
+              dataSource={company_data.Users}
               renderItem={(item) => (
                 <List.Item key={item.id}>
                   <List.Item.Meta
                     avatar={
                       <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                     }
-                    title={item.name}
+                    title={item.username}
                     description={item.email}
                   />
                 </List.Item>
@@ -90,7 +77,9 @@ export default class CompanyMyPage extends Component {
             ></List>
           </div>
           <div className="cl_Company_Tags cl_CompanyMyPage_Set">
-            <div className="cl_Tags_Header"> WARR MATION's Tag</div>
+            <div className="cl_Tags_Header">
+              {company_data.company_name}'s Tag
+            </div>
             <div>
               <Tag className="cl_Company_Tag" color="magenta">
                 magenta
@@ -129,7 +118,7 @@ export default class CompanyMyPage extends Component {
           </div>
           <div className="cl_Company_Recommend cl_CompanyMyPage_Set">
             <div className="cl_Company_Recommend_Header">
-              Developer for WARR MANTION
+              Developer for {company_data.company_name}
             </div>
             <CompanyRecommentList data={fakedata}></CompanyRecommentList>
           </div>
