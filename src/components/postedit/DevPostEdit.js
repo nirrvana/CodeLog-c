@@ -8,18 +8,17 @@ import debounce from 'lodash.debounce';
 import CodeBlock from './CodeBlock';
 import TabBlog from '../../pages/TabBlog';
 import { currentPage } from '../../redux/action';
-import { getRandomInt, colorArray } from '../../TagColor';
 import { PostEditPost, getSelectPost, getTags } from '../../redux/api';
 
 // * CSS
-import { Tag, Input, Button, Avatar, AutoComplete, List, message } from 'antd';
+import { Tag, Input, Button, Avatar, List, message } from 'antd';
 class DevPostEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
       post: {},
       tagValue: '',
-      tagSource: [],
+      tags: [],
     };
     this.handleEditDataSave = debounce(this.handleEditDataSave, 1000);
   }
@@ -58,39 +57,12 @@ class DevPostEdit extends Component {
       }
     });
 
-    getTags().then((res) => this.setState({ tagSource: res.data.tags }));
+    getTags()
+      .then(({ data: { tags } }) => {
+        this.setState({ tags });
+      })
+      .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
   }
-
-  // ? 태그 메소드
-  onSelect = (tagValue) => {
-    if (this.state.post.dev_selected_tags.includes(tagValue)) {
-      message.warning(`${tagValue} is already added`);
-    } else {
-      this.setState({
-        post: {
-          ...this.state.post,
-          dev_selected_tags: this.state.post.dev_selected_tags.concat([
-            tagValue,
-          ]),
-        },
-      });
-    }
-  };
-
-  onChange = (tagValue) => {
-    this.setState({ tagValue });
-  };
-
-  onClose = (item) => {
-    this.setState({
-      post: {
-        ...this.state.post,
-        dev_selected_tags: this.state.post.dev_selected_tags.filter(
-          (tag) => tag !== item,
-        ),
-      },
-    });
-  };
 
   // ? 포스트 자동저장 메소드
   handleInputData = (state) => (event) => {
@@ -102,6 +74,8 @@ class DevPostEdit extends Component {
           title: event.target.value,
         },
       });
+    } else if (state === 'selected_tags') {
+      this.selectTag(event);
     } else {
       this.setState({
         ...this.state,
@@ -132,13 +106,25 @@ class DevPostEdit extends Component {
     // 로컬 스토리지에 저장 데이터 저장
     if (PostSave) {
       let saveData = JSON.stringify(
-        Object.assign(PostSave, { [id]: { title: post.title, content } }),
+        Object.assign(PostSave, {
+          [id]: {
+            title: post.title,
+            content: post.content,
+            selected_tags: post.selected_tags,
+          },
+        }),
       );
       localStorage.setItem('PostSave', saveData);
     } else {
       localStorage.setItem(
         'PostSave',
-        JSON.stringify({ [id]: { title: post.title, content } }),
+        JSON.stringify({
+          [id]: {
+            title: post.title,
+            content: post.content,
+            selected_tags: post.selected_tags,
+          },
+        }),
       );
     }
   };
@@ -159,12 +145,7 @@ class DevPostEdit extends Component {
     if (!post.title.length) {
       message.error('Please input a title!');
     } else {
-      await PostEditPost(
-        localData_id,
-        post.title,
-        content,
-        post.dev_selected_tags,
-      );
+      await PostEditPost(localData_id, post.title, content, post.selected_tags);
       // 로컬 스토리지 아이템 제거
       localStorage.removeItem('currentPost');
       delete deleteSave[localData_id];
@@ -174,22 +155,37 @@ class DevPostEdit extends Component {
     }
   };
 
+  // ? 태그 메소드
+  selectTag = (e) => {
+    const { selected_tags } = this.state.post;
+    const target = e.target.innerText;
+
+    if (!selected_tags.includes(target)) {
+      e.target.className = 'ant-tag-blue';
+      this.setState({
+        post: {
+          ...this.state.post,
+          selected_tags: [...selected_tags, target],
+        },
+      });
+    } else {
+      e.target.className = '';
+      this.setState({
+        post: {
+          ...this.state.post,
+          selected_tags: selected_tags.filter((tag) => tag !== target),
+        },
+      });
+    }
+  };
+
   // ! Render
   render() {
-    const { tagValue, post, tagSource } = this.state;
-    let tagView;
-    console.log('POST_STATE:', post);
-    if (
-      post.dev_selected_tags === undefined ||
-      !post.dev_selected_tags.length
-    ) {
-      tagView = 'none';
-    }
+    const { post, tags } = this.state;
 
     if (!Object.keys(post).length) {
       return <></>;
     }
-
     return (
       <div>
         <TabBlog></TabBlog>
@@ -294,30 +290,14 @@ class DevPostEdit extends Component {
               </div>
             </div>
           </div>
-          <AutoComplete
-            className="cl_Post_Tags cl_Post_set"
-            value={tagValue}
-            onSelect={this.onSelect}
-            onChange={this.onChange}
-            style={{ width: 200 }}
-            dataSource={tagSource}
-            placeholder="Find a tag"
-            filterOption={(inputValue, option) =>
-              option.props.children
-                .toUpperCase()
-                .indexOf(inputValue.toUpperCase()) !== -1
-            }
-          />
           <div>
             <List
-              style={{ display: tagView }}
-              dataSource={post.dev_selected_tags}
+              dataSource={tags}
               renderItem={(item) => (
                 <span>
                   <Tag
-                    closable
-                    color={colorArray[getRandomInt(0, 10)]}
-                    onClose={() => this.onClose(item)}
+                    color={post.selected_tags.includes(item) ? 'blue' : ''}
+                    onClick={this.handleInputData('selected_tags')}
                   >
                     {item}
                   </Tag>
