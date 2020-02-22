@@ -32,14 +32,13 @@ class DeveloperSignUp extends Component {
     this.setState({ email: e.target.value });
   };
   handleEmailValid = () => {
-    postEmailDuplicate(String(this.state.email)).then((res) => {
-      console.log(res);
-      if (res.data === 'This email has already joined') {
-        message.error('This email has already joined');
-      } else if (res.data === 'This email is usable!') {
+    postEmailDuplicate(String(this.state.email))
+      .then((res) => {
         message.success('This email is usable!');
-      }
-    });
+      })
+      .catch((err) => {
+        message.error('exist email. please enter other email.');
+      });
   };
   handleSubmit = (e) => {
     e.preventDefault();
