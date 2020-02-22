@@ -13,13 +13,6 @@ const { Header } = Layout;
 export default class CompanyMyPage extends Component {
   state = {
     company_data: {},
-    data: [
-      { id: 1, name: 'elsa', email: 'elsa@frozen.com' },
-      { id: 2, name: 'anna', email: 'anna@frozen.com' },
-      { id: 3, name: 'olaf', email: 'olaf@frozen.com' },
-      { id: 4, name: 'root', email: 'root@example.com' },
-      { id: 5, name: 'lion', email: 'loin@example.com' },
-    ],
   };
   componentDidMount() {
     getCompanyMyPageData().then((res) => {
@@ -69,7 +62,17 @@ export default class CompanyMyPage extends Component {
                     avatar={
                       <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                     }
-                    title={item.username}
+                    title={
+                      <div>
+                        {item.username}
+                        <span
+                          style={{
+                            color: 'rgba(0, 0, 0, 0.45)',
+                            marginLeft: '1%',
+                          }}
+                        >{`${item.position}`}</span>
+                      </div>
+                    }
                     description={item.email}
                   />
                 </List.Item>
