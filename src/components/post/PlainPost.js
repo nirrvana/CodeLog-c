@@ -8,7 +8,12 @@ import TabBlog from '../../pages/TabBlog';
 import CodeBlock from '../postedit/CodeBlock';
 import { getRandomInt, colorArray } from '../../TagColor';
 import { currentPost, currentPage } from '../../redux/action';
-import { getSelectPost, PostDeletePost } from '../../redux/api';
+import {
+  getSelectPost,
+  PostDeletePost,
+  PostLikesPost,
+  PostDislikesPost,
+} from '../../redux/api';
 
 // * CSS
 import {
@@ -118,17 +123,18 @@ class PlainPost extends Component {
   };
   // ? 좋아요 메소드
   handleIsLikeState = () => {
-    let likesCount = this.state.post.likes;
-
+    let id = JSON.parse(localStorage.getItem('post_id')).id;
     if (!this.state.isLike) {
-      this.setState({
-        isLike: true,
-        post: { ...this.state.post, likes: likesCount + 1 },
+      PostLikesPost(id).then((res) => {
+        this.setState({
+          isLike: true,
+        });
       });
     } else {
-      this.setState({
-        isLike: false,
-        post: { ...this.state.post, likes: likesCount - 1 },
+      PostLikesPost(id).then((res) => {
+        this.setState({
+          isLike: false,
+        });
       });
     }
   };
@@ -156,13 +162,15 @@ class PlainPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
+    console.log('POST:', post);
+
     let tagView, color;
 
     // ? 상황에 따른 변수 분기
     if (isLike) {
       color = 'red';
     }
-    if (post.tags === undefined || !post.tags.length) {
+    if (post.selected_tags === undefined || !post.selected_tags.length) {
       tagView = 'none';
     }
     if (!Object.keys(post).length) {
@@ -173,7 +181,11 @@ class PlainPost extends Component {
         <Menu.Item key="0">
           <Link
             to="/PlainpostEdit"
-            onClick={this.handlePostData(post.title, post.content, post.tags)}
+            onClick={this.handlePostData(
+              post.title,
+              post.content,
+              post.selected_tags,
+            )}
           >
             Edit
           </Link>
@@ -227,7 +239,7 @@ class PlainPost extends Component {
             <List
               style={{ display: tagView }}
               itemLayout="horizontal"
-              dataSource={post.tags}
+              dataSource={post.selected_tags}
               renderItem={(item) => (
                 <span>
                   <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>
@@ -235,7 +247,7 @@ class PlainPost extends Component {
               )}
             />
 
-            <Popover content={post.Likes + ' Likes'}>
+            <Popover content={post.likes + ' Likes'}>
               <Icon
                 type="heart"
                 className="cl_PlainPost_Like"
