@@ -145,8 +145,13 @@ export function PostDislikesPost(id) {
   return axios.post(`${HOST}/post/dislike/${id}`);
 }
 // ? Edit post
-export function PostEditPost(id, title, content, tags) {
-  return axios.post(`${HOST}/post/update`, { id, title, content, tags });
+export function PostEditPost(id, title, content, selected_tags) {
+  return axios.post(`${HOST}/post/update`, {
+    id,
+    title,
+    content,
+    selected_tags,
+  });
 }
 // ? Delete post
 export function PostDeletePost(id) {
