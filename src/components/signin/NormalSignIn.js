@@ -20,9 +20,7 @@ class NormalSignInForm extends React.Component {
               this.props.handleSignin();
             }
           })
-          .catch((err) => {
-            this.error();
-          });
+          .catch((err) => this.error());
       }
     });
   };
