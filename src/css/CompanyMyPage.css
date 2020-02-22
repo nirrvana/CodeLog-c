@@ -71,24 +71,25 @@
   height: 40px !important;
 }
 .cl_Company_Recommend {
+  align-items: center;
   height: 800px;
-  padding-top: 3%;
-  padding-left: 5%;
   display: flex;
   flex-wrap: wrap;
   border-radius: 5px;
   border: 1px solid rgb(232, 232, 232);
+  justify-content: center;
 }
 .cl_Company_Recommend_Header {
-  border-bottom: 1px solid lightgray;
-  margin-left: 30%;
+  margin-bottom: -4%;
   font-size: xx-large;
 }
 .cl_Company_Recommend_List {
+  padding-top: 1%;
+  width: 90%;
+  border-top: 1px solid lightgray;
+  justify-content: center;
   height: 600px;
   overflow: auto;
-  padding-top: 3%;
-  padding-left: 5%;
   display: flex;
   flex-wrap: wrap;
   border-radius: 5px;

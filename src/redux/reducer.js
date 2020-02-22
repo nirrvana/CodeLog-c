@@ -5,6 +5,7 @@ import {
   POST_SELECT,
   PAGE_SELECT,
   SIGN_OUT,
+  USER_TYPE,
 } from './action';
 
 const sessionInitialState = {
@@ -21,6 +22,21 @@ function session(state = sessionInitialState, action) {
       return {
         isLogin: false,
       };
+    default:
+      return state;
+  }
+}
+const userInitialState = {
+  isCompanyUser: false,
+};
+
+function user(state = userInitialState, action) {
+  switch (action.type) {
+    case USER_TYPE:
+      return {
+        isCompanyUser: true,
+      };
+
     default:
       return state;
   }
@@ -76,6 +92,7 @@ function PostState(state = PostInitialState, action) {
 
 const reducer = combineReducers({
   session,
+  user,
   mypage,
   PostState,
 });

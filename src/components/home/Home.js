@@ -1,28 +1,36 @@
 /* eslint-disable jsx-a11y/alt-text */
 // * Library
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // * File
 import Tab from '../../pages/Tab';
 import { getHomeData } from '../../redux/api';
+import { isCompanyUser } from '../../redux/action';
 import Newcompany from './newcompany/NewCompanyList';
 import RecentPostList from './recentpost/RecentPostList';
 import RecommandedPostList from './recommandedpost/RecommandedPostList';
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
     content: {},
   };
   componentDidMount() {
     getHomeData().then((res) => {
-      this.setState({ content: Object.assign(this.state.content, res.data) });
+      if (res.data.isCompanyUser) {
+        this.props.handleisCompanyUser();
+        this.setState({ content: Object.assign(this.state.content, res.data) });
+      } else {
+        this.setState({ content: Object.assign(this.state.content, res.data) });
+      }
     });
   }
   render() {
     const { content } = this.state;
+    console.log(this.props);
 
     if (!Object.keys(content).length) {
-      return <div></div>;
+      return <></>;
     } else {
       return (
         <div>
@@ -49,3 +57,14 @@ export default class Home extends Component {
     }
   }
 }
+const mapStateToProps = (state) => ({
+  isCompanyUser: state.user.isCompanyUser,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleisCompanyUser: () => {
+      dispatch(isCompanyUser());
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { postCompanySignInData } from '../../redux/api';
-import { signin } from '../../redux/action'
+import { signin } from '../../redux/action';
 import { Redirect } from 'react-router-dom';
 import {
   Form,
@@ -13,7 +13,6 @@ import {
   message,
 } from 'antd';
 import TabNoBtn from '../../pages/TabNoBtn';
-// import 'antd/dist/antd.css';
 
 class CompanySignIn extends Component {
   state = {

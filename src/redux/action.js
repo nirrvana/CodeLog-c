@@ -1,5 +1,6 @@
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
+export const USER_TYPE = 'USER_TYPE';
 export const GET_MY_PAGE = 'GET_MY_PAGE';
 export const POST_SELECT = 'POST_SELECT';
 export const PAGE_SELECT = 'PAGE_SELECT';
@@ -13,6 +14,11 @@ export function signin() {
 export function signout() {
   return {
     type: SIGN_OUT,
+  };
+}
+export function isCompanyUser() {
+  return {
+    type: USER_TYPE,
   };
 }
 
