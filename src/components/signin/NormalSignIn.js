@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import { postSignInData } from '../../redux/api';
 import { signin } from '../../redux/action';
-import { Link, Redirect } from 'react-router-dom';
 import TabNoBtn from '../../pages/TabNoBtn';
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 
-class NormalSignInForm extends React.Component {
-  error = () => {
-    message.error('Invaild account');
-  };
+class NormalSignInForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, { email, password }) => {
@@ -25,11 +22,14 @@ class NormalSignInForm extends React.Component {
     });
   };
 
+  error = () => {
+    message.error('Invaild account');
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    const token = document.cookie.slice(6);
-    console.log('token', token);
-    if (token) {
+
+    if (this.props.isLogin) {
       return <Redirect to="/" />;
     } else {
       return (

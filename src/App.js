@@ -6,8 +6,9 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import { getSessionData } from '../src/redux/api';
+import { signin } from '../src/redux/action';
 // * Component
-
 import WriteDevPost from './pages/WriteDevPost';
 import WritePlainPost from './pages/WritePlainPost';
 import WriteTechPost from './pages/WriteTechPost';
@@ -22,8 +23,25 @@ import components from './components';
 // * CSS
 import './css/css';
 import 'antd/dist/antd.css';
-// 디버깅 용 커밋을 보냅니다.
 class App extends Component {
+  state = {
+    token: false,
+  };
+
+  componentDidMount() {
+    this.checkSessionData();
+  }
+
+  checkSessionData = () => {
+    getSessionData()
+      .then(({ data: { token } }) => {
+        if (token) {
+          this.props.handleSignin();
+        }
+      })
+      .catch((err) => console.log('Error occurred while login..'));
+  };
+
   render() {
     return (
       <div>
@@ -89,4 +107,10 @@ const mapStateToProps = (state) => ({
   isLogin: state.session.isLogin,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  handleSignin: () => {
+    dispatch(signin());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
