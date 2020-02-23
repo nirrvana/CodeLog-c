@@ -4,12 +4,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { getMyPageData } from '../redux/api';
 // * CSS
 import { Layout, Menu, Input, Dropdown } from 'antd';
 const { Header } = Layout;
 const { Search } = Input;
 
 class TabBlog extends Component {
+  state = {
+    username: '',
+  };
+
+  componentDidMount() {
+    getMyPageData()
+      .then(({ data: { username } }) => this.setState({ username }))
+      .catch((err) => console.log('Fail to get username'));
+  }
+
   render() {
     let display;
     if (
@@ -50,6 +61,9 @@ class TabBlog extends Component {
                 onSearch={(value) => value}
                 style={{ width: 200 }}
               />
+            </Menu.Item>
+            <Menu.Item disabled="true">
+              <span className="cl_Username">{this.state.username} 님</span>
             </Menu.Item>
             <Menu.Item>
               <Link to="/Blog"> Blog</Link>

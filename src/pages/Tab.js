@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getSessionData } from '../redux/api';
+import { getSessionData, getMyPageData } from '../redux/api';
 // * css
 import { Layout, Menu } from 'antd';
 const { Header } = Layout;
@@ -10,17 +10,25 @@ const { Header } = Layout;
 class Tab extends Component {
   state = {
     token: false,
+    username: '',
   };
 
   componentDidMount() {
     getSessionData()
       .then(({ data: { token } }) => {
         if (token) {
+          this.getUsername();
           this.setState({ token });
         }
       })
       .catch((err) => console.log('Fail to check token..'));
   }
+
+  getUsername = () => {
+    getMyPageData()
+      .then(({ data: { username } }) => this.setState({ username }))
+      .catch((err) => console.log('Fail to get username'));
+  };
 
   render() {
     const { isCompanyUser } = this.props;
@@ -41,14 +49,17 @@ class Tab extends Component {
               <Menu.Item className="cl_Home_Logo">
                 <Link to="/"> CODE | LOG</Link>
               </Menu.Item>
-              <Menu.Item>
-                <Link to="/SignOut">Sign Out</Link>
+              <Menu.Item disabled="true">
+                <span className="cl_Username">{this.state.username} 님</span>
               </Menu.Item>
               <Menu.Item style={{ display: BlogView }}>
                 <Link to="/Blog">Blog</Link>
               </Menu.Item>
               <Menu.Item>
                 <Link to={MypagePath}>My page</Link>
+              </Menu.Item>
+              <Menu.Item>
+                <Link to="/SignOut">Sign Out</Link>
               </Menu.Item>
             </Menu>
           </Header>
