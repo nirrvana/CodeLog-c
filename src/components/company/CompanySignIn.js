@@ -33,7 +33,7 @@ class CompanySignIn extends Component {
             .then((res) => {
               if (res.status === 200) {
                 this.props.handleSignin();
-                this.props.handleisCompanyUser();
+                this.props.handleisCompanyUser(true);
               }
             })
             .catch((err) => this.error());
@@ -155,8 +155,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleSignin: () => {
     dispatch(signin());
   },
-  handleisCompanyUser: () => {
-    dispatch(isCompanyUser());
+  handleisCompanyUser: (boolean) => {
+    dispatch(isCompanyUser(boolean));
   },
 });
 
