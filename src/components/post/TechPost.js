@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 // * File
 import TabBlog from '../../pages/TabBlog';
 import CodeBlock from '../postedit/CodeBlock';
-import { getRandomInt, colorArray } from '../../TagColor';
+import { randomColor } from '../../TagColor';
 import { currentPost, currentPage } from '../../redux/action';
 import {
   getSelectPost,
@@ -305,7 +305,7 @@ class TILPost extends Component {
               dataSource={post.selected_tags}
               renderItem={(item) => (
                 <span>
-                  <Tag color={colorArray[getRandomInt(0, 10)]}>{item}</Tag>
+                  <Tag color={randomColor()}>{item}</Tag>
                 </span>
               )}
             />

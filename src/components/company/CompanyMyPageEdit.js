@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // * File
+import { randomColor } from '../../TagColor';
 import { getCompanyMyPageData } from '../../redux/api';
 
 // * CSS
@@ -56,7 +57,20 @@ export default class CompanyMyPageEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      company_data: {},
+      company_data: {
+        company_tags: [
+          '🦷',
+          '🍿',
+          '👍',
+          '👽',
+          '왹져',
+          '헤이',
+          '유교걸',
+          '삼강오륜',
+          '붕우유신',
+          '뎃걸',
+        ],
+      },
       visible: false,
       TagVisible: false,
       isMember: '',
@@ -308,34 +322,20 @@ export default class CompanyMyPageEdit extends Component {
             </div>
 
             <div>
-              <Tag className="cl_Company_Tag" closable color="magenta">
-                magenta
-              </Tag>
-              <Tag className="cl_Company_Tag" closable color="volcano">
-                volcano
-              </Tag>
-              <Tag className="cl_Company_Tag" closable color="red">
-                red
-              </Tag>
-              <Tag className="cl_Company_Tag" closable color="orange">
-                orange
-              </Tag>
-              <Tag className="cl_Company_Tag" closable color="gold">
-                gold
-              </Tag>
-              <Tag className="cl_Company_Tag" closable color="lime">
-                lime
-              </Tag>
-              <Tag className="cl_Company_Tag" closable color="green">
-                green
-              </Tag>
-              <Tag className="cl_Company_Tag" closable color="cyan">
-                cyan
-              </Tag>
-
-              <Tag className="cl_Company_Tag" closable color="purple">
-                purple
-              </Tag>
+              <List
+                dataSource={company_data.company_tags}
+                renderItem={(item) => (
+                  <span>
+                    <Tag
+                      closable
+                      className="cl_Company_Tag"
+                      color={randomColor()}
+                    >
+                      {item}
+                    </Tag>
+                  </span>
+                )}
+              />
             </div>
           </div>
         </div>

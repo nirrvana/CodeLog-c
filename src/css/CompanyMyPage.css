@@ -99,10 +99,29 @@
   border-radius: 5px;
   border: 1px solid lightgray;
   margin: 1%;
-  padding: 1%;
+  padding: 1.5%;
   font-size: x-large;
   width: 20%;
   height: 260px;
+  position: relative;
+}
+.cl_recommended_developer_Usename {
+}
+.cl_recommended_developer_Email {
+  font-size: initial;
+  color: rgba(0, 0, 0, 0.45);
+}
+.cl_recommended_developer_Homepage {
+  font-size: initial;
+  color: rgba(0, 0, 0, 0.45);
+}
+.cl_recommended_developer_Tags {
+  position: absolute;
+  bottom: 5%;
+}
+.cl_recommended_developer_Set {
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 7%;
 }
 /* ? Company mypage edit */
 

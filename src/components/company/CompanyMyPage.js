@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // * File
-import fakedata from '../../fakedata';
+import { randomColor } from '../../TagColor';
 import { getCompanyMyPageData } from '../../redux/api';
 import CompanyRecommentList from './CompanyRecommentList';
 // * CSS
@@ -12,7 +12,94 @@ const { Header } = Layout;
 
 export default class CompanyMyPage extends Component {
   state = {
-    company_data: {},
+    company_data: {
+      company_tags: [
+        '🦷',
+        '🍿',
+        '👍',
+        '👽',
+        '왹져',
+        '헤이',
+        '유교걸',
+        '삼강오륜',
+        '붕우유신',
+        '뎃걸',
+      ],
+      recommended_developer: [
+        {
+          username: 'Rachel',
+          email: 'Rachel@gmail.com',
+          homepage: 'Rachel@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Monica',
+          email: 'Monica@gmail.com',
+          homepage: 'Monica@medium.com',
+          tags: ['Mobx'],
+        },
+        {
+          username: 'Phoebe',
+          email: 'Phoebe@gmail.com',
+          homepage: 'Phoebe@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Rachel',
+          email: 'Rachel@gmail.com',
+          homepage: 'Rachel@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Monica',
+          email: 'Monica@gmail.com',
+          homepage: 'Monica@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Phoebe',
+          email: 'Phoebe@gmail.com',
+          homepage: 'Phoebe@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Rachel',
+          email: 'Rachel@gmail.com',
+          homepage: 'Rachel@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Monica',
+          email: 'Monica@gmail.com',
+          homepage: 'Monica@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Phoebe',
+          email: 'Phoebe@gmail.com',
+          homepage: 'Phoebe@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Rachel',
+          email: 'Rachel@gmail.com',
+          homepage: 'Rachel@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Monica',
+          email: 'Monica@gmail.com',
+          homepage: 'Monica@medium.com',
+          tags: ['React', 'Redux'],
+        },
+        {
+          username: 'Phoebe',
+          email: 'Phoebe@gmail.com',
+          homepage: 'Phoebe@medium.com',
+          tags: ['React', 'Redux'],
+        },
+      ],
+    },
   };
   componentDidMount() {
     getCompanyMyPageData().then((res) => {
@@ -83,47 +170,25 @@ export default class CompanyMyPage extends Component {
             <div className="cl_Tags_Header">
               {company_data.company_name}'s Tag
             </div>
-            <div>
-              <Tag className="cl_Company_Tag" color="magenta">
-                magenta
-              </Tag>
-              <Tag className="cl_Company_Tag" color="volcano">
-                volcano
-              </Tag>
-              <Tag className="cl_Company_Tag" color="red">
-                red
-              </Tag>
-              <Tag className="cl_Company_Tag" color="orange">
-                orange
-              </Tag>
-              <Tag className="cl_Company_Tag" color="gold">
-                gold
-              </Tag>
-              <Tag className="cl_Company_Tag" color="lime">
-                lime
-              </Tag>
-              <Tag className="cl_Company_Tag" color="green">
-                green
-              </Tag>
-              <Tag className="cl_Company_Tag" color="cyan">
-                cyan
-              </Tag>
-              <Tag className="cl_Company_Tag" color="blue">
-                blue
-              </Tag>
-              <Tag className="cl_Company_Tag" color="geekblue">
-                geekblue
-              </Tag>
-              <Tag className="cl_Company_Tag" color="purple">
-                purple
-              </Tag>
-            </div>
+
+            <List
+              dataSource={company_data.company_tags}
+              renderItem={(item) => (
+                <span>
+                  <Tag className="cl_Company_Tag" color={randomColor()}>
+                    {item}
+                  </Tag>
+                </span>
+              )}
+            />
           </div>
           <div className="cl_Company_Recommend cl_CompanyMyPage_Set">
             <div className="cl_Company_Recommend_Header">
               Developer for {company_data.company_name}
             </div>
-            <CompanyRecommentList data={fakedata}></CompanyRecommentList>
+            <CompanyRecommentList
+              recommended_developer={company_data.recommended_developer}
+            ></CompanyRecommentList>
           </div>
         </div>
       </div>
