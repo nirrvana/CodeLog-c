@@ -1,9 +1,11 @@
+/* eslint-disable default-case */
+/* eslint-disable no-fallthrough */
 // * Library
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // * File
 import { randomColor } from '../../TagColor';
-import { getCompanyMyPageData } from '../../redux/api';
+import { getCompanyMyPageData, postCompanyMyPageEdit } from '../../redux/api';
 
 // * CSS
 import {
@@ -44,7 +46,7 @@ function fnChkByte(str, maxByte) {
 
   if (rbyte > maxByte) {
     // alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-    alert('메세지는 최대 ' + maxByte + 'byte를 초과할 수 없습니다.');
+    message.error('메세지는 최대 ' + maxByte + 'byte를 초과할 수 없습니다.');
     str2 = str.substr(0, rlen); //문자열 자르기
     str = str2;
     fnChkByte(str, maxByte);
@@ -57,25 +59,14 @@ export default class CompanyMyPageEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      company_data: {
-        company_tags: [
-          '🦷',
-          '🍿',
-          '👍',
-          '👽',
-          '왹져',
-          '헤이',
-          '유교걸',
-          '삼강오륜',
-          '붕우유신',
-          '뎃걸',
-        ],
-      },
+      company_data: {},
       visible: false,
       TagVisible: false,
       isMember: '',
       isEdit: 'none',
       isDelete: 'none',
+      isTags: true,
+      isTagDelete: false,
     };
   }
   componentDidMount() {
@@ -85,22 +76,65 @@ export default class CompanyMyPageEdit extends Component {
       });
     });
   }
-  // ? 멤버 CRUD 메소드
-  handleInputValue = (key) => (e) => {
-    if (key === 'isEdit') {
-      this.setState({ [key]: '', isDelete: 'none', isMember: 'none' });
-    } else if (key === 'isMember') {
-      this.setState({ isEdit: 'none', isDelete: 'none', [key]: '' });
-    } else {
-      this.setState({ [key]: '', isEdit: 'none', isMember: '' });
-    }
-  };
-  handleDeleteCompanyMember = (item) => {
+
+  // ? 기업 정보 CRUD 메소드
+  handleCompanyInfoValue = (state) => (e) => {
     this.setState({
-      data: this.state.data.filter((el) => el.id !== item.id),
+      ...this.state,
+      company_data: {
+        ...this.state.company_data,
+        [state]: e.target.value,
+      },
     });
   };
-  // ? 멤버 CRUD modal 메소드
+
+  handleCrudState = (key) => () => {
+    switch (key) {
+      case 'isMember':
+        this.setState({ isEdit: 'none', isDelete: 'none', [key]: '' });
+      case 'isEdit':
+        this.setState({ [key]: '', isDelete: 'none', isMember: 'none' });
+      case 'isDelete':
+        this.setState({ isEdit: 'none', isDelete: 'none', [key]: '' });
+      case 'isTags':
+        this.setState({
+          isTagDelete: false,
+          [key]: true,
+        });
+
+      case 'isTagDelete':
+        this.setState({
+          isTags: false,
+          [key]: true,
+        });
+    }
+  };
+
+  hadleCompanyDataDelete = (state, item) => {
+    console.log(item);
+    if (state === 'company_tags') {
+      this.setState({
+        ...this.state,
+        company_data: {
+          ...this.state.company_data,
+          company_tags: this.state.company_data.company_tags.filter(
+            (el) => el !== item,
+          ),
+        },
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        company_data: {
+          ...this.state.company_data,
+          Users: this.state.company_data.Users.filter(
+            (el) => el.email !== item.email,
+          ),
+        },
+      });
+    }
+  };
+  // ? modal 메소드
   handleMemberAdd = () => {
     if (this.state.company_data.Users.length === 5) {
       message.error('기업 유저는 최대 5명까지 추가할 수 있습니다.');
@@ -134,40 +168,56 @@ export default class CompanyMyPageEdit extends Component {
     });
   };
 
-  // ? 기업 정보 메소드
-  handleCompanyInfoValue = (e) => {
-    this.setState({
-      ...this.state,
-      company_data: {
-        ...this.state.company_data,
-        info: e.target.value,
-      },
-    });
+  // ? Update 메소드
+  handleUpdateBtn = async () => {
+    const { id, company_name, info, company_tags } = this.state.company_data;
+    console.log(id, company_name, info, company_tags);
+    await postCompanyMyPageEdit(id, company_name, info, company_tags)
+      .then((res) => {})
+      .catch((err) => {
+        throw err;
+      });
+    this.props.history.push('/companymypage');
   };
 
   // ! RENDER
   render() {
-    const { company_data } = this.state;
-    console.log('company_data:', company_data);
+    const { company_data, isTagDelete } = this.state;
+    console.log('STATE:', this.state);
     if (!Object.keys(company_data)) {
-      return <></>;
+      return <div></div>;
     }
-    const menu = (
+    const member_menu = (
       <Menu onClick={this.handleMenuClick}>
-        <Menu.Item key="1" onClick={this.handleInputValue('isMember')}>
+        <Menu.Item key="1" onClick={this.handleCrudState('isMember')}>
           Member
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item onClick={this.handleMemberAdd}>Add member</Menu.Item>
-        <Menu.Item onClick={this.handleInputValue('isEdit')}>
+        <Menu.Item onClick={this.handleCrudState('isEdit')}>
           Edit member
         </Menu.Item>
-        <Menu.Item onClick={this.handleInputValue('isDelete')}>
+        <Menu.Item onClick={this.handleCrudState('isDelete')}>
           Delete member
         </Menu.Item>
       </Menu>
     );
-
+    const tags_menu = (
+      <Menu onClick={this.handleMenuClick}>
+        <Menu.Item onClick={this.handleCrudState('isTags')}>Tags</Menu.Item>
+        <Menu.Divider />
+        <Menu.Item></Menu.Item>
+        <Menu.Item onClick={() => this.showModal('tag')}>Add tag</Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            message.info('삭제할 태그를 클릭해주세요.');
+            this.handleCrudState('isTagDelete')();
+          }}
+        >
+          Delete tag
+        </Menu.Item>
+      </Menu>
+    );
     return (
       <div>
         <Layout className="layout">
@@ -184,14 +234,14 @@ export default class CompanyMyPageEdit extends Component {
         </Layout>
 
         <div className="cl_CompanyMyPage">
-          <Link to="/CompanyMypage" className="cl_Post_Edit_Btn">
+          <div className="cl_Post_Edit_Btn" onClick={this.handleUpdateBtn}>
             Update
-          </Link>
+          </div>
           <div className="cl_Company_Name cl_CompanyMyPage_Set">
             <input
+              onChange={this.handleCompanyInfoValue('company_name')}
               defaultValue={company_data.company_name}
               className="cl_Company_Name_Input"
-              placeholder="Company name"
             />
           </div>
 
@@ -201,8 +251,7 @@ export default class CompanyMyPageEdit extends Component {
               rows="10"
               cols="16"
               name="contents"
-              placeholder="Company information"
-              onChange={this.handleCompanyInfoValue}
+              onChange={this.handleCompanyInfoValue('info')}
               onKeyUp={() => fnChkByte(company_data.info, '250')}
               defaultValue={company_data.info}
             />
@@ -212,11 +261,11 @@ export default class CompanyMyPageEdit extends Component {
             <div className="cl_Company_Member_Header">
               Member
               <Dropdown
-                overlay={menu}
+                overlay={member_menu}
                 trigger={['click']}
                 className="cl_Company_Member_Dropdown"
               >
-                <Icon type="down" />
+                <Icon type="setting" className="cl_Company_Tag_Icon" />
               </Dropdown>
               <Modal
                 className="cl_Company_Member_Add_Modal"
@@ -286,7 +335,7 @@ export default class CompanyMyPageEdit extends Component {
                   <div>
                     <span
                       style={{ display: this.state.isDelete }}
-                      onClick={() => this.handleDeleteCompanyMember(item)}
+                      onClick={() => this.hadleCompanyDataDelete('Users', item)}
                     >
                       Delete
                     </span>
@@ -299,11 +348,9 @@ export default class CompanyMyPageEdit extends Component {
             <div className="cl_Tags_Header">
               {company_data.company_name}'s Tag
               <span>
-                <Icon
-                  type="plus-circle"
-                  className="cl_Company_Tag_Plus"
-                  onClick={() => this.showModal('tag')}
-                />
+                <Dropdown overlay={tags_menu} trigger={['click']}>
+                  <Icon type="setting" className="cl_Company_Tag_Icon" />
+                </Dropdown>
               </span>
               <Modal
                 className="cl_Company_Member_Add_Modal"
@@ -327,7 +374,11 @@ export default class CompanyMyPageEdit extends Component {
                 renderItem={(item) => (
                   <span>
                     <Tag
-                      closable
+                      onClick={() =>
+                        isTagDelete
+                          ? this.hadleCompanyDataDelete('company_tags', item)
+                          : ''
+                      }
                       className="cl_Company_Tag"
                       color={randomColor()}
                     >

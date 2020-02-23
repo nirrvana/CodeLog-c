@@ -13,18 +13,6 @@ const { Header } = Layout;
 export default class CompanyMyPage extends Component {
   state = {
     company_data: {
-      company_tags: [
-        '🦷',
-        '🍿',
-        '👍',
-        '👽',
-        '왹져',
-        '헤이',
-        '유교걸',
-        '삼강오륜',
-        '붕우유신',
-        '뎃걸',
-      ],
       recommended_developer: [
         {
           username: 'Rachel',
