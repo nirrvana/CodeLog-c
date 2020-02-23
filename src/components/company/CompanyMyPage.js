@@ -23,7 +23,6 @@ export default class CompanyMyPage extends Component {
   }
   render() {
     const { company_data } = this.state;
-    console.log('DATA:', company_data);
 
     return (
       <div>

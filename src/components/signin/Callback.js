@@ -9,11 +9,9 @@ export default class Callback extends Component {
     const code = search.slice(6);
 
     postCodeData(code)
-      .then((res) => {
-        console.log('code 전송 성공!');
-      })
+      .then((res) => {})
       .catch((err) => {
-        console.log('code 전송 실패..');
+        throw err;
       });
   }
   render() {

@@ -38,6 +38,7 @@ class NormalSignInForm extends Component {
           <div className="cl_SignInComponent">
             <Form onSubmit={this.handleSubmit} className="cl_SignInForm">
               <div className="cl_SignIn_header">Sign in</div>
+
               <Form.Item>
                 {getFieldDecorator('email', {
                   rules: [
@@ -49,14 +50,16 @@ class NormalSignInForm extends Component {
                       <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
                     }
                     placeholder="email"
-                    className="cl_SignIn_DevInput"
                   />,
                 )}
               </Form.Item>
               <Form.Item>
                 {getFieldDecorator('password', {
                   rules: [
-                    { required: true, message: 'Please input your Password!' },
+                    {
+                      required: true,
+                      message: 'Please input your Password!',
+                    },
                   ],
                 })(
                   <Input
@@ -65,7 +68,6 @@ class NormalSignInForm extends Component {
                     }
                     type="password"
                     placeholder="Password"
-                    className="cl_SignIn_DevInput"
                   />,
                 )}
               </Form.Item>
@@ -73,23 +75,19 @@ class NormalSignInForm extends Component {
                 {getFieldDecorator('remember', {
                   valuePropName: 'checked',
                   initialValue: true,
-                })(
-                  <Checkbox className="cl_SignIn_Checkbox">
-                    Remember me
-                  </Checkbox>,
-                )}
-                <Link to="">Forgot password</Link>
+                })(<Checkbox>Remember me</Checkbox>)}
+                <Link to="" className="cl_SignIn_Forgot">
+                  Forgot password
+                </Link>
                 <Button
                   type="primary"
                   htmlType="submit"
-                  className="login-form-button cl_SignIn_Login_Btn"
+                  className=" cl_SignIn_Login_Btn"
                 >
                   Login
                 </Button>
                 <br />
-                <Link to="/SignUp" className="cl_SignIn_Register">
-                  register now!
-                </Link>
+                <Link to="/SignUp">register now!</Link>
               </Form.Item>
             </Form>
           </div>

@@ -38,7 +38,6 @@ class CompanySignUp extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values);
       if (!err) {
         var {
           company_name,

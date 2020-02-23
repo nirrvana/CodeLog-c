@@ -4,7 +4,7 @@ import CompanyRecommentListElement from './CompanyRecommentListElement';
 export default class CompanyRecommentList extends Component {
   render() {
     const { recommended_developers } = this.props;
-    console.log(recommended_developers);
+
     if (recommended_developers === undefined) {
       return <div></div>;
     }

@@ -144,7 +144,6 @@ class TILPost extends Component {
   };
 
   handleOk = (e) => {
-    console.log(e);
     this.setState({
       delete_alert: false,
     });
@@ -152,7 +151,6 @@ class TILPost extends Component {
   };
 
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       delete_alert: false,
     });
@@ -160,7 +158,6 @@ class TILPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-    console.log('POST:', post);
 
     let tagView, color, settingView;
 

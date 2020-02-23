@@ -29,7 +29,9 @@ class Tab extends Component {
           }
         }
       })
-      .catch((err) => console.log('Fail to check token..'));
+      .catch((err) => {
+        throw err;
+      });
   }
 
   getDeveloperUsername = () => {
@@ -37,7 +39,9 @@ class Tab extends Component {
       .then(({ data: { username } }) =>
         this.setState({ token: true, join_type: 'developer', username }),
       )
-      .catch((err) => console.log('Fail to get username'));
+      .catch((err) => {
+        throw err;
+      });
   };
 
   getCompanyUsername = () => {
@@ -49,7 +53,9 @@ class Tab extends Component {
           username: company_name,
         }),
       )
-      .catch((err) => console.log('Fail to get username'));
+      .catch((err) => {
+        throw err;
+      });
   };
 
   render() {
