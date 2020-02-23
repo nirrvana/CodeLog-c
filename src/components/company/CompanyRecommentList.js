@@ -3,14 +3,14 @@ import CompanyRecommentListElement from './CompanyRecommentListElement';
 
 export default class CompanyRecommentList extends Component {
   render() {
-    const { data } = this.props;
+    const { recommended_developer } = this.props;
     return (
       <div className="cl_Company_Recommend_List cl_CompanyMyPage_Set">
-        {data.map((el, i) => {
+        {recommended_developer.map((el, i) => {
           return (
             <CompanyRecommentListElement
-              key={'CompanyRecommentList' + i}
-              data={el}
+              key={'recommended_developer' + i}
+              recommended_developer={el}
             />
           );
         })}
