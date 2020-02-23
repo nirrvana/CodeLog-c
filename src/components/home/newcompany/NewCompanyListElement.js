@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { currentPost } from '../../../redux/action';
-import moment from 'moment';
 
 class NewCompanyListElement extends Component {
   render() {
@@ -10,13 +9,9 @@ class NewCompanyListElement extends Component {
     return (
       <div>
         <ul>
-          <div className="cl_ListElement">
-            <div className="cl_ListElement_Title">{data.name}</div>
-            <div className="cl_ListElement_Content">{data.info}</div>
-            <div className="cl_ListElement_UpdatedAt">
-              {moment(data.updatedAt)
-                .subtract(1, 'days')
-                .fromNow()}
+          <div className="cl_ListElement_NewCompany">
+            <div className="cl_ListElement_NewCompany_Title">
+              {data.company_name}
             </div>
           </div>
         </ul>
