@@ -5,7 +5,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // * File
 import { randomColor } from '../../TagColor';
-import { getCompanyMyPageData, postCompanyMyPageEdit } from '../../redux/api';
+import {
+  getCompanyMyPageData,
+  postCompanyMyPageEdit,
+  getTags,
+} from '../../redux/api';
 
 // * CSS
 import {
@@ -19,6 +23,7 @@ import {
   Icon,
   Dropdown,
   message,
+  AutoComplete,
 } from 'antd';
 const { Header } = Layout;
 
@@ -67,12 +72,19 @@ export default class CompanyMyPageEdit extends Component {
       isDelete: 'none',
       isTags: true,
       isTagDelete: false,
+      tagSource: [],
+      value: [],
     };
   }
   componentDidMount() {
     getCompanyMyPageData().then((res) => {
       this.setState({
         company_data: Object.assign(this.state.company_data, res.data),
+      });
+    });
+    getTags().then((res) => {
+      this.setState({
+        tagSource: Object.assign(this.state.tagSource, res.data.tags),
       });
     });
   }
@@ -112,26 +124,31 @@ export default class CompanyMyPageEdit extends Component {
 
   hadleCompanyDataDelete = (state, item) => {
     console.log(item);
-    if (state === 'company_tags') {
-      this.setState({
-        ...this.state,
-        company_data: {
-          ...this.state.company_data,
-          company_tags: this.state.company_data.company_tags.filter(
-            (el) => el !== item,
-          ),
-        },
-      });
-    } else {
-      this.setState({
-        ...this.state,
-        company_data: {
-          ...this.state.company_data,
-          Users: this.state.company_data.Users.filter(
-            (el) => el.email !== item.email,
-          ),
-        },
-      });
+    switch (state) {
+      case 'company_tags':
+        this.setState({
+          ...this.state,
+          company_data: {
+            ...this.state.company_data,
+            company_tags: this.state.company_data.company_tags.filter(
+              (el) => el !== item,
+            ),
+          },
+        });
+      case 'Users':
+        this.setState({
+          ...this.state,
+          company_data: {
+            ...this.state.company_data,
+            Users: this.state.company_data.Users.filter(
+              (el) => el.email !== item.email,
+            ),
+          },
+        });
+      case 'value':
+        this.setState({
+          value: this.state.value.filter((el) => el !== item),
+        });
     }
   };
   // ? modal 메소드
@@ -149,13 +166,21 @@ export default class CompanyMyPageEdit extends Component {
       });
     } else {
       this.setState({
+        value: [],
         TagVisible: true,
       });
     }
   };
 
-  handleOk = (e) => {
+  handleOk = () => {
     this.setState({
+      ...this.state,
+      company_data: {
+        ...this.state.company_data,
+        company_tags: this.state.company_data.company_tags.concat(
+          this.state.value,
+        ),
+      },
       visible: false,
       TagVisible: false,
     });
@@ -166,6 +191,10 @@ export default class CompanyMyPageEdit extends Component {
       visible: false,
       TagVisible: false,
     });
+  };
+
+  handleTagValue = (value) => {
+    this.setState({ value: this.state.value.concat([value]) });
   };
 
   // ? Update 메소드
@@ -182,7 +211,7 @@ export default class CompanyMyPageEdit extends Component {
 
   // ! RENDER
   render() {
-    const { company_data, isTagDelete } = this.state;
+    const { company_data, isTagDelete, tagSource, value } = this.state;
     console.log('STATE:', this.state);
     if (!Object.keys(company_data)) {
       return <div></div>;
@@ -354,16 +383,48 @@ export default class CompanyMyPageEdit extends Component {
               </span>
               <Modal
                 className="cl_Company_Member_Add_Modal"
-                title="Add member"
+                title="Add tag"
                 visible={this.state.TagVisible}
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
               >
                 <div className="cl_Company_Member_Add_Input">
-                  <Input
-                    style={{ height: '10%', marginBottom: '7%' }}
-                    placeholder="Tag name"
-                  ></Input>
+                  <AutoComplete
+                    value={value}
+                    onChange={this.handleTagValue}
+                    className="certain-category-search"
+                    dropdownClassName="certain-category-search-dropdown"
+                    dropdownMatchSelectWidth={false}
+                    dataSource={tagSource}
+                    placeholder="input here"
+                    optionLabelProp="value"
+                  >
+                    <Input
+                      style={{ height: '10%', marginBottom: '7%' }}
+                      suffix={
+                        <Icon type="search" className="certain-category-icon" />
+                      }
+                    />
+                  </AutoComplete>
+
+                  <List
+                    style={
+                      !value.length ? { display: 'none' } : { display: '' }
+                    }
+                    dataSource={value}
+                    renderItem={(item) => (
+                      <span>
+                        <Tag
+                          onClick={() =>
+                            this.hadleCompanyDataDelete('value', item)
+                          }
+                          color={randomColor()}
+                        >
+                          {item}
+                        </Tag>
+                      </span>
+                    )}
+                  />
                 </div>
               </Modal>
             </div>
