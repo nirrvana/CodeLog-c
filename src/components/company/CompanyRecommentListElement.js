@@ -6,6 +6,7 @@ import { Tag } from 'antd';
 export default class CompanyRecommentListElement extends Component {
   render() {
     const { recommended_developer } = this.props;
+
     return (
       <div className="cl_Company_Recommend_Element">
         <div className="cl_recommended_developer_Usename cl_recommended_developer_Set">
@@ -15,17 +16,17 @@ export default class CompanyRecommentListElement extends Component {
           {recommended_developer.email}
         </div>
         <div className="cl_recommended_developer_Homepage cl_recommended_developer_Set">
-          {recommended_developer.homepage}
+          {recommended_developer.personal_homepage}
         </div>
-        <div className="cl_recommended_developer_Tags ">
-          {recommended_developer.tags.map((el, i) => {
+        {/* <div className="cl_recommended_developer_Tags ">
+          {data.email.tags.map((el, i) => {
             return (
               <Tag color="#108ee9" key={'recommended_developer_tags' + i}>
                 {el}
               </Tag>
             );
           })}
-        </div>
+        </div> */}
       </div>
     );
   }
