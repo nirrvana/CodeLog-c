@@ -18,8 +18,12 @@ export default class CompanyRecommentListElement extends Component {
           {recommended_developer.homepage}
         </div>
         <div className="cl_recommended_developer_Tags ">
-          {recommended_developer.tags.map((el) => {
-            return <Tag color="#108ee9">{el}</Tag>;
+          {recommended_developer.tags.map((el, i) => {
+            return (
+              <Tag color="#108ee9" key={'recommended_developer_tags' + i}>
+                {el}
+              </Tag>
+            );
           })}
         </div>
       </div>

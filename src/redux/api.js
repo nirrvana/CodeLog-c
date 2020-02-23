@@ -92,6 +92,14 @@ export function getCompanyMyPageData() {
   return axios.get(`${HOST}/company`);
 }
 
+export function postCompanyMyPageEdit(id, company_name, info, company_tags) {
+  return axios.post(`${HOST}/company/update`, {
+    id,
+    company_name,
+    info,
+    company_tags,
+  });
+}
 export function getTags() {
   return axios.get(`${HOST}/tags`);
 }
