@@ -66,6 +66,9 @@ class TabBlog extends Component {
               <span className="cl_Username">{this.state.username} 님</span>
             </Menu.Item>
             <Menu.Item>
+              <Link to="/blog">Blog</Link>
+            </Menu.Item>
+            <Menu.Item>
               <Dropdown overlay={post_type}>
                 <a className="ant-dropdown-link" href="">
                   New story
