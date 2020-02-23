@@ -20,10 +20,6 @@ class CompanySignIn extends Component {
     autoCompleteResult: [],
   };
 
-  error = () => {
-    message.error('Invaild account');
-  };
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll(
@@ -46,10 +42,12 @@ class CompanySignIn extends Component {
     );
   };
 
+  error = () => {
+    message.error('Invaild account');
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
-    const token = document.cookie.slice(6);
-    console.log('token', token);
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -73,7 +71,7 @@ class CompanySignIn extends Component {
       },
     };
 
-    if (token) {
+    if (this.props.isLogin) {
       return <Redirect to="/companymypage" />;
     } else {
       return (

@@ -1,17 +1,29 @@
-/* eslint-disable no-unused-vars */
 // * react, redux
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// * CSS
+import { getSessionData } from '../redux/api';
+// * css
 import { Layout, Menu } from 'antd';
 const { Header } = Layout;
 
 class Tab extends Component {
+  state = {
+    token: false,
+  };
+
+  componentDidMount() {
+    getSessionData()
+      .then(({ data: { token } }) => {
+        if (token) {
+          this.setState({ token });
+        }
+      })
+      .catch((err) => console.log('Fail to check token..'));
+  }
+
   render() {
     const { isCompanyUser } = this.props;
-    const cookie = document.cookie.slice(6);
-    console.log('cookie', cookie);
     let MypagePath, BlogView;
     if (isCompanyUser) {
       MypagePath = '/companymypage';
@@ -20,7 +32,8 @@ class Tab extends Component {
       MypagePath = '/mypage';
       BlogView = '';
     }
-    if (cookie) {
+
+    if (this.state.token) {
       return (
         <Layout className="layout">
           <Header className="cl_Tab_Header">
