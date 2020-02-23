@@ -2,7 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getSessionData, getMyPageData } from '../redux/api';
+import {
+  getSessionData,
+  getMyPageData,
+  getCompanyMyPageData,
+} from '../redux/api';
 // * css
 import { Layout, Menu } from 'antd';
 const { Header } = Layout;
@@ -10,61 +14,93 @@ const { Header } = Layout;
 class Tab extends Component {
   state = {
     token: false,
+    join_type: '',
     username: '',
   };
 
   componentDidMount() {
     getSessionData()
-      .then(({ data: { token } }) => {
+      .then(({ data: { token, join_type } }) => {
         if (token) {
-          this.getUsername();
-          this.setState({ token });
+          if (join_type === 'developer') {
+            this.getDeveloperUsername();
+          } else {
+            this.getCompanyUsername();
+          }
         }
       })
       .catch((err) => console.log('Fail to check token..'));
   }
 
-  getUsername = () => {
+  getDeveloperUsername = () => {
     getMyPageData()
-      .then(({ data: { username } }) => this.setState({ username }))
+      .then(({ data: { username } }) =>
+        this.setState({ token: true, join_type: 'developer', username }),
+      )
+      .catch((err) => console.log('Fail to get username'));
+  };
+
+  getCompanyUsername = () => {
+    getCompanyMyPageData()
+      .then(({ data: { company_name } }) =>
+        this.setState({
+          token: true,
+          join_type: 'company',
+          username: company_name,
+        }),
+      )
       .catch((err) => console.log('Fail to get username'));
   };
 
   render() {
-    const { isCompanyUser } = this.props;
-    let MypagePath, BlogView;
-    if (isCompanyUser) {
-      MypagePath = '/companymypage';
-      BlogView = 'none';
-    } else {
-      MypagePath = '/mypage';
-      BlogView = '';
-    }
-
-    if (this.state.token) {
-      return (
-        <Layout className="layout">
-          <Header className="cl_Tab_Header">
-            <Menu mode="horizontal" style={{ lineHeight: '64px' }}>
-              <Menu.Item className="cl_Home_Logo">
-                <Link to="/"> CODE | LOG</Link>
-              </Menu.Item>
-              <Menu.Item disabled="true">
-                <span className="cl_Username">{this.state.username} 님</span>
-              </Menu.Item>
-              <Menu.Item style={{ display: BlogView }}>
-                <Link to="/Blog">Blog</Link>
-              </Menu.Item>
-              <Menu.Item>
-                <Link to={MypagePath}>My page</Link>
-              </Menu.Item>
-              <Menu.Item>
-                <Link to="/SignOut">Sign Out</Link>
-              </Menu.Item>
-            </Menu>
-          </Header>
-        </Layout>
-      );
+    const { token, join_type } = this.state;
+    if (token) {
+      if (join_type === 'developer') {
+        return (
+          <Layout className="layout">
+            <Header className="cl_Tab_Header">
+              <Menu mode="horizontal" style={{ lineHeight: '64px' }}>
+                <Menu.Item className="cl_Home_Logo">
+                  <Link to="/"> CODE | LOG</Link>
+                </Menu.Item>
+                <Menu.Item disabled="true">
+                  <span className="cl_Username">{this.state.username} 님</span>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/blog">Blog</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/mypage">My page</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/SignOut">Sign Out</Link>
+                </Menu.Item>
+              </Menu>
+            </Header>
+          </Layout>
+        );
+      } else {
+        return (
+          <Layout className="layout">
+            <Header className="cl_Tab_Header">
+              <Menu mode="horizontal" style={{ lineHeight: '64px' }}>
+                <Menu.Item className="cl_Home_Logo">
+                  <Link to="/"> CODE | LOG</Link>
+                </Menu.Item>
+                <Menu.Item disabled="true">
+                  <span className="cl_Username">{this.state.username} 님</span>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/companymypage">My page</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/SignOut">Sign Out</Link>
+                </Menu.Item>
+              </Menu>
+            </Header>
+          </Layout>
+        );
+      }
     } else {
       return (
         <Layout className="layout">
