@@ -151,7 +151,6 @@ class DevPost extends Component {
   };
 
   handleOk = (e) => {
-    console.log(e);
     this.setState({
       delete_alert: false,
     });
@@ -159,7 +158,6 @@ class DevPost extends Component {
   };
 
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       delete_alert: false,
     });
@@ -168,7 +166,6 @@ class DevPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-    console.log('POST:', post);
 
     let tagView, color, settingView;
 

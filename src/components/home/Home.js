@@ -20,7 +20,6 @@ export default class Home extends Component {
   }
   render() {
     const { content } = this.state;
-    console.log(this.props);
 
     if (!Object.keys(content).length) {
       return <></>;

@@ -39,18 +39,15 @@ class DevPostEdit extends Component {
       if (SaveData) {
         let save = SaveData[id];
         if (save) {
-          console.log('현재 포스트와 일치하는 저장 데이터가 있을때 !');
           this.setState({
             post: Object.assign(res.data, save),
           });
         } else {
-          console.log('현재 포스트와 일치하는 저장 데이터가 없을때 !');
           this.setState({
             post: Object.assign(this.state.post, res.data),
           });
         }
       } else {
-        console.log('현재 포스트 로컬스토리지에 세이브가 없을때 !');
         this.setState({
           post: Object.assign(this.state.post, res.data),
         });
@@ -61,7 +58,9 @@ class DevPostEdit extends Component {
       .then(({ data: { tags } }) => {
         this.setState({ tags });
       })
-      .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
+      .catch((err) => {
+        throw err;
+      });
   }
 
   // ? 포스트 자동저장 메소드
