@@ -34,7 +34,7 @@ function user(state = userInitialState, action) {
   switch (action.type) {
     case USER_TYPE:
       return {
-        isCompanyUser: true,
+        isCompanyUser: action.boolean,
       };
 
     default:
