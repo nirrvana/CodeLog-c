@@ -69,3 +69,21 @@
 .cl_ListElement_UpdatedAt {
   float: right;
 }
+
+.cl_ListElement_NewCompany {
+  border-bottom: 1px solid lightgray;
+  color: rgb(89, 89, 89);
+  overflow: hidden;
+  margin-top: 5%;
+  width: 200px;
+  height: 175px;
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cl_ListElement_NewCompany_Title {
+  color: black;
+  font-size: 250%;
+}
+

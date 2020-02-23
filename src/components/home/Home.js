@@ -42,7 +42,7 @@ export default class Home extends Component {
               <RecommandedPostList
                 data={content.recommended_post}
               ></RecommandedPostList>
-              {/* <Newcompany data={content.new_company}></Newcompany> */}
+              <Newcompany data={content.new_companies}></Newcompany>
             </div>
           </div>
         </div>
