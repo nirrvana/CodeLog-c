@@ -123,20 +123,18 @@ export default class CompanyMyPageEdit extends Component {
   };
 
   hadleCompanyDataDelete = (state, item) => {
+    if (state === 'company_tags') {
+      this.setState({
+        ...this.state,
+        company_data: {
+          ...this.state.company_data,
+          company_tags: this.state.company_data.company_tags.filter(
+            (el) => el !== item,
+          ),
+        },
+      });
+    }
     switch (state) {
-      case 'company_tags':
-        console.log(state, item);
-        console.log(String(state) === String(item));
-        console.log(this.state.company_data.company_tags);
-        this.setState({
-          ...this.state,
-          company_data: {
-            ...this.state.company_data,
-            company_tags: this.state.company_data.company_tags.filter(
-              (el) => el !== item,
-            ),
-          },
-        });
       case 'Users':
         this.setState({
           ...this.state,
@@ -196,7 +194,11 @@ export default class CompanyMyPageEdit extends Component {
   };
 
   handleTagValue = (value) => {
-    this.setState({ value: this.state.value.concat([value]) });
+    if (this.state.company_data.company_tags.includes(value)) {
+      message.error('이미 존재하는 태그입니다.');
+    } else {
+      this.setState({ value: this.state.value.concat([value]) });
+    }
   };
 
   // ? Update 메소드
