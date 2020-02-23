@@ -12,82 +12,7 @@ const { Header } = Layout;
 
 export default class CompanyMyPage extends Component {
   state = {
-    company_data: {
-      recommended_developer: [
-        {
-          username: 'Rachel',
-          email: 'Rachel@gmail.com',
-          homepage: 'Rachel@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Monica',
-          email: 'Monica@gmail.com',
-          homepage: 'Monica@medium.com',
-          tags: ['Mobx'],
-        },
-        {
-          username: 'Phoebe',
-          email: 'Phoebe@gmail.com',
-          homepage: 'Phoebe@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Rachel',
-          email: 'Rachel@gmail.com',
-          homepage: 'Rachel@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Monica',
-          email: 'Monica@gmail.com',
-          homepage: 'Monica@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Phoebe',
-          email: 'Phoebe@gmail.com',
-          homepage: 'Phoebe@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Rachel',
-          email: 'Rachel@gmail.com',
-          homepage: 'Rachel@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Monica',
-          email: 'Monica@gmail.com',
-          homepage: 'Monica@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Phoebe',
-          email: 'Phoebe@gmail.com',
-          homepage: 'Phoebe@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Rachel',
-          email: 'Rachel@gmail.com',
-          homepage: 'Rachel@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Monica',
-          email: 'Monica@gmail.com',
-          homepage: 'Monica@medium.com',
-          tags: ['React', 'Redux'],
-        },
-        {
-          username: 'Phoebe',
-          email: 'Phoebe@gmail.com',
-          homepage: 'Phoebe@medium.com',
-          tags: ['React', 'Redux'],
-        },
-      ],
-    },
+    company_data: {},
   };
   componentDidMount() {
     getCompanyMyPageData().then((res) => {
@@ -175,7 +100,7 @@ export default class CompanyMyPage extends Component {
               Developer for {company_data.company_name}
             </div>
             <CompanyRecommentList
-              recommended_developer={company_data.recommended_developer}
+              recommended_developers={company_data.recommended_developers}
             ></CompanyRecommentList>
           </div>
         </div>

@@ -123,9 +123,11 @@ export default class CompanyMyPageEdit extends Component {
   };
 
   hadleCompanyDataDelete = (state, item) => {
-    console.log(item);
     switch (state) {
       case 'company_tags':
+        console.log(state, item);
+        console.log(String(state) === String(item));
+        console.log(this.state.company_data.company_tags);
         this.setState({
           ...this.state,
           company_data: {
@@ -373,14 +375,17 @@ export default class CompanyMyPageEdit extends Component {
               )}
             ></List>
           </div>
+          {/* // ! 기업 태그 */}
           <div className="cl_Company_Tags cl_CompanyMyPage_Set">
             <div className="cl_Tags_Header">
               {company_data.company_name}'s Tag
               <span>
+                {/* // ? 아이콘 드롭다운 */}
                 <Dropdown overlay={tags_menu} trigger={['click']}>
                   <Icon type="setting" className="cl_Company_Tag_Icon" />
                 </Dropdown>
               </span>
+              {/* // ? 태그 추가 모달 */}
               <Modal
                 className="cl_Company_Member_Add_Modal"
                 title="Add tag"
@@ -428,7 +433,7 @@ export default class CompanyMyPageEdit extends Component {
                 </div>
               </Modal>
             </div>
-
+            {/* // ? 태그 리스트 */}
             <div>
               <List
                 dataSource={company_data.company_tags}
