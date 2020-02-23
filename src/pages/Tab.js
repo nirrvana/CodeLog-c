@@ -8,7 +8,7 @@ import {
   getCompanyMyPageData,
 } from '../redux/api';
 // * css
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Dropdown } from 'antd';
 const { Header } = Layout;
 
 class Tab extends Component {
@@ -53,6 +53,22 @@ class Tab extends Component {
   };
 
   render() {
+    const post_type = (
+      <Menu>
+        <Menu.Item>
+          <Link to="/WritePlainPost">Plain post</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/WriteTILPost">TIL post</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/WriteTechPost">Tech post</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/WriteDevPost">Dev post</Link>
+        </Menu.Item>
+      </Menu>
+    );
     const { token, join_type } = this.state;
     if (token) {
       if (join_type === 'developer') {
@@ -68,6 +84,13 @@ class Tab extends Component {
                 </Menu.Item>
                 <Menu.Item>
                   <Link to="/blog">Blog</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Dropdown overlay={post_type}>
+                    <a className="ant-dropdown-link" href="">
+                      New story
+                    </a>
+                  </Dropdown>
                 </Menu.Item>
                 <Menu.Item>
                   <Link to="/mypage">My page</Link>

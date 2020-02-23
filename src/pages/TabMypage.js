@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getMyPageData } from '../redux/api';
 // * CSS
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Dropdown } from 'antd';
 const { Header } = Layout;
 
 export default class Tab extends Component {
@@ -18,6 +18,22 @@ export default class Tab extends Component {
   }
 
   render() {
+    const post_type = (
+      <Menu>
+        <Menu.Item>
+          <Link to="/WritePlainPost">Plain post</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/WriteTILPost">TIL post</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/WriteTechPost">Tech post</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/WriteDevPost">Dev post</Link>
+        </Menu.Item>
+      </Menu>
+    );
     return (
       <Layout className="layout">
         <Header className="cl_Tab_Header">
@@ -30,6 +46,13 @@ export default class Tab extends Component {
             </Menu.Item>
             <Menu.Item>
               <Link to="/Blog">Blog</Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Dropdown overlay={post_type}>
+                <a className="ant-dropdown-link" href="">
+                  New story
+                </a>
+              </Dropdown>
             </Menu.Item>
             <Menu.Item>
               <Link to="/SignOut">Sign Out</Link>
