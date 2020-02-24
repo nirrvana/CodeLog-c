@@ -81,7 +81,7 @@ class CompanySignIn extends Component {
             <Form
               {...formItemLayout}
               onSubmit={this.handleSubmit}
-              className="cl_SignInForm"
+              className="cl_SignIn_Company_Form"
             >
               <div className="cl_SignIn_header cl_SignIn_Company_header">
                 Company Sign in
@@ -113,7 +113,7 @@ class CompanySignIn extends Component {
                   ],
                 })(
                   <AutoComplete>
-                    <Input className="cl_SignIn_Company_Input" />
+                    <Input />
                   </AutoComplete>,
                 )}
               </Form.Item>
@@ -128,7 +128,7 @@ class CompanySignIn extends Component {
                       validator: this.validateToNextPassword,
                     },
                   ],
-                })(<Input.Password className="cl_SignIn_Company_Input" />)}
+                })(<Input.Password />)}
               </Form.Item>
               <Form.Item {...tailFormItemLayout}>
                 <Button

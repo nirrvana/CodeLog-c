@@ -39,7 +39,7 @@ class App extends Component {
           this.props.handleSignin();
         }
       })
-      .catch((err) => console.log('Error occurred while login..'));
+      .catch((err) => {});
   };
 
   render() {

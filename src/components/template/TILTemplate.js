@@ -39,7 +39,9 @@ class TILTemplate extends Component {
           tags,
         }),
       )
-      .catch((err) => console.log('태그목록을 받아오지 못하였습니다.'));
+      .catch((err) => {
+        throw err;
+      });
 
     this.checkData();
   }

@@ -18,7 +18,9 @@ class TabBlog extends Component {
   componentDidMount() {
     getMyPageData()
       .then(({ data: { username } }) => this.setState({ username }))
-      .catch((err) => console.log('Fail to get username'));
+      .catch((err) => {
+        throw err;
+      });
   }
 
   render() {

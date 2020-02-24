@@ -1,4 +1,4 @@
-.cl_CompanyMyPage {
+/* .cl_CompanyMyPage {
   height: auto;
   width: 90%;
   margin-top: 7%;
@@ -7,7 +7,6 @@
   flex-direction: column;
 }
 
-/* post and tag */
 .cl_Count_Wrapper {
   display: flex;
   flex-direction: column;
@@ -18,8 +17,6 @@
   margin-bottom: 3%;
   border-bottom: 1px solid lightgray;
   font-size: 35px;
-  width: 15%;
-  margin-left: 40%;
 }
 .cl_Count_element {
   font-size: 20px;
@@ -40,7 +37,6 @@
   width: 90%;
 }
 
-/* document upload */
 .cl_Document_Upload_Wrapper {
   flex-direction: column;
   justify-content: space-between;
@@ -79,18 +75,6 @@
   margin-left: 10%;
 }
 
-/* .upload-list-inline .ant-upload-list-item {
-  float: left;
-  width: 200px;
-  margin-left: 5%;
-} */
-/* .upload-list-inline .ant-upload-animate-enter {
-  animation-name: uploadAnimateInlineIn;
-}
-.upload-list-inline .ant-upload-animate-leave {
-  animation-name: uploadAnimateInlineOut;
-} */
-
 .cl_Company_Recommended {
   height: 800px;
   padding-top: 3%;
@@ -121,4 +105,79 @@
   padding: 1%;
   width: 20%;
   height: 260px;
+} */
+.cl_Dev_Mypage {
+  margin-left: 5%;
+  margin-top: 10%;
+  width: 90%;
+  /* border: solid; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+}
+.cl_Dev_Mypage_Set {
+  width: -webkit-fill-available;
+  font-size: -webkit-xxx-large;
+  text-align: center;
+  margin-bottom: 15%;
+}
+
+.cl_Dev_Mypage_Tag_Post {
+  font-size: xx-large;
+}
+.cl_Dev_Mypage_Header {
+  padding-bottom: 1%;
+  width: -webkit-fill-available;
+  margin-bottom: 2%;
+  border-bottom: 1px solid lightgray;
+  font-size: -webkit-xxx-large;
+  text-align: center;
+}
+.cl_Dev_Mypage_Tag_Post_Set {
+  border-radius: 5px;
+  border: 2px solid #1890ff;
+  height: 300px;
+  width: 20%;
+  display: inline-table;
+  margin: 5%;
+}
+.cl_Dev_Mypage_Tag_Post_Datas {
+  margin-top: 30%;
+}
+.cl_Dev_Mypage_Tag_Post_Data {
+  font-size: 70px;
+}
+
+.cl_Dev_Mypage_Resume_Portfolio {
+  width: 70%;
+  height: 300px;
+}
+.cl_Dev_Mypage_Recommended_companies {
+  border: 1px solid lightgray;
+  padding: 3%;
+}
+.cl_Dev_Mypage_Recommended_Header {
+  padding-bottom: 1%;
+  border-bottom: 1px solid lightgray;
+}
+.cl_Dev_Mypage_Recommended_company {
+  justify-content: center;
+  overflow: auto;
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.cl_Dev_Mypage_Recommended_company_Item {
+  border: 1px solid;
+  margin: 2%;
+  width: 25%;
+  height: 300px;
+  padding: 3%;
+  position: relative;
+}
+.cl_Dev_Mypage_Recommended_company_Tags {
+  position: absolute;
+  bottom: 7%;
+  left: 7%;
 }

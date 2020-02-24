@@ -14,7 +14,9 @@ export default class TabPlain extends Component {
   componentDidMount() {
     getMyPageData()
       .then(({ data: { username } }) => this.setState({ username }))
-      .catch((err) => console.log('Fail to get username'));
+      .catch((err) => {
+        throw err;
+      });
   }
   render() {
     const post_type = (

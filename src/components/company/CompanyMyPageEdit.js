@@ -204,7 +204,7 @@ export default class CompanyMyPageEdit extends Component {
   // ? Update 메소드
   handleUpdateBtn = async () => {
     const { id, company_name, info, company_tags } = this.state.company_data;
-    console.log(id, company_name, info, company_tags);
+
     await postCompanyMyPageEdit(id, company_name, info, company_tags)
       .then((res) => {})
       .catch((err) => {
@@ -216,7 +216,7 @@ export default class CompanyMyPageEdit extends Component {
   // ! RENDER
   render() {
     const { company_data, isTagDelete, tagSource, value } = this.state;
-    console.log('STATE:', this.state);
+
     if (!Object.keys(company_data)) {
       return <div></div>;
     }
