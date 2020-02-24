@@ -61,5 +61,5 @@
 ![company sign in](https://user-images.githubusercontent.com/54742523/75155874-497cb380-5754-11ea-8cae-c468f9cc7f64.gif)
 
 #### - 마이 페이지
-[company mypage](http://dw.convertfiles.com/files/0777262001582557863/company_mypage.264)
+![company_my](https://user-images.githubusercontent.com/52588807/75168812-d7639900-576a-11ea-8581-f48ec5b915dd.gif)
 
