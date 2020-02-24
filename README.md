@@ -49,9 +49,10 @@
 
 
 #### - 회원가입  
-![developer_sign_up](https://user-images.githubusercontent.com/54742523/75148803-dd924f00-5743-11ea-8a80-4183de17fd07.gif)  
+  ![company_sign_up](https://user-images.githubusercontent.com/54742523/75151293-a9219180-5749-11ea-906d-19fbf6b4cd12.gif)
 
 #### - 로그인
-  ![developer_sign_in](https://user-images.githubusercontent.com/54742523/75148906-20542700-5744-11ea-9ea2-da56d9674afe.gif)
+ ![company_sign_in](https://user-images.githubusercontent.com/54742523/75151431-06b5de00-574a-11ea-88ea-aed6121f351e.gif)
+
 
 
