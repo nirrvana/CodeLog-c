@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { getMyPageData } from '../../redux/api';
 //* component
-import MypageTab from '../../pages/TabMypage';
+import MypageTab from '../TabMypage';
 // * css
 import { Upload, Icon, message, Tag } from 'antd';
 import fakedata from '../../fakedata';
 
-class MyPage2 extends Component {
+class MyPage extends Component {
   state = {
     username: '',
     post_count: null,
@@ -133,4 +133,4 @@ class MyPage2 extends Component {
   }
 }
 
-export default MyPage2;
+export default MyPage;

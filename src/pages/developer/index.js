@@ -1,5 +1,5 @@
 import MainBlogPage from './MainBlogPage';
-import MyPage from './MyPage2';
+import MyPage from './MyPage';
 
 export default {
   MainBlogPage,
