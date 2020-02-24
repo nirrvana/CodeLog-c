@@ -12,6 +12,7 @@ import {
   getSelectPost,
   PostDeletePost,
   PostLikesPost,
+  // eslint-disable-next-line no-unused-vars
   PostDislikesPost,
 } from '../../redux/api';
 
@@ -158,7 +159,6 @@ class TILPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-
     let tagView, color, settingView;
 
     if (isLike) {

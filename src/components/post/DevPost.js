@@ -12,6 +12,7 @@ import {
   getSelectPost,
   PostDeletePost,
   PostLikesPost,
+  // eslint-disable-next-line no-unused-vars
   PostDislikesPost,
 } from '../../redux/api';
 
@@ -166,7 +167,6 @@ class DevPost extends Component {
   // ! RENDER
   render() {
     const { isLike, post } = this.state;
-
     let tagView, color, settingView;
 
     // ? 상황에 따른 변수 분기

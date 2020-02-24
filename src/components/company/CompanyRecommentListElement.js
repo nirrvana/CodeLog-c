@@ -1,6 +1,7 @@
 // * Library
 import React, { Component } from 'react';
 // * CSS
+// eslint-disable-next-line no-unused-vars
 import { Tag } from 'antd';
 
 export default class CompanyRecommentListElement extends Component {
