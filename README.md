@@ -43,16 +43,22 @@
 #### - 로그인
   ![developer_sign_in](https://user-images.githubusercontent.com/54742523/75148906-20542700-5744-11ea-9ea2-da56d9674afe.gif)
 
+#### - 블로그
+![post flow](https://user-images.githubusercontent.com/54742523/75155955-6b763600-5754-11ea-9b59-c78505e92d27.gif)
 
+#### - 마이 페이지
+![developer mypage](https://user-images.githubusercontent.com/54742523/75155883-4da8d100-5754-11ea-918f-14acd7998851.gif)
 
 ### For Company
 
 
 #### - 회원가입  
-  ![company_sign_up](https://user-images.githubusercontent.com/54742523/75151293-a9219180-5749-11ea-906d-19fbf6b4cd12.gif)
+ ![company sign up](https://user-images.githubusercontent.com/54742523/75155819-310c9900-5754-11ea-9a40-429f6e27025d.gif)
+
 
 #### - 로그인
- ![company_sign_in](https://user-images.githubusercontent.com/54742523/75151431-06b5de00-574a-11ea-88ea-aed6121f351e.gif)
+![company sign in](https://user-images.githubusercontent.com/54742523/75155874-497cb380-5754-11ea-8cae-c468f9cc7f64.gif)
 
-
+#### - 마이 페이지
+[Imgur](https://i.imgur.com/CSlO1LH.gifv)
 
