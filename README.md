@@ -60,5 +60,5 @@
 ![company sign in](https://user-images.githubusercontent.com/54742523/75155874-497cb380-5754-11ea-8cae-c468f9cc7f64.gif)
 
 #### - 마이 페이지
-[Imgur](https://i.imgur.com/CSlO1LH.gifv)
+[Imgur](https://i.imgur.com/CSlO1LH.gif)
 
