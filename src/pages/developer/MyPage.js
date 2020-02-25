@@ -83,7 +83,9 @@ class MyPage extends Component {
             </div>
             <div className="cl_Dev_Mypage_Tag_Post_Set">
               <div className="cl_Dev_Mypage_Tag_Post_Datas">
-                <div className="cl_Dev_Mypage_Tag_Post_Data">{certificate}</div>
+                <div className="cl_Dev_Mypage_Tag_Post_Data">
+                  {certificate}IM16
+                </div>
                 수료
               </div>
             </div>
