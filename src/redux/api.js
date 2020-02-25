@@ -1,7 +1,8 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const HOST = 'http://localhost:3001';
+const HOST =
+  'http://ec2-54-180-109-190.ap-northeast-2.compute.amazonaws.com:8000';
 
 // ? Sign up
 export function postSignUpData(
