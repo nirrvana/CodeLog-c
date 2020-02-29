@@ -1,0 +1,88 @@
+::-webkit-scrollbar {
+  display: none !important;
+}
+/* * Post * */
+.cl_AD_Image_Frame {
+  position: absolute;
+  width: 100%;
+  height: 65%;
+  top: 9%;
+}
+.cl_AD_Image {
+  width: 100%;
+  height: 100%;
+}
+.cl_Home_Themes {
+  font-size: larger;
+  position: absolute;
+  left: 5%;
+  top: 84% !important;
+  display: flex;
+  flex-direction: column;
+  height: 116%;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.cl_Home_Theme2,
+.cl_Home_Theme3 {
+  margin-top: 188%;
+}
+
+.cl_Home_Contents {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 45%;
+}
+.cl_Home_Content {
+  overflow-x: scroll;
+  position: relative;
+  width: 90%;
+  height: 200px;
+  border-top: 1px solid lightgray;
+  margin-bottom: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.cl_ListElement {
+  color: rgb(89, 89, 89);
+  overflow: hidden;
+  margin-top: 5%;
+  width: 300px;
+  height: 175px;
+  padding: 5%;
+}
+.cl_ListElement_Title {
+  color: black;
+  font-size: x-large;
+}
+.cl_ListElement_Content {
+  font-size: larger;
+  height: 90px;
+}
+.cl_ListElement_Likes {
+  float: left;
+}
+.cl_ListElement_UpdatedAt {
+  float: right;
+}
+
+.cl_ListElement_NewCompany {
+  border-bottom: 1px solid lightgray;
+  color: rgb(89, 89, 89);
+  overflow: hidden;
+  margin-top: 5%;
+  width: 300px;
+  height: 175px;
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cl_ListElement_NewCompany_Title {
+  color: black;
+  font-size: 250%;
+}

@@ -1,0 +1,105 @@
+/* ? Sign In Main */
+.cl_SignIn {
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 35%;
+  height: 500px;
+  border: 3px solid rgb(89, 89, 89);
+}
+.cl_SignIn_Title {
+  font-size: -webkit-xxx-large;
+  font-weight: 500;
+  margin-bottom: 3%;
+}
+.cl_Email_Duplicate {
+  margin-bottom: 2%;
+  left: 63.5%;
+}
+.cl_SignIn_Btn {
+  width: 55% !important;
+  margin-top: 3% !important;
+  height: 10% !important;
+  font-size: 21px !important;
+  font-weight: 500 !important;
+}
+.cl_SignIn_Developer_Btn {
+  color: #1890ff !important;
+  background-color: white !important;
+}
+.cl_SignIn_Developer_Btn:hover,
+.cl_SignIn_Developer_Btn:focus {
+  color: white !important;
+  border: 1px solid white !important;
+  background-color: #1890ff !important;
+}
+
+.cl_SignIn_Company_Btn {
+  color: #e53a40 !important;
+  background-color: white !important;
+  border: 1px solid #e53a40 !important;
+}
+.cl_SignIn_Company_Btn:hover,
+.cl_SignIn_Company_Btn:focus {
+  color: white !important;
+  border: 1px solid white !important;
+  background-color: #e53a40 !important;
+}
+
+/* ? Sign In component */
+.cl_SignIn_header {
+  margin-left: -27%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+  font-size: -webkit-xxx-large;
+  padding-bottom: 2%;
+  border-bottom: 1px solid lightgray;
+  width: 150%;
+}
+
+.cl_SignInComponent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.cl_SignInForm {
+  max-width: 300px;
+}
+.cl_SignIn_Forgot {
+  float: right;
+}
+.cl_SignIn_Login_Btn {
+  width: 100%;
+}
+/* company sign in */
+.cl_SignIn_Company_Form {
+  width: 30%;
+}
+.cl_SignIn_Company_header {
+  margin-left: 0%;
+  width: 120%;
+}
+
+.cl_SignIn_Company_Login_Btn {
+  width: 100%;
+}

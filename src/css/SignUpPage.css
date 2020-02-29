@@ -1,0 +1,93 @@
+/* ? Sign Up Main */
+.cl_SignUp {
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 35%;
+  height: 500px;
+  border: 3px solid rgb(89, 89, 89);
+}
+.cl_SignUp_Title {
+  font-size: -webkit-xxx-large;
+  font-weight: 500;
+  margin-bottom: 3%;
+}
+.cl_Email_Duplicate {
+  margin-bottom: 2%;
+  left: 63.5%;
+}
+.cl_SignUp_Btn {
+  width: 55% !important;
+  margin-top: 3% !important;
+  height: 10% !important;
+  font-size: 21px !important;
+  font-weight: 500 !important;
+}
+.cl_SignUp_Developer_Btn {
+  border: none !important;
+}
+.cl_SignUp_Developer_Btn:hover,
+.cl_SignUp_Developer_Btn:focus {
+  border: none !important;
+}
+.cl_SignUp_Company_Btn {
+  background-color: #e53a40 !important;
+  border: none !important;
+}
+.cl_SignUp_Company_Btn:hover,
+.cl_SignUp_Company_Btn:focus {
+  background-color: #ff4046 !important;
+  border: none !important;
+}
+
+/* ? Sign Up component */
+.cl_SignUp_header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+  font-size: -webkit-xxx-large;
+  padding-bottom: 2%;
+  border-bottom: 1px solid lightgray;
+}
+.cl_SignUpComponent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.cl_SignUpForm {
+  margin-top: 10% !important;
+  width: 40% !important;
+  padding-top: 2% !important;
+  padding-right: 2% !important;
+}
+.cl_SignUp_DevInput {
+  width: 75% !important;
+}
+.cl_SignUp_Input {
+  width: 80% !important;
+}
+.cl_SignUp_Member {
+  width: 80%;
+}
+.cl_SignUp_Member_Panel {
+  background-color: white;
+}

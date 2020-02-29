@@ -1,0 +1,44 @@
+.cl_MainBlog {
+  width: 90%;
+  margin-top: 10%;
+  margin-left: 5%;
+}
+.cl_MainBlog_theme {
+  padding: 1%;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid lightgray;
+  font-size: x-large;
+}
+.cl_MainBlog_posts {
+  overflow: auto;
+  margin-top: 1%;
+  display: flex;
+  height: 500px;
+}
+.cl_MainBlog_Frame {
+  margin-right: 2.5%;
+  width: 300px;
+}
+.cl_PostList {
+  padding: 2%;
+  width: 100%;
+}
+.cl_PostListElement {
+  overflow: hidden;
+
+  height: 200px;
+  padding-bottom: 3%;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 10%;
+}
+.cl_PostListElement_Title {
+  color: black;
+  font-size: 37px;
+  font-style: italic;
+  font-weight: 600;
+  padding-bottom: 1%;
+}
+.cl_PostListElement_Contents {
+  color: rgb(74, 74, 74);
+}

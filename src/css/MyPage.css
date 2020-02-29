@@ -1,0 +1,36 @@
+.cl_MyPage {
+  display: flex;
+  flex-direction: column;
+}
+
+.cl_UserInfo {
+  display: flex;
+  margin-left: 100px;
+  justify-content: space-around;
+  width: 1000px;
+  color: #777;
+}
+
+.cl_ApplySheet {
+  text-align: center;
+  font-size: -webkit-xxx-large;
+  width: 250px;
+  height: 250px;
+  border-radius: 10%;
+  border: 1px solid #777;
+}
+
+.cl_Company_Title {
+  margin: 0 100px 20px 100px;
+}
+
+.cl_Company_List {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cl_Company_Element {
+  width: 250px;
+  height: 250px;
+  margin: 0 100px 0 100px;
+}
